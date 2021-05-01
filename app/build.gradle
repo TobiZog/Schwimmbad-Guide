@@ -19,12 +19,17 @@ android {
 
     buildTypes {
         debug {
-            manifestPlaceholders = [ MAP_API_KEY: Schwimmbad_Guide_MAP_API_KEY]
+            // Loading API Key for map view from gradle.properties
+            resValue 'string', "MapApiKey", Schwimmbad_Guide_MAP_API_KEY
+            manifestPlaceholders = [ MAP_API_KEY: "@string/MapApiKey"]
         }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            manifestPlaceholders = [ MAP_API_KEY: Schwimmbad_Guide_MAP_API_KEY]
+
+            // Loading API Key for map view from gradle.properties
+            resValue 'string', "MapApiKey", Schwimmbad_Guide_MAP_API_KEY
+            manifestPlaceholders = [ MAP_API_KEY: "@string/MapApiKey"]
         }
     }
     compileOptions {

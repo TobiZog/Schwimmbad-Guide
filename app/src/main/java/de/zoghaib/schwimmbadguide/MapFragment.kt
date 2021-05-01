@@ -3,8 +3,10 @@ package de.zoghaib.schwimmbadguide
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.model.LatLng
 import de.zoghaib.schwimmbadguide.databinding.FragmentMapBinding
 
 /**
@@ -31,7 +33,6 @@ class MapFragment : Fragment(R.layout.fragment_map), OnMapReadyCallback {
      *
      * @param   savedInstanceState      Save state of the view
      */
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -54,8 +55,12 @@ class MapFragment : Fragment(R.layout.fragment_map), OnMapReadyCallback {
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
 
-        // Set up map view -> todo!
+        // Set up map view
+        // todo: GPS service
+        mMap.uiSettings.isZoomControlsEnabled = true
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(52.374481, 9.738414), 11.0f))
+        //mMap.isMyLocationEnabled = true
+
         // setPins()
-        // setViews()
     }
 }
