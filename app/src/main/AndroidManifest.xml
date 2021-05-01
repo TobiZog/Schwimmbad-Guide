@@ -9,6 +9,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.SchwimmbadGuide">
+
+        <meta-data
+            android:name="com.google.android.maps.v2.API_KEY"
+            android:value="${MAP_API_KEY}"/>
+
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
