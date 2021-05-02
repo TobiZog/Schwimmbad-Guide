@@ -1,5 +1,10 @@
 # Schwimmbad Guide
 
+<p style="text-align: center">
+<img src="images/device-2021-05-02-202243.png" width="300"/>
+<img src="images/device-2021-05-02-202307.png" width="300"/>
+</p>
+
 ## Installation
 1. Download the latest files
 2. Add Google Maps API Key to your gradle.properties file:
