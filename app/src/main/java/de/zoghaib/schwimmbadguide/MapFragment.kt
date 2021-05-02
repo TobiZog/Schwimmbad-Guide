@@ -140,7 +140,7 @@ class MapFragment : Fragment(R.layout.fragment_map), OnMapReadyCallback {
 
 		val loc = m.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER)
 		loc?.run {
-			mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(latitude, longitude), 15f))
+			mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(latitude, longitude), 13f))
 		}
 
 		mMap.isMyLocationEnabled = true
