@@ -1,7 +1,9 @@
 package de.zoghaib.schwimmbadguide
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.core.app.ActivityOptionsCompat
 import androidx.core.util.Pools
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -73,7 +75,12 @@ class ListFragment : Fragment(R.layout.fragment_list) {
 	 * @param   partItem    The item, which was clicked
 	 */
 	private fun partItemClicked(partItem: PoolAdapterData) {
-		// todo: Implement onClickListener
+		val intent = Intent(requireContext(), PoolDetailViewActivity::class.java)
+		intent.putExtra("title", partItem.title)
+		intent.putExtra("subtext", partItem.subtext)
+		intent.putExtra("distance", partItem.distance)
+		intent.putExtra("opentext", partItem.openText)
+		startActivity(intent)
 	}
 
 
