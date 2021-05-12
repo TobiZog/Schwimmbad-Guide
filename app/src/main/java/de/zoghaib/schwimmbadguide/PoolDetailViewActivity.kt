@@ -36,6 +36,6 @@ class PoolDetailViewActivity : AppCompatActivity() {
 		binding.txtSubtext.text = intent.getStringExtra("subtext")
 		binding.txtDistance.text = intent.getStringExtra("distance")
 		binding.txtOpenText.text = intent.getStringExtra("opentext")
-		binding.imageView.setImageResource(R.drawable.ricklinger_freibad)
+		binding.imageView.setImageResource(intent.getIntExtra("image", R.drawable.ricklinger_freibad))
 	}
 }
