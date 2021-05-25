@@ -37,7 +37,6 @@ class ListFragment : Fragment(R.layout.fragment_list) {
 	 * @param   view                View where of the fragment
 	 * @param   savedInstanceState  Save state of the view
 	 */
-
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
 

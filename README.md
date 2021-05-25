@@ -13,7 +13,7 @@
     - Adding code like these:
     ```
     <gradle.properties>
-    Schwimmbad_Guide_API_KEY = "thisIsTheApiKey"
+    Schwimmbad_Guide_MAP_API_KEY = "thisIsTheApiKey"
     </gradle.properties>
     ```
 3. Start Android Studio and have fun with the code!
