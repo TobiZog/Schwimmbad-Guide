@@ -3,9 +3,8 @@ package de.zoghaib.schwimmbadguide.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import de.zoghaib.schwimmbadguide.R
-import de.zoghaib.schwimmbadguide.data.OpenEnum
-import de.zoghaib.schwimmbadguide.data.PoolAdapterData
+import com.squareup.picasso.Picasso
+import de.zoghaib.schwimmbadguide.data.PoolInformations
 import de.zoghaib.schwimmbadguide.databinding.ItemPoolBinding
 
 /**
@@ -16,10 +15,10 @@ import de.zoghaib.schwimmbadguide.databinding.ItemPoolBinding
  */
 class PoolAdapter(
 	/** todo */
-	private val dataSet: ArrayList<PoolAdapterData>,
+	private val dataSet: ArrayList<PoolInformations>,
 
 	/** todo */
-	private val clickListener: (PoolAdapterData) -> Unit
+	private val clickListener: (PoolInformations) -> Unit
 ) : RecyclerView.Adapter<PoolAdapter.MyViewHolder>() {
 
 	/* -------------------- Member Variables -------------------- */
@@ -55,14 +54,17 @@ class PoolAdapter(
 		// Pick the right dataSet
 		val data = dataSet[position]
 
-		holder.binding.imgPool.setImageResource(data.image)
-		if(data.heart) { holder.binding.imgHeart.setImageResource(R.drawable.ic_heart) }
-		holder.binding.txtTitle.text = data.title
-		holder.binding.txtSubtext.text = data.subtext
-		holder.binding.txtOpenText.text = data.openText
-		holder.binding.txtDistance.text = data.distance
+		// Download and insert image
+		Picasso.get().load(data.imageUrl).into(holder.binding.imgPool)
 
-		if(data.open != null) {
+
+		//if(data.heart) { holder.binding.imgHeart.setImageResource(R.drawable.ic_heart) }
+		holder.binding.txtTitle.text = data.name
+		holder.binding.txtSubtext.text = data.subtext
+		//holder.binding.txtOpenText.text = data.openText
+		//holder.binding.txtDistance.text = data.distance
+
+		/*if(data.open != null) {
 			holder.binding.imgOpen.setImageResource(
 				when(data.open) {
 					OpenEnum.OPEN -> R.drawable.ic_circle_green
@@ -70,14 +72,14 @@ class PoolAdapter(
 					OpenEnum.OUTOFSAISON -> R.drawable.ic_circle_black
 					OpenEnum.WILLBECLOSING -> R.drawable.ic_circle_orange
 				}
-			)
-		}
+			) todo
+		}*/
 
 		// OnClickListener for the item
 		holder.binding.cvItem.setOnClickListener { clickListener(data) }
 
-		// OnClickListener for the heart icon
-		holder.binding.imgHeart.setOnClickListener {
+		// OnClickListener for the heart icon todo
+		/*holder.binding.imgHeart.setOnClickListener {
 			if(data.heart) {
 				holder.binding.imgHeart.setImageResource(R.drawable.ic_heart_outline)
 				data.heart = false
@@ -85,7 +87,7 @@ class PoolAdapter(
 				holder.binding.imgHeart.setImageResource(R.drawable.ic_heart)
 				data.heart = true
 			}
-		}
+		}*/
 	}
 
 

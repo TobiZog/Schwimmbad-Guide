@@ -6,12 +6,12 @@ package de.zoghaib.schwimmbadguide.data
 data class PoolInformations (
     val name : String,
     val imageUrl : String,
-    val subtext : String,
-    val description : String,
-    val equipment : String,
-    val phoneNumber : String,
-    val email : String,
-    val address : String,
-    val openingTimes : String,
-    val prices : String
+    val subtext : String?,
+    val description : String?,
+    val equipment : String?,
+    val phoneNumber : String?,
+    val email : String?,
+    val address : String?,
+    val openingTimes : String?,
+    val prices : String?
 )

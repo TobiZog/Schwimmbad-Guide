@@ -2,6 +2,7 @@ package de.zoghaib.schwimmbadguide
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.squareup.picasso.Picasso
 import de.zoghaib.schwimmbadguide.databinding.ActivityPoolDetailViewBinding
 
 /**
@@ -32,10 +33,12 @@ class PoolDetailViewActivity : AppCompatActivity() {
 		binding = ActivityPoolDetailViewBinding.inflate(layoutInflater)
 		setContentView(binding.root)
 
-		binding.txtTitle.text = intent.getStringExtra("title")
+		binding.txtTitle.text = intent.getStringExtra("name")
 		binding.txtSubtext.text = intent.getStringExtra("subtext")
-		binding.txtDistance.text = intent.getStringExtra("distance")
-		binding.txtOpenText.text = intent.getStringExtra("opentext")
-		binding.imageView.setImageResource(intent.getIntExtra("image", R.drawable.ricklinger_freibad))
+		binding.txtDescription.text = intent.getStringExtra("description")
+		binding.txtEquipment.text = intent.getStringExtra("equipment")
+		//binding.txtDistance.text = intent.getStringExtra("distance")
+		//binding.txtOpenText.text = intent.getStringExtra("opentext")
+		Picasso.get().load(intent.getStringExtra("imageUrl")).into(binding.imageView)
 	}
 }

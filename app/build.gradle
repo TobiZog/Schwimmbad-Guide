@@ -43,6 +43,10 @@ android {
     buildFeatures {
         viewBinding = true
     }
+
+    repositories {
+        maven { url 'https://jitpack.io' }
+    }
 }
 
 dependencies {
@@ -59,4 +63,10 @@ dependencies {
 
     // Download JSON
     implementation 'com.github.100rabhkr:GetJSON:1.0'
+
+    // Asyncio
+    implementation "org.jetbrains.anko:anko-commons:0.10.4"
+
+    // Image Downloader
+    implementation "com.squareup.picasso:picasso:2.71828"
 }

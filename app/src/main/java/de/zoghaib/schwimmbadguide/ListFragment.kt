@@ -3,14 +3,12 @@ package de.zoghaib.schwimmbadguide
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import androidx.core.app.ActivityOptionsCompat
-import androidx.core.util.Pools
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import de.zoghaib.schwimmbadguide.adapter.PoolAdapter
-import de.zoghaib.schwimmbadguide.data.OpenEnum
-import de.zoghaib.schwimmbadguide.data.PoolAdapterData
+import de.zoghaib.schwimmbadguide.data.PoolInformations
 import de.zoghaib.schwimmbadguide.databinding.FragmentListBinding
+import de.zoghaib.schwimmbadguide.parser.RegionHannoverPoolParser
 
 /**
  * Fragment to list the pools as CardViews in a RecyclerView
@@ -23,10 +21,13 @@ class ListFragment : Fragment(R.layout.fragment_list) {
 	/* -------------------- Member Variables -------------------- */
 
 	/** Array for RecyclerView items */
-	private val recyclerViewEntries = ArrayList<PoolAdapterData>()
+	private val recyclerViewEntries = ArrayList<PoolInformations>()
 
 	/** View binding object to access items in the view */
 	private lateinit var binding: FragmentListBinding
+
+	/** Parser object */
+	private lateinit var hannoverParser : RegionHannoverPoolParser
 
 
 	/* -------------------- Lifecycle -------------------- */
@@ -44,14 +45,20 @@ class ListFragment : Fragment(R.layout.fragment_list) {
 		binding = FragmentListBinding.bind(view)
 
 
+		// Parser
+		hannoverParser = RegionHannoverPoolParser()
+
+
 		// Initialize the RecyclerView
 		binding.rvPools.apply {
 			// Set a LinearLayout in the RecyclerView
 			layoutManager = LinearLayoutManager(activity)
 
 			// Set the custom adapter to the RecyclerView
-			adapter = PoolAdapter(recyclerViewEntries) { partItem: PoolAdapterData -> partItemClicked(partItem) }
+			adapter = PoolAdapter(recyclerViewEntries) { partItem: PoolInformations -> partItemClicked(partItem) }
 		}
+
+		updateRecyclerView()
 	}
 
 
@@ -62,7 +69,7 @@ class ListFragment : Fragment(R.layout.fragment_list) {
 		super.onResume()
 
 		// Starting the RecyclerView entrys thread
-		updateRecyclerView()
+		//updateRecyclerView() todo: Change only dynamic informations like "Is open now?"
 	}
 
 
@@ -73,12 +80,19 @@ class ListFragment : Fragment(R.layout.fragment_list) {
 	 *
 	 * @param   partItem    The item, which was clicked
 	 */
-	private fun partItemClicked(partItem: PoolAdapterData) {
+	private fun partItemClicked(partItem: PoolInformations) {
 		val intent = Intent(requireContext(), PoolDetailViewActivity::class.java)
-		intent.putExtra("title", partItem.title)
+		intent.putExtra("name", partItem.name)
+		intent.putExtra("imageUrl", partItem.imageUrl)
 		intent.putExtra("subtext", partItem.subtext)
-		intent.putExtra("distance", partItem.distance)
-		intent.putExtra("opentext", partItem.openText)
+		intent.putExtra("description", partItem.description)
+		intent.putExtra("equipment", partItem.equipment)
+		intent.putExtra("phoneNumber", partItem.phoneNumber)
+		intent.putExtra("email", partItem.email)
+		intent.putExtra("address", partItem.address)
+		intent.putExtra("openingTImes", partItem.openingTimes)
+		intent.putExtra("prices", partItem.prices)
+
 		startActivity(intent)
 	}
 
@@ -90,37 +104,11 @@ class ListFragment : Fragment(R.layout.fragment_list) {
 		// Clear the RecyclerView
 		recyclerViewEntries.clear()
 
-		// todo: Dummy data, replace it!
-		recyclerViewEntries.add(
-			PoolAdapterData(
-				image = R.drawable.stadionad_klein,
-				title = "Stadionbad",
-				subtext = "1972 im Olympiajahr erbaut, ist das Stadionbad das Highlight im Sportpark Hannover.",
-				open = OpenEnum.OPEN,
-				openText = "Geöffnet bis 19:00",
-				distance = "1.0 km"
-			)
-		)
+		val listOfPools = hannoverParser.getListOfPools()
 
-		recyclerViewEntries.add(
-			PoolAdapterData(
-				image = R.drawable.ricklinger_kiesteiche,
-				title = "Ricklinger Kiesteiche",
-				subtext = "Die Costa Kiesa: Seit vielen Jahren eines der beliebtesten Urlaubsziele des Hannoveraners.",
-				distance = "2.1 km"
-			)
-		)
-
-		recyclerViewEntries.add(
-			PoolAdapterData(
-				image = R.drawable.ricklinger_freibad,
-				title = "Ricklinger Bad",
-				subtext = "Paradiesisch ruhig liegt das beheizte Freibad (22°C) am Ricklinger Waldrand mit Zugang zu einem der Ricklinger Kiesteiche.",
-				open = OpenEnum.OPEN,
-				openText = "Geöffnet bis 20:00",
-				distance = "2.4 km"
-			)
-		)
+		for(pool in listOfPools) {
+			recyclerViewEntries.add(pool)
+		}
 
 		binding.rvPools.adapter!!.notifyDataSetChanged()
 	}
