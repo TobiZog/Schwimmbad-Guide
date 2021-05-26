@@ -91,6 +91,8 @@ class ListFragment : Fragment(R.layout.fragment_list) {
 		intent.putExtra("imageUrl", partItem.imageUrl)
 		intent.putExtra("subtext", partItem.subtext)
 		intent.putExtra("description", partItem.description)
+		intent.putExtra("pools", partItem.pools)
+		intent.putExtra("restaurant", partItem.restaurant)
 		intent.putExtra("equipment", partItem.equipment)
 		intent.putExtra("phoneNumber", partItem.phoneNumber)
 		intent.putExtra("email", partItem.email)
@@ -119,6 +121,8 @@ class ListFragment : Fragment(R.layout.fragment_list) {
 						imageUrl = pool.getAsString("IMAGEURL"),
 						subtext = pool.getAsString("SUBTEXT"),
 						description = pool.getAsString("DESCRIPTION"),
+						pools = pool.getAsString("POOLS"),
+						restaurant = pool.getAsString("RESTAURANT"),
 						equipment = pool.getAsString("EQUIPMENT"),
 						phoneNumber = pool.getAsString("PHONENUMBER"),
 						email = pool.getAsString("EMAIL"),

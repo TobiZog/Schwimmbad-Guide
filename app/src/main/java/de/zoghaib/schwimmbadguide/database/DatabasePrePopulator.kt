@@ -35,10 +35,12 @@ class DatabasePrePopulator(private val context : Context) {
             dataset.put("CATEGORY", i[1])
             dataset.put("SUBTEXT", i[2])
             dataset.put("DESCRIPTION", i[3])
-            dataset.put("EQUIPMENT", i[4])
-            dataset.put("PHONENUMBER", i[5])
-            dataset.put("EMAIL", i[6])
-            dataset.put("IMAGEURL", i[7])
+            dataset.put("POOLS", i[4])
+            dataset.put("RESTAURANT", i[5])
+            dataset.put("EQUIPMENT", i[6])
+            dataset.put("PHONENUMBER", i[7])
+            dataset.put("EMAIL", i[8])
+            dataset.put("IMAGEURL", i[9])
 
             if(dbHandler.readDatasetToContentValues("POOLS", contentValuesOf(Pair("NAME", i[0]))) == null) {
                 dbHandler.writeDatasetFromContentValues("POOLS", dataset)

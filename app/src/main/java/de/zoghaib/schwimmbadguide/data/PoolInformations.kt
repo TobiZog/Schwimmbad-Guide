@@ -8,6 +8,8 @@ data class PoolInformations (
     val imageUrl : String,
     val subtext : String?,
     val description : String?,
+    val pools : String?,
+    val restaurant : String?,
     val equipment : String?,
     val phoneNumber : String?,
     val email : String?,

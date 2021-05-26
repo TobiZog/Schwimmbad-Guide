@@ -7,7 +7,9 @@
 		- Type (Hallenbad, Freibad, Sonstiges)
 		- Subtext
 		- Description
-		- Equipment
+		- Pools
+		- Restaurant/Food
+		- Equipment todo: Split!
 		- Phone Number
 		- E-Mail-Address
 		- Image URL
@@ -23,19 +25,17 @@
             ziehen: Das Bad ist zwar wenig spektakulär, aber sportlich motivierten Schwimmern durchaus zu empfehlen. Die Atmosphäre ist angenehm ruhig, selten
             sind zu den öffentlichen Schwimmzeiten mehr als 15 Badegäste im Wasser. </item>
 		<item>
-			- Schwimmerbecken (25×12,5 Meter)
-			- 5 Bahnen
-			- 1-Meter-Sprungbrett
-			- 5 Startsockel
-			- Temperatur: 27°C
+			\u2022 Schwimmerbecken (25x12,5 Meter), 1-Meter-Sprungturm, 5 Bahnen, 5 Startsockel, Temperatur 27°C
+		</item>
+		<item>Kioskbetrieb am Wochenende</item>
+		<item>
 			- Zuschauer-Balkon
 			- WCs
 			- Duschen
 			- Gruppen-/Einzelumkleiden
 			- Wärmebänke
 			- diverses Spielequipment
-			- Rollatoren (Gehwagen) für den Nassbereich
-			- Kioskbetrieb am Wochenende</item>
+			- Rollatoren (Gehwagen) für den Nassbereich</item>
 		<item>+49 511 5248570</item>
 		<item>geschaeftsstelle@tsv-anderten-gmbh.de</item>
 		<item tools:ignore="TypographyDashes">https://www.hannover.de/var/storage/images/_aliases/image_full/media/01-data-neu/bilder/bilder-region-hannover/b%C3%A4der/frei-und-hallenb%C3%A4der/hallenbad-anderten/720365-4-ger-DE/Hallenbad-Anderten.jpg</item>
@@ -48,16 +48,20 @@
 		<item>Das aquaLaatzium als Besuchermagnet, einzigartig in der Region Hannovers, lädt mit seiner Sauna- und Badelandschaft zur Erholung und Vitalität ein.
 			Die weitläufige Anlage mit separatem Fitnessstudio, Wellnessbereich und Erlebnisbad, 25 Meter Sportbecken, Body 2 Racer Doppelrutsche, Sole-Außenbecken, 11 Saunen mit Ruhehaus sowie
 			Gastronomie sorgt für Unterhaltung und Lebensfreude auf besondere Art.</item>
-		<item>- Halle: Schwimmer 25×12,5 Meter mit 1-Meter-Brett und 3-Meter-Sprungturm;
-			- Nichtschwimmererlebnisbecken 25×12 Meter mit Body 2 Racer Doppelrutsche, Wasserfall, Massagedüsen, Schwallduschen, Wasserkreisel, Whirlpool, Temperatur 29°C;
-			- Solebecken im Freien; Temperatur: 32°C; Kleinkind-Bereich ca. 75 Quadratmeter mit Rutsche, Bachlauf, Delphin und Clown; Temperatur: 30°C.
-
+		<item>
+			\u2022 Schwimmerbecken (25x12,5 Meter), 1-Meter-Sprungturm, 3-Meter-Sprungturm\n
+			\u2022 Nichtschwimmererlebnisbecken 25×12 Meter mit Body 2 Racer Doppelrutsche, Wasserfall, Massagedüsen, Schwallduschen, Wasserkreisel, Whirlpool, Temperatur 29°C\n
+			\u2022 Solebecken im Freien; Temperatur: 32°C\n
+			\u2022 Kleinkind-Bereich ca. 75 Quadratmeter mit Rutsche, Bachlauf, Delphin und Clown; Temperatur: 30°C
+		</item>
+		<item>
+			Restaurant "Blubb", auch mit Innenterrasse am Beckenrand
+		</item>
+		<item>
 			- WC, Dusche, Umkleide; Extra: Sauna, Wellness- und Massagebereich, Fitnesscenter
 			- Halle: Kindergeburtstage mit Animation, Schwimmkurse ab 5 Jahre, Schwangerenschwimmen, Haikos Übungsstunde, offene Schwimmstunde
 			- aqua-Kurse im Fitnessbereich aquaFit-Laatzen für Mitglieder
-			- Fitnessstudio aquaFit: mit Rücken- und Gelenkzentrum, Ernährungs- und Abnehmzentrum, Yoga, über 100 Fitnesskurse die Woche, Personal Training 1:1, Vibrationstraining, milon Gerätezirkel
-
-			- Gastronomie: Restaurant "Blubb", auch mit Innenterrasse am Beckenrand</item>
+			- Fitnessstudio aquaFit: mit Rücken- und Gelenkzentrum, Ernährungs- und Abnehmzentrum, Yoga, über 100 Fitnesskurse die Woche, Personal Training 1:1, Vibrationstraining, milon Gerätezirkel</item>
 		<item>+49 511 8602490</item>
 		<item></item>
 		<item tools:ignore="TypographyDashes">https://www.hannover.de/var/storage/images/_aliases/image_full/media/01-data-neu/bilder/bilder-region-hannover/b%C3%A4der/frei-und-hallenb%C3%A4der/aqualaatzium-sportbecken-p/15295091-1-ger-DE/aquaLaatzium-Sportbecken-p.jpg</item>
@@ -67,5 +71,6 @@
 		<item>Aspria Spa &amp; Sport Club</item>
 		<item>Hallenbad</item>
 		<item>Für alle, die mehr erwarten: Spa und Sport auf 27.000 qm.</item>
+		<!-- todo: Add -->
 	</string-array>
 </resources>

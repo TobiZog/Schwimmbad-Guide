@@ -3,4 +3,7 @@
 
     <string name="map">Map</string>
     <string name="list">List</string>
+    <string name="pools">Becken</string>
+    <string name="restaurant">Verpflegung</string>
+    <string name="contact">Kontakt</string>
 </resources>

@@ -35,36 +35,9 @@ class RegionHannoverPoolParser {
         val poolNames = PoolNamesEnum.values().toList()
 
         // Request details for every pool
-        for(pool in poolNames) {
-            val poolDetails = getPoolDetails(pool)
-            poolArray.add(poolDetails)
-        }
+
 
         return poolArray
     }
 
-
-    /**
-     * Returns informations about one pool
-     *
-     * @param   name    Name of the pool
-     *
-     * @return  All informations as a PoolInformations or null if there is no one
-     */
-    fun getPoolDetails(name: PoolNamesEnum): PoolInformations {
-        //val jsonObject = GetJson().AsString(urls.getAsString(name.toString()))
-
-        return PoolInformations(
-            name = "",//((jsonObject.substringAfter("<title>")).substringBefore("|")).trim(),
-            imageUrl = "", //(jsonObject.substringAfter("<img class=\"fullwidth image-zoomable\" src=\"")).substringBefore("\""),
-            subtext = "", //(jsonObject.substringAfter("itemprop=\"description\">")).substringBefore("</div>"),
-            description = "", //(jsonObject.substringAfter("<div class=\"event-detail__main embed-view-block embed-articles ezrichtext-field\"><p>")).substringBefore("</p>"),
-            equipment = "", //(jsonObject.substringAfter("</p><h2 class=\"header-h1\">")).substringBefore("</a></p>"),
-            phoneNumber = "",
-            email = "",
-            address = "",
-            openingTimes = "",
-            prices = ""
-        )
-    }
 }
