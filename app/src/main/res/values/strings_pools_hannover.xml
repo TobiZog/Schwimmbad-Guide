@@ -9,10 +9,12 @@
 		- Description
 		- Pools
 		- Restaurant/Food
-		- Equipment todo: Split!
+		- Equipment todo: Split! Sauna
 		- Phone Number
 		- E-Mail-Address
 		- Image URL
+		- Latitude
+		- Longitude
 	-->
 
 	<string-array name="anderter_bad">
@@ -39,6 +41,8 @@
 		<item>+49 511 5248570</item>
 		<item>geschaeftsstelle@tsv-anderten-gmbh.de</item>
 		<item tools:ignore="TypographyDashes">https://www.hannover.de/var/storage/images/_aliases/image_full/media/01-data-neu/bilder/bilder-region-hannover/b%C3%A4der/frei-und-hallenb%C3%A4der/hallenbad-anderten/720365-4-ger-DE/Hallenbad-Anderten.jpg</item>
+		<item>52.36372</item>
+		<item>9.85152</item>
 	</string-array>
 	
 	<string-array name="aquaLaatzium">
@@ -61,16 +65,81 @@
 			- WC, Dusche, Umkleide; Extra: Sauna, Wellness- und Massagebereich, Fitnesscenter
 			- Halle: Kindergeburtstage mit Animation, Schwimmkurse ab 5 Jahre, Schwangerenschwimmen, Haikos Übungsstunde, offene Schwimmstunde
 			- aqua-Kurse im Fitnessbereich aquaFit-Laatzen für Mitglieder
-			- Fitnessstudio aquaFit: mit Rücken- und Gelenkzentrum, Ernährungs- und Abnehmzentrum, Yoga, über 100 Fitnesskurse die Woche, Personal Training 1:1, Vibrationstraining, milon Gerätezirkel</item>
+			- Fitnessstudio aquaFit: mit Rücken- und Gelenkzentrum, Ernährungs- und Abnehmzentrum, Yoga, über 100 Fitnesskurse die Woche, Personal Training 1:1, Vibrationstraining,
+			milon Gerätezirkel</item>
 		<item>+49 511 8602490</item>
 		<item></item>
 		<item tools:ignore="TypographyDashes">https://www.hannover.de/var/storage/images/_aliases/image_full/media/01-data-neu/bilder/bilder-region-hannover/b%C3%A4der/frei-und-hallenb%C3%A4der/aqualaatzium-sportbecken-p/15295091-1-ger-DE/aquaLaatzium-Sportbecken-p.jpg</item>
+		<item>52.31086</item>
+		<item>9.79414</item>
 	</string-array>
 
-	<string-array name="aspria_spa">
-		<item>Aspria Spa &amp; Sport Club</item>
+	<string-array name="balneon">
+		<item>Balneon</item>
+		<item>Hallen- und Freibad</item>
+		<item>Das Sauna, Hallen- und Naturfreibad in Neustadt am Rübenberge</item>
+		<item>Ob Rutsche, Naturbadesee, Sauna, Kleinkindbereich oder Sprungturm: Das Balneon in Neustadt am Rübenberge hat eine Menge zu bieten. Die moderne Architektur schafft
+			eine gemütliche Atmosphäre und lädt zum Abtauchen und Entspannen ein. Ideal für Familien, aber auch für Actionfans und Saunagänger.Highlights in diesem Schwimmbad
+			sind unter anderem der großzügige Kleinkindbereich, die 70-Meter-Rutsche, der atmosphärische Saunabereich mit fünf Saunen, Garten und Naturbadebecken. Am Sandstrand
+			des Naturbadesees direkt vor dem Hallenbad lässt sich sonniges Wetter besonders gut nutzen. Ist es mal kälter, lädt das Ganzjahresaußenbecken zum Verweilen ein.</item>
+		<item>
+			\u2022 1 Sportbecken mit 6 Bahnen à 25 Metern (28°C)\n
+			\u2022 1 Sprungturm (1 + 3 Meter) – integriert in das Sportbecken\n
+			\u2022 1 Freizeitbecken mit Sprudelliegen, Massagedüsen und Nackenschwaller (32°C)\n
+			\u2022 1 Ganzjahresaußenbecken mit Sprudelliegen und Nackenschwaller (32°C)\n
+			\u2022 1 Kleinkinderbecken mit Minirutsche und Schiffchenkanal (34°C)\n
+			\u2022 800 qm Naturbadesee, Sandstrand, Holzsteg, Liegewiese, rein biologische Reinigung
+		</item>
+		<item>Die Gastronomie ist von allen Punkten des Bades aus verfügbar (Hallenbad, Foyer, Sauna) und setzt auf hochwertige und frisch zubereitete Speisen. Pasta wird
+			mittels der eigenen Pastamaschine selbst gemacht, Pommes werden als einzigartige und frische Frenz Fries zubereitet. Dazu gibt es frische Salate, Flammkuchen,
+			Pizza, Ofenkartoffeln, Burger und eine wechselnde Wochenkarte.</item>
+		<item></item>
+		<item>+49 5032 912770</item>
+		<item>info@balneon.de</item>
+		<item tools:ignore="TypographyDashes">https://www.hannover.de/var/storage/images/_aliases/image_full/media/01-data-neu/bilder/bilder-region-hannover/b%C3%A4der/frei-und-hallenb%C3%A4der/balneon/au%C3%9Fenschwimmbecken-p/18152918-1-ger-DE/Au%C3%9Fenschwimmbecken-p.jpg</item>
+		<item>52.51524</item>
+		<item>9.46307</item>
+	</string-array>
+
+	<string-array name="buentebad_hemmingen">
+		<item>Büntebad Hemmingen</item>
 		<item>Hallenbad</item>
-		<item>Für alle, die mehr erwarten: Spa und Sport auf 27.000 qm.</item>
-		<!-- todo: Add -->
+		<item>Modern und runderneuert lädt das Büntebad in Hemmingen zum Verweilen ein, auch Menschen mit Handicap können das Bad nun nutzen.</item>
+		<item>Das Büntebad lockt mit einer Reihe von Attraktionen die Badegäaste.</item>
+		<item>
+			\u2022 Schwimmerbecken (27,5°C) mit 5 Bahnen à 25m
+			\u2022 Multifunktionsbecken (30,0°C) mit 8 Massagedüsen
+			\u2022 1m-Brett und 3m-Plattform</item>
+		<item>
+			\u2022 Bistro im Saunabereich
+    		\u2022 Automaten mit Getränken und Süßigkeiten im Eingangsbereich
+		</item>
+		<item></item>
+		<item>+49 511 4103460</item>
+		<item>info@buentebad.de</item>
+		<item tools:ignore="TypographyDashes">https://www.hannover.de/var/storage/images/_aliases/image_full/media/01-data-neu/bilder/region-hannover/b%C3%A4der/b%C3%A4dergrafik/hallenbad-hemmingen-ansprung-bad/719789-3-ger-DE/Hallenbad-Hemmingen-Ansprung-Bad.jpg</item>
+		<item>52.32698</item>
+		<item>9.74239</item>
+	</string-array>
+
+	<string-array name="deisterbad_barsinghausen">
+		<item>Deisterbad Barsinghausen</item>
+		<item>Hallen- und Freibad</item>
+		<item>Dies Bad ist mit Muschelbau und großzügiger Liegewiese zu jeder Jahreszeit einen Besuch wert.</item>
+		<item>Das Barsinghäuser Bad zeigt im Innern architektonische Qualitäten. Hier präsentiert sich der anspruchsvolle Muschelbau hell und freundlich. Die verglasten
+			Hallenwände lassen viel Tageslicht in die Halle und geben den Blick ins Grüne frei. In der Sommersaison lädt der Außenbereich mit seiner großzügigen Liegewiese
+			zum Sonnen und Spielen ein. Die Kombination von Sauna, Hallenbad mit Riesenrutsche, Freibad, Gastronomie und Biergarten vermittelt Badespaß, Entspannung und Erholung.</item>
+		<item>
+			\u2022 Schwimmer/Nichtschwimmer 25×12,5 Meter mit 42-Meter-Rutsche, 1-Meter- und 3-Meter-Brett\n
+			\u2022 Separater Mutter-Kind-Bereich mit Kleinkindbecken, welcher in der Freibadsaison auch für den Außenbereich zur Verfügung steht\n
+			\u2022 Temperatur: 28°C / Warmbadetag: 30°– 31°C
+		</item>
+		<item>Cafetaria</item>
+		<item></item>
+		<item>+49 5105 81772</item>
+		<item>info@deisterbad.de</item>
+		<item tools:ignore="TypographyDashes">https://www.hannover.de/var/storage/images/_aliases/image_full/media/01-data-neu/bilder/region-hannover/b%C3%A4der/b%C3%A4dergrafik/deisterbad-barsinghausen/719438-3-ger-DE/Deisterbad-Barsinghausen.jpg</item>
+		<item>52.28969</item>
+		<item>9.48573</item>
 	</string-array>
 </resources>

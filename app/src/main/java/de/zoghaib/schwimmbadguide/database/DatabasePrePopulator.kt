@@ -25,7 +25,10 @@ class DatabasePrePopulator(private val context : Context) {
     fun initDatabase() {
         val stringResources = arrayListOf(
             context.resources.getStringArray(R.array.anderter_bad),
-            context.resources.getStringArray(R.array.aquaLaatzium)
+            context.resources.getStringArray(R.array.aquaLaatzium),
+            context.resources.getStringArray(R.array.balneon),
+            context.resources.getStringArray(R.array.buentebad_hemmingen),
+            context.resources.getStringArray(R.array.deisterbad_barsinghausen)
         )
 
         for(i in stringResources) {
@@ -41,6 +44,8 @@ class DatabasePrePopulator(private val context : Context) {
             dataset.put("PHONENUMBER", i[7])
             dataset.put("EMAIL", i[8])
             dataset.put("IMAGEURL", i[9])
+            dataset.put("LATITUDE", i[10])
+            dataset.put("LONGITUDE", i[11])
 
             if(dbHandler.readDatasetToContentValues("POOLS", contentValuesOf(Pair("NAME", i[0]))) == null) {
                 dbHandler.writeDatasetFromContentValues("POOLS", dataset)

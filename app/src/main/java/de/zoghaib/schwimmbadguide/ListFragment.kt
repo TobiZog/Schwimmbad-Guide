@@ -1,5 +1,6 @@
 package de.zoghaib.schwimmbadguide
 
+import android.animation.ObjectAnimator
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -99,6 +100,8 @@ class ListFragment : Fragment(R.layout.fragment_list) {
 		intent.putExtra("address", partItem.address)
 		intent.putExtra("openingTImes", partItem.openingTimes)
 		intent.putExtra("prices", partItem.prices)
+
+		// todo: Implement transitions!
 
 		startActivity(intent)
 	}

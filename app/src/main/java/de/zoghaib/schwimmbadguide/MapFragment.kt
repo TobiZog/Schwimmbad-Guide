@@ -1,9 +1,11 @@
 package de.zoghaib.schwimmbadguide
 
 import android.Manifest
+import android.content.ContentValues
 import android.content.pm.PackageManager.PERMISSION_GRANTED
 import android.location.LocationManager
 import android.os.Bundle
+import android.os.HandlerThread
 import android.view.View
 import androidx.core.app.ActivityCompat
 import androidx.core.content.contentValuesOf
@@ -12,6 +14,7 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.*
+import de.zoghaib.schwimmbadguide.database.DatabaseHandler
 import de.zoghaib.schwimmbadguide.databinding.FragmentMapBinding
 
 /**
@@ -30,6 +33,9 @@ class MapFragment : Fragment(R.layout.fragment_map), OnMapReadyCallback {
 	/** The map object in the view */
 	private lateinit var mMap : GoogleMap
 
+	/** Databas handler object */
+	private lateinit var dbHandler: DatabaseHandler
+
 
 	/* -------------------- Lifecycle -------------------- */
 
@@ -43,6 +49,10 @@ class MapFragment : Fragment(R.layout.fragment_map), OnMapReadyCallback {
 
 		// Set up binding
 		binding = FragmentMapBinding.bind(view)
+
+
+		// Set up database
+		dbHandler = DatabaseHandler(requireContext())
 
 
 		// Set up map view
@@ -78,12 +88,28 @@ class MapFragment : Fragment(R.layout.fragment_map), OnMapReadyCallback {
 
 		// todo: This section is only for test marker - remove it!
 		val markerArray = ArrayList<MarkerOptions>()
-		val coordinates = arrayListOf(
-			contentValuesOf(Pair("name", "Stadionbad"), Pair("latitude", 52.35916), Pair("longitude", 9.73406), Pair("marker", R.drawable.ic_greendot)),
+		val datasets = dbHandler.readTableToArrayList("POOLS")
+		val coordinates = ArrayList<ContentValues>()
+
+		if (datasets != null) {
+			for(i in datasets) {
+				val markerData = ContentValues()
+
+				markerData.put("name", i.getAsString("NAME"))
+				markerData.put("latitude", (i.getAsString("LATITUDE")).toDouble())
+				markerData.put("longitude", (i.getAsString("LONGITUDE")).toDouble())
+				markerData.put("marker", R.drawable.ic_greendot)
+
+				coordinates.add(markerData)
+			}
+		}
+
+		//val coordinates = arrayListOf(
+			/*contentValuesOf(Pair("name", "Stadionbad"), Pair("latitude", 52.35916), Pair("longitude", 9.73406), Pair("marker", R.drawable.ic_greendot)),
 			contentValuesOf(Pair("name", "Vahrenwalder Bad"), Pair("latitude", 52.39412), Pair("longitude", 9.73648), Pair("marker", R.drawable.ic_greendot)),
 			contentValuesOf(Pair("name", "Nord-Ost-Bad"), Pair("latitude", 52.40515), Pair("longitude", 9.7963), Pair("marker", R.drawable.ic_greendot)),
 			contentValuesOf(Pair("name", "Fössebad"), Pair("latitude", 52.37124), Pair("longitude", 9.69645), Pair("marker", R.drawable.ic_greendot)),
-			contentValuesOf(Pair("name", "Anderter Bad"), Pair("latitude", 52.36372), Pair("longitude", 9.85152), Pair("marker", R.drawable.ic_greendot)),
+			//contentValuesOf(Pair("name", "Anderter Bad"), Pair("latitude", 52.36372), Pair("longitude", 9.85152), Pair("marker", R.drawable.ic_greendot)),
 			contentValuesOf(Pair("name", "Hallenbad Isernhaben"), Pair("latitude", 52.4336), Pair("longitude", 9.8561), Pair("marker", R.drawable.ic_greendot)),
 			contentValuesOf(Pair("name", "Wasserwelt Langenhagen"), Pair("latitude", 52.44695), Pair("longitude", 9.75353), Pair("marker", R.drawable.ic_greendot)),
 			contentValuesOf(Pair("name", "RSV-Bad Leinhausen"), Pair("latitude", 52.40019), Pair("longitude", 9.67843), Pair("marker", R.drawable.ic_greendot)),
@@ -113,8 +139,8 @@ class MapFragment : Fragment(R.layout.fragment_map), OnMapReadyCallback {
 			contentValuesOf(Pair("name", "Sonnensee"), Pair("latitude", 52.4066), Pair("longitude", 9.8741), Pair("marker", R.drawable.ic_orangedot)),
 			contentValuesOf(Pair("name", "Ricklinger Kiesteiche"), Pair("latitude", 52.3394), Pair("longitude", 9.7387), Pair("marker", R.drawable.ic_orangedot)),
 			contentValuesOf(Pair("name", "Strandbad Maschsee"), Pair("latitude", 52.34349), Pair("longitude", 9.7534), Pair("marker", R.drawable.ic_orangedot)),
-			contentValuesOf(Pair("name", "Birkensee"), Pair("latitude", 52.30334), Pair("longitude", 9.86185), Pair("marker", R.drawable.ic_orangedot)),
-		)
+			contentValuesOf(Pair("name", "Birkensee"), Pair("latitude", 52.30334), Pair("longitude", 9.86185), Pair("marker", R.drawable.ic_orangedot)),*/
+		//)
 
 		for(i in coordinates) {
 			val marker = MarkerOptions()
