@@ -3,10 +3,12 @@ package de.zoghaib.schwimmbadguide
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.core.content.contentValuesOf
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import de.zoghaib.schwimmbadguide.adapter.PoolAdapter
 import de.zoghaib.schwimmbadguide.data.PoolInformations
+import de.zoghaib.schwimmbadguide.database.DatabaseHandler
 import de.zoghaib.schwimmbadguide.databinding.FragmentListBinding
 import de.zoghaib.schwimmbadguide.parser.RegionHannoverPoolParser
 
@@ -29,6 +31,9 @@ class ListFragment : Fragment(R.layout.fragment_list) {
 	/** Parser object */
 	private lateinit var hannoverParser : RegionHannoverPoolParser
 
+	/** Database handler object */
+	private lateinit var dbHandler : DatabaseHandler
+
 
 	/* -------------------- Lifecycle -------------------- */
 
@@ -45,8 +50,8 @@ class ListFragment : Fragment(R.layout.fragment_list) {
 		binding = FragmentListBinding.bind(view)
 
 
-		// Parser
-		hannoverParser = RegionHannoverPoolParser()
+		// Database
+		dbHandler = DatabaseHandler(requireContext())
 
 
 		// Initialize the RecyclerView
@@ -69,7 +74,7 @@ class ListFragment : Fragment(R.layout.fragment_list) {
 		super.onResume()
 
 		// Starting the RecyclerView entrys thread
-		//updateRecyclerView() todo: Change only dynamic informations like "Is open now?"
+		updateRecyclerView()
 	}
 
 
@@ -104,10 +109,25 @@ class ListFragment : Fragment(R.layout.fragment_list) {
 		// Clear the RecyclerView
 		recyclerViewEntries.clear()
 
-		val listOfPools = hannoverParser.getListOfPools()
+		val datasets = dbHandler.readTableToArrayList("POOLS")
 
-		for(pool in listOfPools) {
-			recyclerViewEntries.add(pool)
+		if (datasets != null) {
+			for(pool in datasets) {
+				recyclerViewEntries.add(
+					PoolInformations(
+						name = pool.getAsString("NAME"),
+						imageUrl = pool.getAsString("IMAGEURL"),
+						subtext = pool.getAsString("SUBTEXT"),
+						description = pool.getAsString("DESCRIPTION"),
+						equipment = pool.getAsString("EQUIPMENT"),
+						phoneNumber = pool.getAsString("PHONENUMBER"),
+						email = pool.getAsString("EMAIL"),
+						address = "",
+						openingTimes = "",
+						prices = ""
+					)
+				)
+			}
 		}
 
 		binding.rvPools.adapter!!.notifyDataSetChanged()

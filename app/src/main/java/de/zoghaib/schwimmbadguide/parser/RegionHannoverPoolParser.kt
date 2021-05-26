@@ -52,14 +52,14 @@ class RegionHannoverPoolParser {
      * @return  All informations as a PoolInformations or null if there is no one
      */
     fun getPoolDetails(name: PoolNamesEnum): PoolInformations {
-        val jsonObject = GetJson().AsString(urls.getAsString(name.toString()))
+        //val jsonObject = GetJson().AsString(urls.getAsString(name.toString()))
 
         return PoolInformations(
-            name = ((jsonObject.substringAfter("<title>")).substringBefore("|")).trim(),
-            imageUrl = (jsonObject.substringAfter("<img class=\"fullwidth image-zoomable\" src=\"")).substringBefore("\""),
-            subtext = (jsonObject.substringAfter("itemprop=\"description\">")).substringBefore("</div>"),
-            description = (jsonObject.substringAfter("<div class=\"event-detail__main embed-view-block embed-articles ezrichtext-field\"><p>")).substringBefore("</p>"),
-            equipment = (jsonObject.substringAfter("</p><h2 class=\"header-h1\">")).substringBefore("</a></p>"),
+            name = "",//((jsonObject.substringAfter("<title>")).substringBefore("|")).trim(),
+            imageUrl = "", //(jsonObject.substringAfter("<img class=\"fullwidth image-zoomable\" src=\"")).substringBefore("\""),
+            subtext = "", //(jsonObject.substringAfter("itemprop=\"description\">")).substringBefore("</div>"),
+            description = "", //(jsonObject.substringAfter("<div class=\"event-detail__main embed-view-block embed-articles ezrichtext-field\"><p>")).substringBefore("</p>"),
+            equipment = "", //(jsonObject.substringAfter("</p><h2 class=\"header-h1\">")).substringBefore("</a></p>"),
             phoneNumber = "",
             email = "",
             address = "",

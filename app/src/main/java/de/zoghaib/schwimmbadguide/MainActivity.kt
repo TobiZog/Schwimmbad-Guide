@@ -2,6 +2,7 @@ package de.zoghaib.schwimmbadguide
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import de.zoghaib.schwimmbadguide.database.DatabasePrePopulator
 import de.zoghaib.schwimmbadguide.databinding.ActivityMainBinding
 
 /**
@@ -31,6 +32,9 @@ class MainActivity : AppCompatActivity() {
         // Set up binding
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        val databasePrePopulator = DatabasePrePopulator(this)
+        databasePrePopulator.initDatabase()
 
 
         // BottomNavigationView

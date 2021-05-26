@@ -55,7 +55,7 @@ class PoolAdapter(
 		val data = dataSet[position]
 
 		// Download and insert image
-		Picasso.get().load(data.imageUrl).into(holder.binding.imgPool)
+		try { Picasso.get().load(data.imageUrl).into(holder.binding.imgPool) } catch (e: Exception) {}
 
 
 		//if(data.heart) { holder.binding.imgHeart.setImageResource(R.drawable.ic_heart) }

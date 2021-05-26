@@ -39,6 +39,6 @@ class PoolDetailViewActivity : AppCompatActivity() {
 		binding.txtEquipment.text = intent.getStringExtra("equipment")
 		//binding.txtDistance.text = intent.getStringExtra("distance")
 		//binding.txtOpenText.text = intent.getStringExtra("opentext")
-		Picasso.get().load(intent.getStringExtra("imageUrl")).into(binding.imageView)
+		try{ Picasso.get().load(intent.getStringExtra("imageUrl")).into(binding.imageView) } catch (e: Exception) {}
 	}
 }

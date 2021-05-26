@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+	<!-- Initial data for the database
+		Every pool is a string array in this sort order:
+		- Name
+		- Type (Hallenbad, Freibad, Sonstiges)
+		- Subtext
+		- Description
+		- Equipment
+		- Phone Number
+		- E-Mail-Address
+		- Image URL
+	-->
+
+	<string-array name="anderter_bad">
+		<item>Anderter Bad</item>
+		<item>Hallenbad</item>
+		<item>Hier können Schwimmer ungestört ihre Bahnen ziehen und die Öffnungszeiten orientieren sich an den Wünschen der Gäste.</item>
+		<item tools:ignore="Typos">Als im Jahre 1990 das Hallenbad Anderten geschlossen werden sollte, übernahm der Turn- und Sportverein Anderten e.V. die
+            Betriebsführung der Sportstätte. Kurz darauf wurde die TSV Anderten Betriebsführungsgesellschaft mbH gegründet, die die
+            Aufgaben übernommen hat und es ermöglicht, das in Anderten weiterhin Wassersport möglich ist. Heute können Schwimmer hier ungestört ihre Bahnen
+            ziehen: Das Bad ist zwar wenig spektakulär, aber sportlich motivierten Schwimmern durchaus zu empfehlen. Die Atmosphäre ist angenehm ruhig, selten
+            sind zu den öffentlichen Schwimmzeiten mehr als 15 Badegäste im Wasser. </item>
+		<item>
+			- Schwimmerbecken (25×12,5 Meter)
+			- 5 Bahnen
+			- 1-Meter-Sprungbrett
+			- 5 Startsockel
+			- Temperatur: 27°C
+			- Zuschauer-Balkon
+			- WCs
+			- Duschen
+			- Gruppen-/Einzelumkleiden
+			- Wärmebänke
+			- diverses Spielequipment
+			- Rollatoren (Gehwagen) für den Nassbereich
+			- Kioskbetrieb am Wochenende</item>
+		<item>+49 511 5248570</item>
+		<item>geschaeftsstelle@tsv-anderten-gmbh.de</item>
+		<item tools:ignore="TypographyDashes">https://www.hannover.de/var/storage/images/_aliases/image_full/media/01-data-neu/bilder/bilder-region-hannover/b%C3%A4der/frei-und-hallenb%C3%A4der/hallenbad-anderten/720365-4-ger-DE/Hallenbad-Anderten.jpg</item>
+	</string-array>
+	
+	<string-array name="aquaLaatzium">
+		<item>aquaLaatzium</item>
+		<item>Hallen- und Freibad</item>
+		<item>Dies Bad ist eine Wellness-Oase, die auch zum Sport treiben einlädt</item>
+		<item>Das aquaLaatzium als Besuchermagnet, einzigartig in der Region Hannovers, lädt mit seiner Sauna- und Badelandschaft zur Erholung und Vitalität ein.
+			Die weitläufige Anlage mit separatem Fitnessstudio, Wellnessbereich und Erlebnisbad, 25 Meter Sportbecken, Body 2 Racer Doppelrutsche, Sole-Außenbecken, 11 Saunen mit Ruhehaus sowie
+			Gastronomie sorgt für Unterhaltung und Lebensfreude auf besondere Art.</item>
+		<item>- Halle: Schwimmer 25×12,5 Meter mit 1-Meter-Brett und 3-Meter-Sprungturm;
+			- Nichtschwimmererlebnisbecken 25×12 Meter mit Body 2 Racer Doppelrutsche, Wasserfall, Massagedüsen, Schwallduschen, Wasserkreisel, Whirlpool, Temperatur 29°C;
+			- Solebecken im Freien; Temperatur: 32°C; Kleinkind-Bereich ca. 75 Quadratmeter mit Rutsche, Bachlauf, Delphin und Clown; Temperatur: 30°C.
+
+			- WC, Dusche, Umkleide; Extra: Sauna, Wellness- und Massagebereich, Fitnesscenter
+			- Halle: Kindergeburtstage mit Animation, Schwimmkurse ab 5 Jahre, Schwangerenschwimmen, Haikos Übungsstunde, offene Schwimmstunde
+			- aqua-Kurse im Fitnessbereich aquaFit-Laatzen für Mitglieder
+			- Fitnessstudio aquaFit: mit Rücken- und Gelenkzentrum, Ernährungs- und Abnehmzentrum, Yoga, über 100 Fitnesskurse die Woche, Personal Training 1:1, Vibrationstraining, milon Gerätezirkel
+
+			- Gastronomie: Restaurant "Blubb", auch mit Innenterrasse am Beckenrand</item>
+		<item>+49 511 8602490</item>
+		<item></item>
+		<item tools:ignore="TypographyDashes">https://www.hannover.de/var/storage/images/_aliases/image_full/media/01-data-neu/bilder/bilder-region-hannover/b%C3%A4der/frei-und-hallenb%C3%A4der/aqualaatzium-sportbecken-p/15295091-1-ger-DE/aquaLaatzium-Sportbecken-p.jpg</item>
+	</string-array>
+
+	<string-array name="aspria_spa">
+		<item>Aspria Spa &amp; Sport Club</item>
+		<item>Hallenbad</item>
+		<item>Für alle, die mehr erwarten: Spa und Sport auf 27.000 qm.</item>
+	</string-array>
+</resources>
