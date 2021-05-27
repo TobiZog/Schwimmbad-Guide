@@ -39,7 +39,6 @@ class DatabasePrePopulator(private val context : Context) {
                 if(commaSplitted[0].startsWith("Id")) {
                     titles = line.split(";")
                 } else {
-                    Log.d("AAA", commaSplitted.toString())
                     val oldDataset = dbHandler.readDatasetToContentValues("POOLS", contentValuesOf(Pair("NAME", commaSplitted[1])))
 
                     // Update, if there is already a dataset, else, create a new one
@@ -56,8 +55,6 @@ class DatabasePrePopulator(private val context : Context) {
                     for(i in 1 until commaSplitted.size - 1) {
                         newDataset.put(titles[i], commaSplitted[i])
                     }
-
-                    Log.d("AAA", newDataset.toString())
 
                     dbHandler.writeDatasetFromContentValues("POOLS", newDataset)
                 }

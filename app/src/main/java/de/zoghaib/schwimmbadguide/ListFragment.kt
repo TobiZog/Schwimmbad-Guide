@@ -8,6 +8,7 @@ import androidx.core.content.contentValuesOf
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import de.zoghaib.schwimmbadguide.adapter.PoolAdapter
+import de.zoghaib.schwimmbadguide.data.PoolCategory
 import de.zoghaib.schwimmbadguide.data.PoolInformations
 import de.zoghaib.schwimmbadguide.database.DatabaseHandler
 import de.zoghaib.schwimmbadguide.databinding.FragmentListBinding
@@ -94,11 +95,11 @@ class ListFragment : Fragment(R.layout.fragment_list) {
 		intent.putExtra("description", partItem.description)
 		intent.putExtra("pools", partItem.pools)
 		intent.putExtra("restaurant", partItem.restaurant)
-		intent.putExtra("equipment", partItem.equipment)
 		intent.putExtra("phoneNumber", partItem.phoneNumber)
 		intent.putExtra("email", partItem.email)
 		intent.putExtra("address", partItem.address)
-		intent.putExtra("openingTImes", partItem.openingTimes)
+		intent.putExtra("do1", partItem.do1)
+		intent.putExtra("do2", partItem.do2)
 		intent.putExtra("prices", partItem.prices)
 
 		// todo: Implement transitions!
@@ -121,16 +122,39 @@ class ListFragment : Fragment(R.layout.fragment_list) {
 				recyclerViewEntries.add(
 					PoolInformations(
 						name = pool.getAsString("NAME"),
+						category =
+							when(pool.getAsInteger("CATEGORY")) {
+								1 -> PoolCategory.INDOOR
+								2 -> PoolCategory.OUTDOOR
+								3 -> PoolCategory.OUTANDINDOOR
+								else -> PoolCategory.SPA
+							},
+						latitude = pool.getAsDouble("LATITUDE"),
+						longitude = pool.getAsDouble("LONGITUDE"),
 						imageUrl = pool.getAsString("IMAGEURL"),
 						subtext = pool.getAsString("SUBTEXT"),
 						description = pool.getAsString("DESCRIPTION"),
 						pools = pool.getAsString("POOLS"),
 						restaurant = pool.getAsString("RESTAURANT"),
-						equipment = pool.getAsString("EQUIPMENT"),
+						sauna = pool.getAsString("SAUNA"),
+						other = pool.getAsString("OTHER"),
 						phoneNumber = pool.getAsString("PHONENUMBER"),
 						email = pool.getAsString("EMAIL"),
-						address = "",
-						openingTimes = "",
+						address = pool.getAsString("ADDRESS"),
+						mo1 = pool.getAsString("MO1"),
+						mo2 = pool.getAsString("MO2"),
+						di1 = pool.getAsString("DI1"),
+						di2 = pool.getAsString("DI2"),
+						mi1 = pool.getAsString("MI1"),
+						mi2 = pool.getAsString("MI2"),
+						do1 = pool.getAsString("DO1"),
+						do2 = pool.getAsString("DO2"),
+						fr1 = pool.getAsString("FR1"),
+						fr2 = pool.getAsString("FR2"),
+						sa1 = pool.getAsString("SA1"),
+						sa2 = pool.getAsString("SA2"),
+						so1 = pool.getAsString("SO1"),
+						so2 = pool.getAsString("SO2"),
 						prices = ""
 					)
 				)
