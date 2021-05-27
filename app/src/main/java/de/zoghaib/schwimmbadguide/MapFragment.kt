@@ -16,6 +16,9 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.*
 import de.zoghaib.schwimmbadguide.database.DatabaseHandler
 import de.zoghaib.schwimmbadguide.databinding.FragmentMapBinding
+import java.sql.Time
+import java.util.*
+import kotlin.collections.ArrayList
 
 /**
  * Fragment which shows a Google Maps view with location of the pools
@@ -97,7 +100,58 @@ class MapFragment : Fragment(R.layout.fragment_map), OnMapReadyCallback {
 				markerData.put("name", i.getAsString("NAME"))
 				markerData.put("latitude", (i.getAsString("LATITUDE")).toDouble())
 				markerData.put("longitude", (i.getAsString("LONGITUDE")).toDouble())
-				markerData.put("marker", R.drawable.ic_greendot)
+
+
+				// Calculate the opening state
+				val calendar = Calendar.getInstance()
+
+				/**
+				 * todo
+				 */
+				fun getopenToday(nr : Int) : String {
+					return when(calendar.get(Calendar.DAY_OF_WEEK)) {
+						Calendar.MONDAY -> { if(nr == 1) { i.getAsString("MO1") } else { i.getAsString("MO2") } }
+						Calendar.TUESDAY -> { if(nr == 1) { i.getAsString("DI1") } else { i.getAsString("DI2") } }
+						Calendar.WEDNESDAY -> { if(nr == 1) { i.getAsString("MI1") } else { i.getAsString("MI2") } }
+						Calendar.THURSDAY -> { if(nr == 1) { i.getAsString("DO1") } else { i.getAsString("DO2") } }
+						Calendar.FRIDAY -> { if(nr == 1) { i.getAsString("FR1") } else { i.getAsString("FR2") } }
+						Calendar.SATURDAY -> { if(nr == 1) { i.getAsString("SA1") } else { i.getAsString("SA2") } }
+						Calendar.SUNDAY -> { if(nr == 1) { i.getAsString("SO1") } else { i.getAsString("SO2") } }
+						else -> ""
+					}
+				}
+
+
+				try {
+					if(getopenToday(1).isEmpty()) {
+						markerData.put("marker", R.drawable.ic_reddot)
+					} else {
+						val currentTime = Time(System.currentTimeMillis()).hours * 60 + Time(System.currentTimeMillis()).minutes
+						val open1 = getopenToday(1).substringBefore(":").toInt() * 60 + getopenToday(1).substringAfter(":").substringBefore("-").toInt()
+						val close1 = getopenToday(1).substringAfter("-").substringBefore(":").toInt() * 60 + getopenToday(1).substringAfterLast(":").toInt()
+
+						/*try {
+                            val open2 = dateFormat.format(SimpleDateFormat("HH:mm").parse(getopenToday(2).substringBefore("-")))
+                            val close2 = dateFormat.format(SimpleDateFormat("HH:mm").parse(getopenToday(2).substringAfter("-")))
+                        } catch (e: Exception) {}*/
+
+						when {
+							close1 - 60 > currentTime && currentTime > open1 -> {
+								markerData.put("marker", R.drawable.ic_greendot)
+							}
+							currentTime in (open1 + 1) until close1 -> {
+								markerData.put("marker", R.drawable.ic_orangedot)
+							}
+							else -> {
+								//todo: Time 2
+								markerData.put("marker", R.drawable.ic_reddot)
+							}
+						}
+					}
+				} catch (e: Exception) {
+					markerData.put("marker", R.drawable.ic_reddot)
+				}
+
 
 				coordinates.add(markerData)
 			}

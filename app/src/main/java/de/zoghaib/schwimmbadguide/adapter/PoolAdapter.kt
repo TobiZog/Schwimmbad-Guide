@@ -98,8 +98,6 @@ class PoolAdapter(
 			if(getopenToday(1).isEmpty()) {
 				holder.binding.imgOpen.setImageResource(R.drawable.ic_circle_black)
 			} else {
-				val dateFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
-
 				val currentTime = Time(System.currentTimeMillis()).hours * 60 + Time(System.currentTimeMillis()).minutes
 				val open1 = getopenToday(1).substringBefore(":").toInt() * 60 + getopenToday(1).substringAfter(":").substringBefore("-").toInt()
 				val close1 = getopenToday(1).substringAfter("-").substringBefore(":").toInt() * 60 + getopenToday(1).substringAfterLast(":").toInt()
