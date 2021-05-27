@@ -155,8 +155,19 @@ class DatabaseHandler(context: Context) {
 		// Getting the writer
 		writer = database.writableDatabase
 
-		// Write it to the table
-		writer!!.insert(table, null, contentValues)
+
+		// Decide to add or upgrade
+		if(contentValues.getAsInteger("Id") == -1) {
+			try {
+				contentValues.remove("Id")
+				writer!!.insert(table, null, contentValues)
+			} catch (e : Exception) { }
+		} else {
+			try {
+				writer!!.update(table, contentValues, "Id = ${contentValues.getAsString("Id")}", null)
+			} catch (e : Exception) { }
+		}
+
 
 		// Close the connection
 		writer?.close()

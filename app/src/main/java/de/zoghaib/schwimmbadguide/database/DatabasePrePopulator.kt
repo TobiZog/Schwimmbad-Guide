@@ -2,8 +2,10 @@ package de.zoghaib.schwimmbadguide.database
 
 import android.content.ContentValues
 import android.content.Context
+import android.util.Log
 import androidx.core.content.contentValuesOf
-import de.zoghaib.schwimmbadguide.R
+import java.io.BufferedReader
+import java.io.InputStreamReader
 
 /**
  * Pre populate the database with constant informations about the pools
@@ -20,35 +22,45 @@ class DatabasePrePopulator(private val context : Context) {
 
 
     /**
-     * Load all datasets from the string resources and write it to the database, if they don't exist yet
+     * Load all datasets from csv and write/update it to the database
      */
     fun initDatabase() {
-        val stringResources = arrayListOf(
-            context.resources.getStringArray(R.array.anderter_bad),
-            context.resources.getStringArray(R.array.aquaLaatzium),
-            context.resources.getStringArray(R.array.balneon),
-            context.resources.getStringArray(R.array.buentebad_hemmingen),
-            context.resources.getStringArray(R.array.deisterbad_barsinghausen)
-        )
 
-        for(i in stringResources) {
-            val dataset = ContentValues()
+        val isr = InputStreamReader(context.assets.open("POOLS.csv"))
+        BufferedReader(isr).use { bufferedReader ->
+            // Name of each col
+            lateinit var titles : List<String>
 
-            dataset.put("NAME", i[0])
-            dataset.put("CATEGORY", i[1])
-            dataset.put("SUBTEXT", i[2])
-            dataset.put("DESCRIPTION", i[3])
-            dataset.put("POOLS", i[4])
-            dataset.put("RESTAURANT", i[5])
-            dataset.put("EQUIPMENT", i[6])
-            dataset.put("PHONENUMBER", i[7])
-            dataset.put("EMAIL", i[8])
-            dataset.put("IMAGEURL", i[9])
-            dataset.put("LATITUDE", i[10])
-            dataset.put("LONGITUDE", i[11])
+            for(line in bufferedReader.readLines()) {
+                // Split the line in values
+                val commaSplitted = line.split(";")
 
-            if(dbHandler.readDatasetToContentValues("POOLS", contentValuesOf(Pair("NAME", i[0]))) == null) {
-                dbHandler.writeDatasetFromContentValues("POOLS", dataset)
+                // Create or edit dataset, if this is not the header line
+                if(commaSplitted[0].startsWith("Id")) {
+                    titles = line.split(";")
+                } else {
+                    Log.d("AAA", commaSplitted.toString())
+                    val oldDataset = dbHandler.readDatasetToContentValues("POOLS", contentValuesOf(Pair("NAME", commaSplitted[1])))
+
+                    // Update, if there is already a dataset, else, create a new one
+                    lateinit var newDataset : ContentValues
+
+                    if(oldDataset == null) {
+                        newDataset = ContentValues()
+                        newDataset.put("Id", -1)
+                    } else {
+                        newDataset = oldDataset
+                    }
+
+                    // Create the dataset
+                    for(i in 1 until commaSplitted.size - 1) {
+                        newDataset.put(titles[i], commaSplitted[i])
+                    }
+
+                    Log.d("AAA", newDataset.toString())
+
+                    dbHandler.writeDatasetFromContentValues("POOLS", newDataset)
+                }
             }
         }
     }

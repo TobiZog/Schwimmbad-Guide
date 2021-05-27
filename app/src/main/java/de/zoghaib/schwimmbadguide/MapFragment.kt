@@ -86,7 +86,6 @@ class MapFragment : Fragment(R.layout.fragment_map), OnMapReadyCallback {
 			MapStyleOptions.loadRawResourceStyle(context!!, R.raw.map_style)
 		)
 
-		// todo: This section is only for test marker - remove it!
 		val markerArray = ArrayList<MarkerOptions>()
 		val datasets = dbHandler.readTableToArrayList("POOLS")
 		val coordinates = ArrayList<ContentValues>()
