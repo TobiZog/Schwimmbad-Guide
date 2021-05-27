@@ -53,7 +53,7 @@ class DatabasePrePopulator(private val context : Context) {
 
                     // Create the dataset
                     for(i in 1 until commaSplitted.size - 1) {
-                        newDataset.put(titles[i], commaSplitted[i])
+                        newDataset.put(titles[i], if(commaSplitted[i].isEmpty()) { " " } else { commaSplitted[i] })
                     }
 
                     dbHandler.writeDatasetFromContentValues("POOLS", newDataset)

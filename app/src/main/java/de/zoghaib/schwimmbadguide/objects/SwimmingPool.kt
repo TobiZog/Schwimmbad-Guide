@@ -1,0 +1,192 @@
+package de.zoghaib.schwimmbadguide.objects
+
+import android.content.ContentValues
+import android.content.Context
+import android.location.Location
+import androidx.core.content.contentValuesOf
+import androidx.core.util.Pools
+import de.zoghaib.schwimmbadguide.R
+import de.zoghaib.schwimmbadguide.data.OpenEnum
+import de.zoghaib.schwimmbadguide.data.PoolCategory
+import de.zoghaib.schwimmbadguide.data.PoolInformations
+import de.zoghaib.schwimmbadguide.database.DatabaseHandler
+import java.io.Serializable
+import java.sql.Time
+import java.util.*
+
+/**
+ * The swimming pool object
+ * Every pool is a own object
+ * Offers properties from database
+ *
+ * @author  Tobias Zoghaib
+ * @since   2021-05-27
+ */
+class SwimmingPool(
+    /** Application context */
+    val context : Context,
+
+    /** Id in the POOLS table in the SQ-Lite database */
+    dbId : Int) : Serializable {
+
+    /* -------------------- Member Variables -------------------- */
+
+    /** Contains all informations about this pool like name, opening times, etc. */
+    var poolInformations : PoolInformations
+
+    /** Database handler object */
+    var dbHandler = DatabaseHandler(context)
+
+
+
+    /* -------------------- Lifecycle -------------------- */
+
+    /**
+     * todo
+     */
+    init {
+        val dataset = dbHandler.readDatasetToContentValues("POOLS", contentValuesOf(Pair("Id", dbId)))!!
+
+        poolInformations = PoolInformations(
+            name = dataset.getAsString("NAME"),
+            category =
+            when(dataset.getAsInteger("CATEGORY")) {
+                1 -> PoolCategory.INDOOR
+                2 -> PoolCategory.OUTDOOR
+                3 -> PoolCategory.OUTANDINDOOR
+                else -> PoolCategory.SPA
+            },
+            latitude = dataset.getAsDouble("LATITUDE"),
+            longitude = dataset.getAsDouble("LONGITUDE"),
+            imageUrl = dataset.getAsString("IMAGEURL"),
+            subtext = dataset.getAsString("SUBTEXT"),
+            description = dataset.getAsString("DESCRIPTION"),
+            pools = dataset.getAsString("POOLS"),
+            restaurant = dataset.getAsString("RESTAURANT"),
+            sauna = dataset.getAsString("SAUNA"),
+            other = dataset.getAsString("OTHER"),
+            phoneNumber = dataset.getAsString("PHONENUMBER"),
+            email = dataset.getAsString("EMAIL"),
+            address = dataset.getAsString("ADDRESS"),
+            mo1 = dataset.getAsString("MO1"),
+            mo2 = dataset.getAsString("MO2"),
+            di1 = dataset.getAsString("DI1"),
+            di2 = dataset.getAsString("DI2"),
+            mi1 = dataset.getAsString("MI1"),
+            mi2 = dataset.getAsString("MI2"),
+            do1 = dataset.getAsString("DO1"),
+            do2 = dataset.getAsString("DO2"),
+            fr1 = dataset.getAsString("FR1"),
+            fr2 = dataset.getAsString("FR2"),
+            sa1 = dataset.getAsString("SA1"),
+            sa2 = dataset.getAsString("SA2"),
+            so1 = dataset.getAsString("SO1"),
+            so2 = dataset.getAsString("SO2"),
+            prices = ""
+            )
+    }
+
+
+    /* -------------------- Public methods -------------------- */
+
+    /**
+     * Offers the timetable of today
+     *
+     * @param   nr      1 = First open slot, 2 = Second open slot
+     *
+     * @return  String with the opening time in the form of HH:MM-HH:MM
+     */
+    fun getOpenTimesToday(nr : Int) : String {
+        val calendar = Calendar.getInstance()
+
+        return when(calendar.get(Calendar.DAY_OF_WEEK)) {
+            Calendar.MONDAY -> { if(nr == 1) { poolInformations.mo1 } else { poolInformations.mo2 } }
+            Calendar.TUESDAY -> { if(nr == 1) { poolInformations.di1 } else { poolInformations.di2 } }
+            Calendar.WEDNESDAY -> { if(nr == 1) { poolInformations.mi1 } else { poolInformations.mi2 } }
+            Calendar.THURSDAY -> { if(nr == 1) { poolInformations.do1 } else { poolInformations.do2 } }
+            Calendar.FRIDAY -> { if(nr == 1) { poolInformations.fr1 } else { poolInformations.fr2 } }
+            Calendar.SATURDAY -> { if(nr == 1) { poolInformations.sa1 } else { poolInformations.sa2 } }
+            Calendar.SUNDAY -> { if(nr == 1) { poolInformations.so1 } else { poolInformations.so2 } }
+            else -> ""
+        }
+    }
+
+
+    /**
+     * Method to get the current open state of the pool
+     *
+     * @return  OpenEnum with the state
+     */
+    fun getopenState() : OpenEnum {
+        try {
+            // If there are no data about the opening time
+            if(getOpenTimesToday(1).isEmpty()) {
+                return OpenEnum.CLOSED
+            } else {
+                // Getting the times in minutes
+                val currentTime = Time(System.currentTimeMillis()).hours * 60 + Time(System.currentTimeMillis()).minutes
+                val open1 = getOpenTimesToday(1).substringBefore(":").toInt() * 60 +
+                        getOpenTimesToday(1).substringAfter(":").substringBefore("-").toInt()
+                val close1 = getOpenTimesToday(1).substringAfter("-").substringBefore(":").toInt() * 60 +
+                        getOpenTimesToday(1).substringAfterLast(":").toInt()
+
+                // Calculate the Opening state
+                when {
+                    close1 - 60 > currentTime && currentTime > open1 -> {
+                        return OpenEnum.OPEN
+                    }
+                    currentTime in (open1 + 1) until close1 -> {
+                        return OpenEnum.WILLBECLOSING
+                    }
+                    else -> {
+                        try {
+                            val open2 = getOpenTimesToday(2).substringBefore(":").toInt() * 60 +
+                                    getOpenTimesToday(2).substringAfter(":").substringBefore("-").toInt()
+                            val close2 = getOpenTimesToday(2).substringAfter("-").substringBefore(":").toInt() * 60 +
+                                    getOpenTimesToday(2).substringAfterLast(":").toInt()
+
+                            return when {
+                                close2 - 60 > currentTime && currentTime > open2 -> {
+                                    OpenEnum.OPEN
+                                }
+                                currentTime in (open2 + 1) until close2 -> {
+                                    OpenEnum.WILLBECLOSING
+                                }
+                                else -> OpenEnum.CLOSED
+                            }
+                        } catch (e: Exception) {
+                            return OpenEnum.CLOSED
+                        }
+                    }
+                }
+            }
+        } catch (e: Exception) {
+            return OpenEnum.OUTOFSAISON
+        }
+    }
+
+
+    /**
+     * Calculate the distance between a location and the location of the pool
+     *
+     * @param   currentLatitude     Latitude of the user
+     * @param   currentLongitude    Longitude of the user
+     *
+     * @return  Distance in km
+     */
+    fun getDistance(currentLatitude : Double, currentLongitude : Double) : Int {
+        return try {
+            val currentLocation = Location("Point A")
+            currentLocation.latitude = currentLatitude
+            currentLocation.longitude = currentLongitude
+
+            val poolLocation = Location("Point B")
+            poolLocation.latitude = poolInformations.latitude
+            poolLocation.longitude = poolInformations.longitude
+
+            (currentLocation.distanceTo(poolLocation) / 1000).toInt()
+        } catch (e: Exception) {
+            -1
+        }
+    }
+}

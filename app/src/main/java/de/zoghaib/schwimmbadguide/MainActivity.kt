@@ -2,8 +2,10 @@ package de.zoghaib.schwimmbadguide
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import de.zoghaib.schwimmbadguide.database.DatabaseHandler
 import de.zoghaib.schwimmbadguide.database.DatabasePrePopulator
 import de.zoghaib.schwimmbadguide.databinding.ActivityMainBinding
+import de.zoghaib.schwimmbadguide.objects.SwimmingPool
 
 /**
  * First activity on app start
@@ -17,6 +19,12 @@ class MainActivity : AppCompatActivity() {
 
     /** View binding object to access items in the view */
     private lateinit var binding : ActivityMainBinding
+
+    /** Database handler object */
+    private lateinit var dbHandler : DatabaseHandler
+
+    /** Array list with all pools */
+    private val pools = ArrayList<SwimmingPool>()
 
 
     /* -------------------- Lifecycle -------------------- */
@@ -33,8 +41,26 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+
+        // Pre populate the database with the CSV datas
         val databasePrePopulator = DatabasePrePopulator(this)
         databasePrePopulator.initDatabase()
+
+
+        // Initialize the database handler
+        dbHandler = DatabaseHandler(this)
+
+
+        // Load the pools
+        val rawDatasets = dbHandler.readTableToArrayList("POOLS")
+
+        if (rawDatasets != null) {
+            for(pool in rawDatasets) {
+                pools.add(
+                    SwimmingPool(this, pool.getAsInteger("Id"))
+                )
+            }
+        }
 
 
         // BottomNavigationView
@@ -45,11 +71,11 @@ class MainActivity : AppCompatActivity() {
 
             when(item.itemId) {
                 R.id.menu_item_map -> {
-                    ft.replace(R.id.fgmt_main, MapFragment())
+                    ft.replace(R.id.fgmt_main, MapFragment(pools))
                 }
 
                 R.id.menu_item_list -> {
-                    ft.replace(R.id.fgmt_main, ListFragment())
+                    ft.replace(R.id.fgmt_main, ListFragment(pools))
                 }
             }
 
