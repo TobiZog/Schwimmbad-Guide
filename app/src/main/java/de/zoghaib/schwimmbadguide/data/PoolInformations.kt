@@ -32,5 +32,7 @@ data class PoolInformations (
     val sa2 : String?,
     val so1 : String?,
     val so2 : String?,
-    val prices : String?
+    val prices : String?,
+    val currentLatitude : Double?,
+    val currentLongitude : Double?
 )

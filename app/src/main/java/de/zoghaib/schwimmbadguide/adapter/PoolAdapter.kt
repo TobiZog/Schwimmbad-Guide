@@ -1,6 +1,7 @@
 package de.zoghaib.schwimmbadguide.adapter
 
 import android.annotation.SuppressLint
+import android.location.Location
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -125,6 +126,23 @@ class PoolAdapter(
 				}
 			}
 		} catch (e: Exception) {}
+
+
+		// Calculate the distance
+		try {
+			val currentLocation = Location("Point A")
+			currentLocation.latitude = data.currentLatitude!!
+			currentLocation.longitude = data.currentLongitude!!
+
+			val poolLocation = Location("Point B")
+			poolLocation.latitude = data.latitude
+			poolLocation.longitude = data.longitude
+
+			val distance = (currentLocation.distanceTo(poolLocation) / 1000).toInt()
+			holder.binding.txtDistance.text = "$distance km"
+		} catch (e: Exception) {}
+
+
 
 
 

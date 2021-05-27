@@ -1,7 +1,9 @@
 package de.zoghaib.schwimmbadguide
 
 import android.animation.ObjectAnimator
+import android.annotation.SuppressLint
 import android.content.Intent
+import android.location.LocationManager
 import android.os.Bundle
 import android.view.View
 import androidx.core.content.contentValuesOf
@@ -111,11 +113,15 @@ class ListFragment : Fragment(R.layout.fragment_list) {
 	/**
 	 * Method to load all datasets from the database to the RecyclerView
 	 */
+	@SuppressLint("MissingPermission")
 	private fun updateRecyclerView() {
 		// Clear the RecyclerView
 		recyclerViewEntries.clear()
 
 		val datasets = dbHandler.readTableToArrayList("POOLS")
+
+		val m = context!!.getSystemService(LocationManager::class.java)
+		val loc = m.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER)
 
 		if (datasets != null) {
 			for(pool in datasets) {
@@ -155,7 +161,9 @@ class ListFragment : Fragment(R.layout.fragment_list) {
 						sa2 = pool.getAsString("SA2"),
 						so1 = pool.getAsString("SO1"),
 						so2 = pool.getAsString("SO2"),
-						prices = ""
+						prices = "",
+						currentLatitude = loc?.latitude,
+						currentLongitude = loc?.longitude
 					)
 				)
 			}
