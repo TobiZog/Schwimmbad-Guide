@@ -6,5 +6,7 @@
     <string name="pools">Becken</string>
     <string name="restaurant">Verpflegung</string>
     <string name="contact">Kontakt</string>
-	<string name="img_transition">countryImage</string>
+	<string name="img_transition">poolImage</string>
+    <string name="name_transition">poolName</string>
+    <string name="subtext_transition">poolSubtext</string>
 </resources>

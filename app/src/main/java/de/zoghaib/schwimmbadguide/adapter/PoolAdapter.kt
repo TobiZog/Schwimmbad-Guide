@@ -5,6 +5,7 @@ import android.app.Activity
 import android.app.ActivityOptions
 import android.content.Context
 import android.content.Intent
+import android.util.Pair as UtilPair
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -24,6 +25,7 @@ import de.zoghaib.schwimmbadguide.R
 import de.zoghaib.schwimmbadguide.data.OpenEnum
 import de.zoghaib.schwimmbadguide.databinding.ItemPoolBinding
 import de.zoghaib.schwimmbadguide.objects.SwimmingPool
+import okhttp3.internal.Util
 import java.util.*
 
 /**
@@ -129,12 +131,14 @@ class PoolAdapter(
 			intent.putExtra("open1", data.getOpenTimesToday(1))
 			intent.putExtra("open2", data.getOpenTimesToday(2))
 			intent.putExtra("prices", data.poolInformations.prices)
+			intent.putExtra("category", data.poolInformations.category.toString())
 
 
 			val options = ActivityOptions.makeSceneTransitionAnimation(
 				context as Activity,
-				holder.binding.imgPool as ImageView,
-				holder.binding.imgPool.transitionName)
+				UtilPair.create(holder.binding.imgPool, holder.binding.imgPool.transitionName),
+				UtilPair.create(holder.binding.txtTitle, holder.binding.txtTitle.transitionName),
+				UtilPair.create(holder.binding.txtSubtext, holder.binding.txtSubtext.transitionName))
 
 			// todo: Implement transitions!
 
