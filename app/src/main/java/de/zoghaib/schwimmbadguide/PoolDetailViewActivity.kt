@@ -2,6 +2,8 @@ package de.zoghaib.schwimmbadguide
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import de.zoghaib.schwimmbadguide.databinding.ActivityPoolDetailViewBinding
 import de.zoghaib.schwimmbadguide.objects.SwimmingPool
@@ -44,8 +46,18 @@ class PoolDetailViewActivity : AppCompatActivity() {
 		binding.txtPhonenumber.text = intent.getStringExtra("phoneNumber")
 		binding.txtMail.text = intent.getStringExtra("email")
 
+		//binding.imageView.transitionName = intent.extras!!.getString(RecyclerView.)
+
 		//binding.txtDistance.text = intent.getStringExtra("distance")
 		//binding.txtOpenText.text = intent.getStringExtra("opentext")
-		try{ Picasso.get().load(intent.getStringExtra("imageUrl")).into(binding.imageView) } catch (e: Exception) {}
+		try{ Picasso.get().load(intent.getStringExtra("imageUrl")).into(binding.imgPool) } catch (e: Exception) {}
+	}
+
+
+	/**
+	 * todo
+	 */
+	override fun onBackPressed() {
+		ActivityCompat.finishAfterTransition(this)
 	}
 }

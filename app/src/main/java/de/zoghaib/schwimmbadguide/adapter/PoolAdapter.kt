@@ -1,22 +1,30 @@
 package de.zoghaib.schwimmbadguide.adapter
 
 import android.annotation.SuppressLint
-import android.location.Location
+import android.app.Activity
+import android.app.ActivityOptions
+import android.content.Context
+import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.core.content.ContextCompat.startActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.get
+import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
+import de.zoghaib.schwimmbadguide.PoolDetailViewActivity
 import de.zoghaib.schwimmbadguide.R
 import de.zoghaib.schwimmbadguide.data.OpenEnum
-import de.zoghaib.schwimmbadguide.data.PoolInformations
 import de.zoghaib.schwimmbadguide.databinding.ItemPoolBinding
 import de.zoghaib.schwimmbadguide.objects.SwimmingPool
-import java.sql.Time
-import java.text.DateFormat
-import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 
 /**
  * Adapter class for the RecyclerViews which shows a cardview for every pool
@@ -30,13 +38,13 @@ class PoolAdapter(
 	private val dataSet: ArrayList<SwimmingPool>,
 
 	/** todo */
+	private val context : Context,
+
+	/** todo */
 	private val currentLatitude : Double,
 
 	/** todo */
-	private val currentLongitude : Double,
-
-	/** todo */
-	private val clickListener: (SwimmingPool) -> Unit
+	private val currentLongitude : Double
 ) : RecyclerView.Adapter<PoolAdapter.MyViewHolder>() {
 
 	/* -------------------- Member Variables -------------------- */
@@ -107,7 +115,33 @@ class PoolAdapter(
 
 
 		// OnClickListener for the item
-		holder.binding.cvItem.setOnClickListener { clickListener(data) }
+		holder.binding.cvItem.setOnClickListener {
+			val intent = Intent(context, PoolDetailViewActivity::class.java)
+			intent.putExtra("name", data.poolInformations.name)
+			intent.putExtra("imageUrl", data.poolInformations.imageUrl)
+			intent.putExtra("subtext", data.poolInformations.subtext)
+			intent.putExtra("description", data.poolInformations.description)
+			intent.putExtra("pools", data.poolInformations.pools)
+			intent.putExtra("restaurant", data.poolInformations.restaurant)
+			intent.putExtra("phoneNumber", data.poolInformations.phoneNumber)
+			intent.putExtra("email", data.poolInformations.email)
+			intent.putExtra("address", data.poolInformations.address)
+			intent.putExtra("open1", data.getOpenTimesToday(1))
+			intent.putExtra("open2", data.getOpenTimesToday(2))
+			intent.putExtra("prices", data.poolInformations.prices)
+
+
+			val options = ActivityOptions.makeSceneTransitionAnimation(
+				context as Activity,
+				holder.binding.imgPool as ImageView,
+				holder.binding.imgPool.transitionName)
+
+			// todo: Implement transitions!
+
+			ActivityCompat.startActivity(context, intent, options.toBundle())
+		}
+
+			//clickListener(data, holder.binding.imgPool) }
 
 		// OnClickListener for the heart icon todo
 		/*holder.binding.imgHeart.setOnClickListener {
@@ -120,6 +154,8 @@ class PoolAdapter(
 			}
 		}*/
 	}
+
+
 
 
 	/**
