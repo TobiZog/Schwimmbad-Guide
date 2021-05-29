@@ -4,6 +4,7 @@ package de.zoghaib.schwimmbadguide.data
  * Data class for all informations about one swimming pool
  */
 data class PoolInformations (
+    val dbId : Int,
     val name : String,
     val category : PoolCategory,
     val latitude : Double,
@@ -32,5 +33,6 @@ data class PoolInformations (
     val sa2 : String,
     val so1 : String,
     val so2 : String,
-    val prices : String
+    val prices : String,
+    var distance : Int
 )

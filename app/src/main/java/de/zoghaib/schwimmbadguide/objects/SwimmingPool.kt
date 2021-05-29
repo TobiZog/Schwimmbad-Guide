@@ -3,6 +3,9 @@ package de.zoghaib.schwimmbadguide.objects
 import android.content.ContentValues
 import android.content.Context
 import android.location.Location
+import android.os.Parcel
+import android.os.Parcelable
+import android.util.Log
 import androidx.core.content.contentValuesOf
 import androidx.core.util.Pools
 import de.zoghaib.schwimmbadguide.R
@@ -27,7 +30,7 @@ class SwimmingPool(
     val context : Context,
 
     /** Id in the POOLS table in the SQ-Lite database */
-    dbId : Int) : Serializable {
+    dbId : Int) {
 
     /* -------------------- Member Variables -------------------- */
 
@@ -48,6 +51,7 @@ class SwimmingPool(
         val dataset = dbHandler.readDatasetToContentValues("POOLS", contentValuesOf(Pair("Id", dbId)))!!
 
         poolInformations = PoolInformations(
+            dbId = dataset.getAsInteger("Id"),
             name = dataset.getAsString("NAME"),
             category =
             when(dataset.getAsInteger("CATEGORY")) {
@@ -82,7 +86,8 @@ class SwimmingPool(
             sa2 = dataset.getAsString("SA2"),
             so1 = dataset.getAsString("SO1"),
             so2 = dataset.getAsString("SO2"),
-            prices = ""
+            prices = "",
+            distance = -1
             )
     }
 
@@ -174,8 +179,8 @@ class SwimmingPool(
      *
      * @return  Distance in km
      */
-    fun getDistance(currentLatitude : Double, currentLongitude : Double) : Int {
-        return try {
+    fun calculateDistance(currentLatitude : Double, currentLongitude : Double) {
+        try {
             val currentLocation = Location("Point A")
             currentLocation.latitude = currentLatitude
             currentLocation.longitude = currentLongitude
@@ -184,9 +189,10 @@ class SwimmingPool(
             poolLocation.latitude = poolInformations.latitude
             poolLocation.longitude = poolInformations.longitude
 
-            (currentLocation.distanceTo(poolLocation) / 1000).toInt()
+
+            poolInformations.distance = (currentLocation.distanceTo(poolLocation) / 1000).toInt()
         } catch (e: Exception) {
-            -1
+            poolInformations.distance = -1
         }
     }
 }

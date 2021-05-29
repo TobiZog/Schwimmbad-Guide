@@ -68,7 +68,7 @@ class ListFragment(
 			layoutManager = LinearLayoutManager(activity)
 
 			// Set the custom adapter to the RecyclerView
-			adapter = PoolAdapter(recyclerViewEntries, requireActivity(), 52.0, 9.5)
+			adapter = PoolAdapter(recyclerViewEntries, requireActivity())
 		}
 
 		updateRecyclerView()
@@ -100,6 +100,7 @@ class ListFragment(
 		val loc = m.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER)
 
 		for(pool in pools) {
+			pool.calculateDistance(loc!!.latitude, loc.longitude)
 			recyclerViewEntries.add(pool)
 		}
 

@@ -24,6 +24,9 @@ class PoolDetailViewActivity : AppCompatActivity() {
 	/** View binding object to access items in the view */
 	private lateinit var binding : ActivityPoolDetailViewBinding
 
+	/** todo */
+	private lateinit var swimmingPool: SwimmingPool
+
 
 	/* -------------------- Lifecycle -------------------- */
 
@@ -39,32 +42,31 @@ class PoolDetailViewActivity : AppCompatActivity() {
 		binding = ActivityPoolDetailViewBinding.inflate(layoutInflater)
 		setContentView(binding.root)
 
-		//val pool = intent.getSerializableExtra("swimmingPool") as SwimmingPool
 
-		binding.txtTitle.text = intent.getStringExtra("name")
-		binding.txtSubtext.text = intent.getStringExtra("subtext")
-		binding.txtDescription.text = intent.getStringExtra("description")
+		// Creating a swimming pool object
+		swimmingPool = SwimmingPool(this, intent.getIntExtra("dbId", -1))
 
-		var poolsText = intent.getStringExtra("pools")
-		poolsText = poolsText!!.replace(" * ", "\n\n")
+
+		// Filling the textViews
+		binding.txtTitle.text = swimmingPool.poolInformations.name
+		binding.txtSubtext.text = swimmingPool.poolInformations.subtext
+		binding.txtDescription.text = swimmingPool.poolInformations.description
+
+		var poolsText = swimmingPool.poolInformations.pools
+		poolsText = poolsText.replace(" * ", "\n\n")
 		poolsText = poolsText.replace("* ","")
-
 		binding.txtPools.text = poolsText
-		binding.txtFood.text = intent.getStringExtra("restaurant")
-		binding.txtPhonenumber.text = intent.getStringExtra("phoneNumber")
-		binding.txtMail.text = intent.getStringExtra("email")
 
-		//binding.imageView.transitionName = intent.extras!!.getString(RecyclerView.)
+		binding.txtFood.text = swimmingPool.poolInformations.restaurant
+		binding.txtPhonenumber.text = swimmingPool.poolInformations.phoneNumber
+		binding.txtMail.text = swimmingPool.poolInformations.email
 
-		//binding.txtDistance.text = intent.getStringExtra("distance")
-		//binding.txtOpenText.text = intent.getStringExtra("opentext")
-		try{ Picasso.get().load(intent.getStringExtra("imageUrl")).into(binding.imgPool) } catch (e: Exception) {}
-
-
-		val imgPoolOriginalHeight = 300 * displayMetrics.density
+		try{ Picasso.get().load(swimmingPool.poolInformations.imageUrl).into(binding.imgPool) } catch (e: Exception) {}
 
 
 		// Resize the image in the header with the scrolling
+		val imgPoolOriginalHeight = 300 * displayMetrics.density
+
 		binding.svPoolDetails.viewTreeObserver.addOnScrollChangedListener {
 			val txtTitleLocation = IntArray(2)
 			binding.txtTitle.getLocationOnScreen(txtTitleLocation)

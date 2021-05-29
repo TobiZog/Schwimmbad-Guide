@@ -6,18 +6,9 @@ import android.app.ActivityOptions
 import android.content.Context
 import android.content.Intent
 import android.util.Pair as UtilPair
-import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import androidx.core.content.ContentProviderCompat.requireContext
-import androidx.core.content.ContextCompat.startActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.get
-import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import de.zoghaib.schwimmbadguide.PoolDetailViewActivity
@@ -25,7 +16,6 @@ import de.zoghaib.schwimmbadguide.R
 import de.zoghaib.schwimmbadguide.data.OpenEnum
 import de.zoghaib.schwimmbadguide.databinding.ItemPoolBinding
 import de.zoghaib.schwimmbadguide.objects.SwimmingPool
-import okhttp3.internal.Util
 import java.util.*
 
 /**
@@ -40,13 +30,7 @@ class PoolAdapter(
 	private val dataSet: ArrayList<SwimmingPool>,
 
 	/** todo */
-	private val context : Context,
-
-	/** todo */
-	private val currentLatitude : Double,
-
-	/** todo */
-	private val currentLongitude : Double
+	private val context : Context
 ) : RecyclerView.Adapter<PoolAdapter.MyViewHolder>() {
 
 	/* -------------------- Member Variables -------------------- */
@@ -113,25 +97,13 @@ class PoolAdapter(
 
 
 		// Distance
-		holder.binding.txtDistance.text = "${data.getDistance(currentLatitude, currentLongitude)} km"
+		holder.binding.txtDistance.text = "${data.poolInformations.distance} km"
 
 
 		// OnClickListener for the item
 		holder.binding.cvItem.setOnClickListener {
 			val intent = Intent(context, PoolDetailViewActivity::class.java)
-			intent.putExtra("name", data.poolInformations.name)
-			intent.putExtra("imageUrl", data.poolInformations.imageUrl)
-			intent.putExtra("subtext", data.poolInformations.subtext)
-			intent.putExtra("description", data.poolInformations.description)
-			intent.putExtra("pools", data.poolInformations.pools)
-			intent.putExtra("restaurant", data.poolInformations.restaurant)
-			intent.putExtra("phoneNumber", data.poolInformations.phoneNumber)
-			intent.putExtra("email", data.poolInformations.email)
-			intent.putExtra("address", data.poolInformations.address)
-			intent.putExtra("open1", data.getOpenTimesToday(1))
-			intent.putExtra("open2", data.getOpenTimesToday(2))
-			intent.putExtra("prices", data.poolInformations.prices)
-			intent.putExtra("category", data.poolInformations.category.toString())
+			intent.putExtra("dbId", data.poolInformations.dbId)
 
 
 			val options = ActivityOptions.makeSceneTransitionAnimation(
@@ -144,8 +116,6 @@ class PoolAdapter(
 
 			ActivityCompat.startActivity(context, intent, options.toBundle())
 		}
-
-			//clickListener(data, holder.binding.imgPool) }
 
 		// OnClickListener for the heart icon todo
 		/*holder.binding.imgHeart.setOnClickListener {

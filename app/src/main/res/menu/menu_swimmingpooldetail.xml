@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:android="http://schemas.android.com/apk/res/android">
+
+	<item
+		android:id="@+id/btn_menu_heart"
+		android:icon="@drawable/ic_heart_outline_white"
+		android:title="Favorit"
+		android:visible="true"
+		app:showAsAction="always" />
+</menu>
