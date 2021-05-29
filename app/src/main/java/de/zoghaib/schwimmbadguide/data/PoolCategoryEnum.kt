@@ -1,8 +1,9 @@
 package de.zoghaib.schwimmbadguide.data
 
-enum class PoolCategory {
+enum class PoolCategoryEnum {
     OUTDOOR,
     INDOOR,
     OUTANDINDOOR,
-    SPA
+    SPA,
+    LAKE
 }

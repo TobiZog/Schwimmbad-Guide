@@ -1,19 +1,12 @@
 package de.zoghaib.schwimmbadguide.objects
 
-import android.content.ContentValues
 import android.content.Context
 import android.location.Location
-import android.os.Parcel
-import android.os.Parcelable
-import android.util.Log
 import androidx.core.content.contentValuesOf
-import androidx.core.util.Pools
-import de.zoghaib.schwimmbadguide.R
 import de.zoghaib.schwimmbadguide.data.OpenEnum
-import de.zoghaib.schwimmbadguide.data.PoolCategory
+import de.zoghaib.schwimmbadguide.data.PoolCategoryEnum
 import de.zoghaib.schwimmbadguide.data.PoolInformations
 import de.zoghaib.schwimmbadguide.database.DatabaseHandler
-import java.io.Serializable
 import java.sql.Time
 import java.util.*
 
@@ -53,12 +46,13 @@ class SwimmingPool(
         poolInformations = PoolInformations(
             dbId = dataset.getAsInteger("Id"),
             name = dataset.getAsString("NAME"),
-            category =
+            categoryEnum =
             when(dataset.getAsInteger("CATEGORY")) {
-                1 -> PoolCategory.INDOOR
-                2 -> PoolCategory.OUTDOOR
-                3 -> PoolCategory.OUTANDINDOOR
-                else -> PoolCategory.SPA
+                1 -> PoolCategoryEnum.INDOOR
+                2 -> PoolCategoryEnum.OUTDOOR
+                3 -> PoolCategoryEnum.OUTANDINDOOR
+                4 -> PoolCategoryEnum.SPA
+                else -> PoolCategoryEnum.LAKE
             },
             latitude = dataset.getAsDouble("LATITUDE"),
             longitude = dataset.getAsDouble("LONGITUDE"),
@@ -123,50 +117,54 @@ class SwimmingPool(
      * @return  OpenEnum with the state
      */
     fun getopenState() : OpenEnum {
-        try {
-            // If there are no data about the opening time
-            if(getOpenTimesToday(1).isEmpty()) {
-                return OpenEnum.CLOSED
-            } else {
-                // Getting the times in minutes
-                val currentTime = Time(System.currentTimeMillis()).hours * 60 + Time(System.currentTimeMillis()).minutes
-                val open1 = getOpenTimesToday(1).substringBefore(":").toInt() * 60 +
-                        getOpenTimesToday(1).substringAfter(":").substringBefore("-").toInt()
-                val close1 = getOpenTimesToday(1).substringAfter("-").substringBefore(":").toInt() * 60 +
-                        getOpenTimesToday(1).substringAfterLast(":").toInt()
+        if(poolInformations.categoryEnum == PoolCategoryEnum.LAKE) {
+            return OpenEnum.NOOPENTIMES
+        } else {
+            try {
+                // If there are no data about the opening time
+                if(getOpenTimesToday(1).isEmpty()) {
+                    return OpenEnum.CLOSED
+                } else {
+                    // Getting the times in minutes
+                    val currentTime = Time(System.currentTimeMillis()).hours * 60 + Time(System.currentTimeMillis()).minutes
+                    val open1 = getOpenTimesToday(1).substringBefore(":").toInt() * 60 +
+                            getOpenTimesToday(1).substringAfter(":").substringBefore("-").toInt()
+                    val close1 = getOpenTimesToday(1).substringAfter("-").substringBefore(":").toInt() * 60 +
+                            getOpenTimesToday(1).substringAfterLast(":").toInt()
 
-                // Calculate the Opening state
-                when {
-                    close1 - 60 > currentTime && currentTime > open1 -> {
-                        return OpenEnum.OPEN
-                    }
-                    currentTime in (open1 + 1) until close1 -> {
-                        return OpenEnum.WILLBECLOSING
-                    }
-                    else -> {
-                        try {
-                            val open2 = getOpenTimesToday(2).substringBefore(":").toInt() * 60 +
-                                    getOpenTimesToday(2).substringAfter(":").substringBefore("-").toInt()
-                            val close2 = getOpenTimesToday(2).substringAfter("-").substringBefore(":").toInt() * 60 +
-                                    getOpenTimesToday(2).substringAfterLast(":").toInt()
+                    // Calculate the Opening state
+                    when {
+                        close1 - 60 > currentTime && currentTime > open1 -> {
+                            return OpenEnum.OPEN
+                        }
+                        currentTime in (open1 + 1) until close1 -> {
+                            return OpenEnum.WILLBECLOSING
+                        }
+                        else -> {
+                            try {
+                                val open2 = getOpenTimesToday(2).substringBefore(":").toInt() * 60 +
+                                        getOpenTimesToday(2).substringAfter(":").substringBefore("-").toInt()
+                                val close2 = getOpenTimesToday(2).substringAfter("-").substringBefore(":").toInt() * 60 +
+                                        getOpenTimesToday(2).substringAfterLast(":").toInt()
 
-                            return when {
-                                close2 - 60 > currentTime && currentTime > open2 -> {
-                                    OpenEnum.OPEN
+                                return when {
+                                    close2 - 60 > currentTime && currentTime > open2 -> {
+                                        OpenEnum.OPEN
+                                    }
+                                    currentTime in (open2 + 1) until close2 -> {
+                                        OpenEnum.WILLBECLOSING
+                                    }
+                                    else -> OpenEnum.CLOSED
                                 }
-                                currentTime in (open2 + 1) until close2 -> {
-                                    OpenEnum.WILLBECLOSING
-                                }
-                                else -> OpenEnum.CLOSED
+                            } catch (e: Exception) {
+                                return OpenEnum.CLOSED
                             }
-                        } catch (e: Exception) {
-                            return OpenEnum.CLOSED
                         }
                     }
                 }
+            } catch (e: Exception) {
+                return OpenEnum.OUTOFSAISON
             }
-        } catch (e: Exception) {
-            return OpenEnum.OUTOFSAISON
         }
     }
 

@@ -6,7 +6,7 @@ package de.zoghaib.schwimmbadguide.data
 data class PoolInformations (
     val dbId : Int,
     val name : String,
-    val category : PoolCategory,
+    val categoryEnum : PoolCategoryEnum,
     val latitude : Double,
     val longitude : Double,
     val imageUrl : String,

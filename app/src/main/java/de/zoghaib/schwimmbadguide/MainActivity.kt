@@ -71,7 +71,7 @@ class MainActivity : AppCompatActivity() {
 
             when(item.itemId) {
                 R.id.menu_item_map -> {
-                    ft.replace(R.id.fgmt_main, MapFragment(pools))
+                    ft.replace(R.id.fgmt_main, MapFragment())
                 }
 
                 R.id.menu_item_list -> {

@@ -1,24 +1,15 @@
 package de.zoghaib.schwimmbadguide
 
-import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
-import android.app.ActivityOptions
-import android.content.Intent
 import android.location.LocationManager
 import android.os.Bundle
 import android.view.View
-import android.widget.ImageView
-import androidx.core.content.contentValuesOf
-import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import de.zoghaib.schwimmbadguide.adapter.PoolAdapter
-import de.zoghaib.schwimmbadguide.data.PoolCategory
-import de.zoghaib.schwimmbadguide.data.PoolInformations
 import de.zoghaib.schwimmbadguide.database.DatabaseHandler
 import de.zoghaib.schwimmbadguide.databinding.FragmentListBinding
 import de.zoghaib.schwimmbadguide.objects.SwimmingPool
-import de.zoghaib.schwimmbadguide.parser.RegionHannoverPoolParser
 
 /**
  * Fragment to list the pools as CardViews in a RecyclerView
