@@ -6,6 +6,12 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MapStyleOptions
+import com.google.android.gms.maps.model.MarkerOptions
 import com.squareup.picasso.Picasso
 import de.zoghaib.schwimmbadguide.databinding.ActivityPoolDetailViewBinding
 import de.zoghaib.schwimmbadguide.objects.SwimmingPool
@@ -17,15 +23,18 @@ import org.jetbrains.anko.displayMetrics
  * @author	Tobias Zoghaib
  * @since	2021-05-10
  */
-class PoolDetailViewActivity : AppCompatActivity() {
+class PoolDetailViewActivity : AppCompatActivity(), OnMapReadyCallback {
 
 	/* -------------------- Member Variables -------------------- */
 
 	/** View binding object to access items in the view */
 	private lateinit var binding : ActivityPoolDetailViewBinding
 
-	/** todo */
+	/** The swimming pool object to extract data from */
 	private lateinit var swimmingPool: SwimmingPool
+
+	/** The map object in the view */
+	private lateinit var mMap : GoogleMap
 
 
 	/* -------------------- Lifecycle -------------------- */
@@ -62,6 +71,12 @@ class PoolDetailViewActivity : AppCompatActivity() {
 		binding.txtMail.text = swimmingPool.poolInformations.email
 
 		try{ Picasso.get().load(swimmingPool.poolInformations.imageUrl).into(binding.imgPool) } catch (e: Exception) {}
+
+
+		// Google Maps View
+		binding.mvMap.onCreate(savedInstanceState)
+		binding.mvMap.onResume()
+		binding.mvMap.getMapAsync(this)
 
 
 		// Resize the image in the header with the scrolling
@@ -114,5 +129,30 @@ class PoolDetailViewActivity : AppCompatActivity() {
 	 */
 	override fun onBackPressed() {
 		ActivityCompat.finishAfterTransition(this)
+	}
+
+
+	/**
+	 * Lifecycle method after the map is ready in the view
+	 *
+	 * @param   googleMap       Google Map object to interact with
+	 */
+	override fun onMapReady(googleMap: GoogleMap) {
+		mMap = googleMap
+
+
+		// Specific map style to remove all POIs for a clearer map
+		mMap.setMapStyle(
+			MapStyleOptions.loadRawResourceStyle(this, R.raw.map_style)
+		)
+
+
+		// Add marker
+		mMap.clear()
+		mMap.addMarker(MarkerOptions().position(LatLng(swimmingPool.poolInformations.latitude, swimmingPool.poolInformations.longitude)))
+
+
+		// Move camera to pool
+		mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(swimmingPool.poolInformations.latitude, swimmingPool.poolInformations.longitude), 15f))
 	}
 }

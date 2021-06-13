@@ -177,6 +177,12 @@
                     android:padding="8dp" />
             </LinearLayout>
 
+            <com.google.android.gms.maps.MapView
+                android:id="@+id/mv_map"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:padding="8dp" />
+
         </LinearLayout>
     </ScrollView>
 
