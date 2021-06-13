@@ -3,12 +3,16 @@ package de.zoghaib.schwimmbadguide.fragments
 import android.Manifest
 import android.app.AlertDialog
 import android.content.ContentValues
+import android.content.Context
+import android.content.SharedPreferences
 import android.content.pm.PackageManager.PERMISSION_GRANTED
 import android.location.LocationManager
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
+import androidx.preference.PreferenceManager
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -19,6 +23,7 @@ import de.zoghaib.schwimmbadguide.data.PoolCategoryEnum
 import de.zoghaib.schwimmbadguide.database.DatabaseHandler
 import de.zoghaib.schwimmbadguide.databinding.FragmentMapBinding
 import de.zoghaib.schwimmbadguide.objects.SwimmingPool
+import java.util.*
 import kotlin.collections.ArrayList
 
 /**
@@ -27,7 +32,12 @@ import kotlin.collections.ArrayList
  * @author  Tobias Zoghaib
  * @since   2021-05-01
  */
-class MapFragment : Fragment(R.layout.fragment_map), OnMapReadyCallback {
+class MapFragment(
+
+	/** List of pools, overgiven from MainActivity */
+	val pools : ArrayList<SwimmingPool>
+
+) : Fragment(R.layout.fragment_map), OnMapReadyCallback {
 
 	/* -------------------- Member Variables -------------------- */
 
@@ -40,14 +50,8 @@ class MapFragment : Fragment(R.layout.fragment_map), OnMapReadyCallback {
 	/** Database handler object */
 	private lateinit var dbHandler: DatabaseHandler
 
-	/** Dialog items */
-	private val dialogItems = arrayOf("Hallenbäder", "Freibäder", "Spa", "Badeseen")
-
-	/** Checked items in the filter dialog */
-	private var checkedItems = booleanArrayOf(true, true, true, true)
-
-	/** Array list with all pools */
-	private val pools = ArrayList<SwimmingPool>()
+	/** Shared preference object */
+	private lateinit var sharedPreferences: SharedPreferences
 
 
 	/* -------------------- Lifecycle -------------------- */
@@ -74,20 +78,8 @@ class MapFragment : Fragment(R.layout.fragment_map), OnMapReadyCallback {
 		binding.mvMap.getMapAsync(this)
 
 
-		// Image button to filter the points on the map
-		binding.ibFilter.setOnClickListener {
-			val builder = AlertDialog.Builder(context)
-
-			builder.setTitle("Filtern")
-				.setMultiChoiceItems(dialogItems, checkedItems) { _, which, isChecked ->
-					checkedItems[which] = isChecked
-				}
-				.setPositiveButton("Ok") { _, _ ->
-					addMarkerToMap()
-				}
-				.create()
-				.show()
-		}
+		// Shared preferences
+		sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
 	}
 
 
@@ -112,7 +104,7 @@ class MapFragment : Fragment(R.layout.fragment_map), OnMapReadyCallback {
 
 		// Specific map style to remove all POIs for a clearer map
 		mMap.setMapStyle(
-			MapStyleOptions.loadRawResourceStyle(context!!, R.raw.map_style)
+			MapStyleOptions.loadRawResourceStyle(requireContext(), R.raw.map_style)
 		)
 
 		addMarkerToMap()
@@ -140,7 +132,7 @@ class MapFragment : Fragment(R.layout.fragment_map), OnMapReadyCallback {
 	 */
 	@Throws(SecurityException::class)
 	private fun moveCameraToPosition() {
-		val m = context!!.getSystemService(LocationManager::class.java)
+		val m = requireContext().getSystemService(LocationManager::class.java)
 
 		val loc = m.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER)
 		loc?.run {
@@ -152,60 +144,47 @@ class MapFragment : Fragment(R.layout.fragment_map), OnMapReadyCallback {
 
 
 	/**
-	 * todo
+	 * Method to add the pools from the ArrayList to the MapView
+	 * Adding the pools, if the filter included them
 	 */
 	private fun addMarkerToMap() {
 		mMap.clear()
 
-		// Load the pools
-		if(pools.isEmpty()) {
-			val rawDatasets = dbHandler.readTableToArrayList("POOLS")
-
-			if (rawDatasets != null) {
-				for(pool in rawDatasets) {
-					pools.add(
-						SwimmingPool(requireContext(), pool.getAsInteger("Id"))
-					)
-				}
-			}
-		}
-
 
 		// Add marker
 		val markerArray = ArrayList<MarkerOptions>()
-		val datasets = dbHandler.readTableToArrayList("POOLS")
 		val coordinates = ArrayList<ContentValues>()
 
-		if (datasets != null) {
-			for(pool in pools) {
-				// Check the filter
-				when(pool.poolInformations.categoryEnum) {
-					PoolCategoryEnum.INDOOR -> if (!checkedItems[0]) { continue }
-					PoolCategoryEnum.OUTDOOR -> if(!checkedItems[1]) { continue }
-					PoolCategoryEnum.OUTANDINDOOR -> if(!checkedItems[0] || !checkedItems[1]) { continue }
-					PoolCategoryEnum.SPA -> if(!checkedItems[2]) { continue }
-					PoolCategoryEnum.LAKE -> if(!checkedItems[3]) { continue }
-				}
+		for(pool in pools) {
+			// Check the filter
+			val filter = sharedPreferences.getStringSet("poolTypes", setOf(""))
 
-				// Store all markers
-				val markerData = ContentValues()
-
-				markerData.put("name", pool.poolInformations.name)
-				markerData.put("latitude", pool.poolInformations.latitude)
-				markerData.put("longitude", pool.poolInformations.longitude)
-
-				when(pool.getOpenState()) {
-					OpenEnum.OPEN -> markerData.put("marker", R.drawable.ic_map_marker_green)
-					OpenEnum.WILLBECLOSING -> markerData.put("marker", R.drawable.ic_map_marker_yellow)
-					OpenEnum.CLOSED -> markerData.put("marker", R.drawable.ic_map_marker_red)
-					OpenEnum.OUTOFSAISON -> markerData.put("marker", R.drawable.ic_map_marker_black)
-					OpenEnum.NOOPENTIMES -> markerData.put("marker", R.drawable.ic_map_marker_blue)
-				}
-
-				coordinates.add(markerData)
+			if(!filter?.contains(pool.poolInformations.categoryEnum.toString())!!) {
+				continue
 			}
+
+
+			// Store all markers
+			val markerData = ContentValues()
+
+			markerData.put("name", pool.poolInformations.name)
+			markerData.put("latitude", pool.poolInformations.latitude)
+			markerData.put("longitude", pool.poolInformations.longitude)
+
+			when(pool.getOpenState()) {
+				OpenEnum.OPEN -> markerData.put("marker", R.drawable.ic_map_marker_green)
+				OpenEnum.WILLBECLOSING -> markerData.put("marker", R.drawable.ic_map_marker_yellow)
+				OpenEnum.CLOSED -> markerData.put("marker", R.drawable.ic_map_marker_red)
+				OpenEnum.OUTOFSAISON -> markerData.put("marker", R.drawable.ic_map_marker_black)
+				OpenEnum.NOOPENTIMES -> markerData.put("marker", R.drawable.ic_map_marker_blue)
+			}
+
+			coordinates.add(markerData)
 		}
 
+
+
+		// Converting coordinates in markers
 		for(i in coordinates) {
 			val marker = MarkerOptions()
 			marker.title(i.getAsString("name"))
@@ -215,6 +194,8 @@ class MapFragment : Fragment(R.layout.fragment_map), OnMapReadyCallback {
 			markerArray.add(marker)
 		}
 
+
+		// Adding markers to the map
 		for(i in markerArray) {
 			mMap.addMarker(i)
 		}

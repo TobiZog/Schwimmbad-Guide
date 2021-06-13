@@ -1,9 +1,13 @@
 <resources>
     <string name="app_name">Schwimmbad Guide</string>
 
+    <!-- Main Navigation -->
     <string name="map">Map</string>
     <string name="list">List</string>
     <string name="preferences">Einstellungen</string>
+    
+    
+    <!-- PoolDetailView -->
     <string name="pools">Becken</string>
     <string name="restaurant">Verpflegung</string>
     <string name="contact">Kontakt</string>
@@ -13,4 +17,25 @@
     <string name="closed">Geschlossen</string>
     <string name="now_closed">Derzeit geschlossen</string>
     <string name="no_opening_times">Keine Öffnungszeiten gefunden</string>
+
+    
+    <!-- Settings -->
+    <string name="generally">Allgemein</string>
+    <string name="poolTypes">Anzuzeigende Kategorien</string>
+    <string-array name="poolTypes">
+        <item>Hallenbäder</item>
+        <item>Freibäder</item>
+        <item>Spa</item>
+        <item>Badeseen</item>
+    </string-array>
+    <string-array name="poolTypesValues">
+        <item>INDOOR</item>
+        <item>OUTDOOR</item>
+        <item>SPA</item>
+        <item>LAKE</item>
+    </string-array>
+
+    <string name="notifications">Benachrichtigungen</string>
+
+    <string name="about">Über die App</string>
 </resources>

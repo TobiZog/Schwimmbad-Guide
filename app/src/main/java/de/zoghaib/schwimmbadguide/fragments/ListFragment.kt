@@ -1,10 +1,12 @@
 package de.zoghaib.schwimmbadguide.fragments
 
 import android.annotation.SuppressLint
+import android.content.SharedPreferences
 import android.location.LocationManager
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import de.zoghaib.schwimmbadguide.R
 import de.zoghaib.schwimmbadguide.adapter.PoolAdapter
@@ -19,8 +21,10 @@ import de.zoghaib.schwimmbadguide.objects.SwimmingPool
  * @since	2021-05-01
  */
 class ListFragment(
-	/** todo */
+
+	/** List of pools, overgiven from MainActivity */
 	val pools : ArrayList<SwimmingPool>
+
 	) : Fragment(R.layout.fragment_list) {
 
 	/* -------------------- Member Variables -------------------- */
@@ -33,6 +37,9 @@ class ListFragment(
 
 	/** Database handler object */
 	private lateinit var dbHandler : DatabaseHandler
+
+	/** Shared preference object */
+	private lateinit var sharedPreferences: SharedPreferences
 
 
 	/* -------------------- Lifecycle -------------------- */
@@ -54,6 +61,10 @@ class ListFragment(
 		dbHandler = DatabaseHandler(requireContext())
 
 
+		// Shared preferences
+		sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
+
+
 		// Initialize the RecyclerView
 		binding.rvPools.apply {
 			// Set a LinearLayout in the RecyclerView
@@ -61,21 +72,23 @@ class ListFragment(
 
 			// Set the custom adapter to the RecyclerView
 			adapter = PoolAdapter(recyclerViewEntries, requireActivity())
-		}
 
-		updateRecyclerView()
+			updateRecyclerView()
+		}
 	}
 
 
 	/**
-	 * Lifecycle method if the view will reload
+	 * todo
 	 */
-	override fun onResume() {
-		super.onResume()
-
-		// Starting the RecyclerView entrys thread
-		updateRecyclerView()
+	override fun setUserVisibleHint(isVisibleToUser: Boolean) {
+		super.setUserVisibleHint(isVisibleToUser)
+		if (isVisibleToUser) {
+			updateRecyclerView()
+		}
 	}
+
+
 
 
 	/* -------------------- Local methods -------------------- */
@@ -88,10 +101,16 @@ class ListFragment(
 		// Clear the RecyclerView
 		recyclerViewEntries.clear()
 
-		val m = context!!.getSystemService(LocationManager::class.java)
+		val m = requireContext().getSystemService(LocationManager::class.java)
 		val loc = m.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER)
 
 		for(pool in pools) {
+			val filter = sharedPreferences.getStringSet("poolTypes", setOf(""))
+
+			if(!filter?.contains(pool.poolInformations.categoryEnum.toString())!!) {
+				continue
+			}
+
 			pool.calculateDistance(loc!!.latitude, loc.longitude)
 			recyclerViewEntries.add(pool)
 		}

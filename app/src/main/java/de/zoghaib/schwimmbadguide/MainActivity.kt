@@ -75,7 +75,7 @@ class MainActivity : AppCompatActivity() {
         binding.tlMain.setupWithViewPager(binding.vpMain)
 
         // Adding the fragments
-        adapter.addFragment(MapFragment(), resources.getString(R.string.map))
+        adapter.addFragment(MapFragment(pools), resources.getString(R.string.map))
         adapter.addFragment(ListFragment(pools), resources.getString(R.string.list))
         adapter.addFragment(SettingsFragment(), resources.getString(R.string.preferences))
         adapter.notifyDataSetChanged()

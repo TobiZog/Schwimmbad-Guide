@@ -1,9 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     android:background="?android:attr/colorBackground">
+    <PreferenceCategory android:title="@string/generally">
 
-    <CheckBoxPreference
-        android:defaultValue="false"
-        android:key="check_box_preference_1"
-        android:title="Check box preference" />
+        <MultiSelectListPreference
+            android:defaultValue="@array/poolTypes"
+            android:entries="@array/poolTypes"
+            android:entryValues="@array/poolTypesValues"
+            android:icon="@drawable/ic_filter"
+            android:key="poolTypes"
+            android:title="@string/poolTypes" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/notifications">
+
+        <Preference
+            android:id="@+id/preference"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:title="Coming soon" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/about">
+
+        <Preference
+            android:icon="@drawable/ic_code_tags"
+            android:summary="Tobias Zoghaib"
+            android:title="Entwickler" />
+    </PreferenceCategory>
 </PreferenceScreen>
