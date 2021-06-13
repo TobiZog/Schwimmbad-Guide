@@ -1,14 +1,11 @@
-package de.zoghaib.schwimmbadguide
+package de.zoghaib.schwimmbadguide.fragments
 
 import android.Manifest
 import android.app.AlertDialog
 import android.content.ContentValues
-import android.content.DialogInterface
-import android.content.DialogInterface.OnMultiChoiceClickListener
 import android.content.pm.PackageManager.PERMISSION_GRANTED
 import android.location.LocationManager
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
@@ -16,12 +13,12 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.*
+import de.zoghaib.schwimmbadguide.R
 import de.zoghaib.schwimmbadguide.data.OpenEnum
 import de.zoghaib.schwimmbadguide.data.PoolCategoryEnum
 import de.zoghaib.schwimmbadguide.database.DatabaseHandler
 import de.zoghaib.schwimmbadguide.databinding.FragmentMapBinding
 import de.zoghaib.schwimmbadguide.objects.SwimmingPool
-import java.util.*
 import kotlin.collections.ArrayList
 
 /**
@@ -197,7 +194,7 @@ class MapFragment : Fragment(R.layout.fragment_map), OnMapReadyCallback {
 				markerData.put("latitude", pool.poolInformations.latitude)
 				markerData.put("longitude", pool.poolInformations.longitude)
 
-				when(pool.getopenState()) {
+				when(pool.getOpenState()) {
 					OpenEnum.OPEN -> markerData.put("marker", R.drawable.ic_map_marker_green)
 					OpenEnum.WILLBECLOSING -> markerData.put("marker", R.drawable.ic_map_marker_yellow)
 					OpenEnum.CLOSED -> markerData.put("marker", R.drawable.ic_map_marker_red)

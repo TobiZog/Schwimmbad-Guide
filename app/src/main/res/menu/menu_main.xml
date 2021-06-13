@@ -9,4 +9,8 @@
         android:id="@+id/menu_item_list"
         android:icon="@drawable/ic_view_list"
         android:title="@string/list" />
+    <item
+        android:id="@+id/menu_item_preferences"
+        android:icon="@drawable/ic_cog"
+        android:title="@string/preferences" />
 </menu>

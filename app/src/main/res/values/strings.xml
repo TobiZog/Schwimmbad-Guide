@@ -3,10 +3,14 @@
 
     <string name="map">Map</string>
     <string name="list">List</string>
+    <string name="preferences">Einstellungen</string>
     <string name="pools">Becken</string>
     <string name="restaurant">Verpflegung</string>
     <string name="contact">Kontakt</string>
 	<string name="img_transition">poolImage</string>
     <string name="name_transition">poolName</string>
     <string name="subtext_transition">poolSubtext</string>
+    <string name="closed">Geschlossen</string>
+    <string name="now_closed">Derzeit geschlossen</string>
+    <string name="no_opening_times">Keine Öffnungszeiten gefunden</string>
 </resources>

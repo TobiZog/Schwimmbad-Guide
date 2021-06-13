@@ -1,4 +1,4 @@
-package de.zoghaib.schwimmbadguide
+package de.zoghaib.schwimmbadguide.fragments
 
 import android.annotation.SuppressLint
 import android.location.LocationManager
@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import de.zoghaib.schwimmbadguide.R
 import de.zoghaib.schwimmbadguide.adapter.PoolAdapter
 import de.zoghaib.schwimmbadguide.database.DatabaseHandler
 import de.zoghaib.schwimmbadguide.databinding.FragmentListBinding

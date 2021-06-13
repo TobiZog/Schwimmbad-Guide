@@ -76,7 +76,7 @@ class PoolAdapter(
 		holder.binding.txtSubtext.text = data.poolInformations.subtext
 
 
-		when(data.getopenState()) {
+		when(data.getOpenState()) {
 			OpenEnum.OPEN -> {
 				holder.binding.imgOpen.setImageResource(R.drawable.ic_circle_green)
 				holder.binding.txtOpenText.text = "Jetzt geöffnet: ${data.getOpenTimesToday(1)}"
@@ -87,11 +87,15 @@ class PoolAdapter(
 			}
 			OpenEnum.CLOSED -> {
 				holder.binding.imgOpen.setImageResource(R.drawable.ic_circle_red)
-				holder.binding.txtOpenText.text = "Geschlossen"
+				holder.binding.txtOpenText.text = context.getString(R.string.closed)
 			}
 			OpenEnum.OUTOFSAISON -> {
 				holder.binding.imgOpen.setImageResource(R.drawable.ic_circle_black)
-				holder.binding.txtOpenText.text = "Derzeit geschlossen"
+				holder.binding.txtOpenText.text = context.getString(R.string.now_closed)
+			}
+			OpenEnum.NOOPENTIMES -> {
+				holder.binding.imgOpen.setImageResource(R.drawable.ic_circle_black)
+				holder.binding.txtOpenText.text = context.getString(R.string.no_opening_times)
 			}
 		}
 

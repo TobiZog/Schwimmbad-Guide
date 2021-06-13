@@ -2,9 +2,13 @@ package de.zoghaib.schwimmbadguide
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import de.zoghaib.schwimmbadguide.adapter.TabAdapter
 import de.zoghaib.schwimmbadguide.database.DatabaseHandler
 import de.zoghaib.schwimmbadguide.database.DatabasePrePopulator
 import de.zoghaib.schwimmbadguide.databinding.ActivityMainBinding
+import de.zoghaib.schwimmbadguide.fragments.ListFragment
+import de.zoghaib.schwimmbadguide.fragments.MapFragment
+import de.zoghaib.schwimmbadguide.fragments.SettingsFragment
 import de.zoghaib.schwimmbadguide.objects.SwimmingPool
 
 /**
@@ -25,6 +29,8 @@ class MainActivity : AppCompatActivity() {
 
     /** Array list with all pools */
     private val pools = ArrayList<SwimmingPool>()
+
+    private val adapter = TabAdapter(supportFragmentManager, 0)
 
 
     /* -------------------- Lifecycle -------------------- */
@@ -63,27 +69,20 @@ class MainActivity : AppCompatActivity() {
         }
 
 
+        // TabLayout
         // BottomNavigationView
-        binding.bnvMain.setOnNavigationItemSelectedListener { item ->
+        binding.vpMain.adapter = adapter
+        binding.tlMain.setupWithViewPager(binding.vpMain)
 
-            // Fragment transactor
-            val ft = supportFragmentManager.beginTransaction()
+        // Adding the fragments
+        adapter.addFragment(MapFragment(), resources.getString(R.string.map))
+        adapter.addFragment(ListFragment(pools), resources.getString(R.string.list))
+        adapter.addFragment(SettingsFragment(), resources.getString(R.string.preferences))
+        adapter.notifyDataSetChanged()
 
-            when(item.itemId) {
-                R.id.menu_item_map -> {
-                    ft.replace(R.id.fgmt_main, MapFragment())
-                }
-
-                R.id.menu_item_list -> {
-                    ft.replace(R.id.fgmt_main, ListFragment(pools))
-                }
-            }
-
-            // Send changes
-            ft.commit()
-
-            // Result
-            true
-        }
+        // Setting the icons
+        binding.tlMain.getTabAt(0)?.setIcon(R.drawable.ic_map)
+        binding.tlMain.getTabAt(1)?.setIcon(R.drawable.ic_view_list)
+        binding.tlMain.getTabAt(2)?.setIcon(R.drawable.ic_cog)
     }
 }

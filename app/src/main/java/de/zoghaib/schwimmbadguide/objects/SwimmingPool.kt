@@ -31,14 +31,14 @@ class SwimmingPool(
     var poolInformations : PoolInformations
 
     /** Database handler object */
-    var dbHandler = DatabaseHandler(context)
+    private var dbHandler = DatabaseHandler(context)
 
 
 
     /* -------------------- Lifecycle -------------------- */
 
     /**
-     * todo
+     * Initialization
      */
     init {
         val dataset = dbHandler.readDatasetToContentValues("POOLS", contentValuesOf(Pair("Id", dbId)))!!
@@ -81,7 +81,7 @@ class SwimmingPool(
             so1 = dataset.getAsString("SO1"),
             so2 = dataset.getAsString("SO2"),
             prices = "",
-            distance = -1
+            distance = 0.0f
             )
     }
 
@@ -116,7 +116,7 @@ class SwimmingPool(
      *
      * @return  OpenEnum with the state
      */
-    fun getopenState() : OpenEnum {
+    fun getOpenState() : OpenEnum {
         if(poolInformations.categoryEnum == PoolCategoryEnum.LAKE) {
             return OpenEnum.NOOPENTIMES
         } else {
@@ -175,7 +175,7 @@ class SwimmingPool(
      * @param   currentLatitude     Latitude of the user
      * @param   currentLongitude    Longitude of the user
      *
-     * @return  Distance in km
+     * @return  Distance in km or 100er-Meter if < 1 km
      */
     fun calculateDistance(currentLatitude : Double, currentLongitude : Double) {
         try {
@@ -188,9 +188,10 @@ class SwimmingPool(
             poolLocation.longitude = poolInformations.longitude
 
 
-            poolInformations.distance = (currentLocation.distanceTo(poolLocation) / 1000).toInt()
+            poolInformations.distance = ((currentLocation.distanceTo(poolLocation) / 100).toInt()).toFloat() / 10
+
         } catch (e: Exception) {
-            poolInformations.distance = -1
+            poolInformations.distance = 0.0f
         }
     }
 }
