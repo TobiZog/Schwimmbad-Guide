@@ -1,9 +1,8 @@
 package de.zoghaib.schwimmbadguide.fragments
 
 import android.Manifest
-import android.app.AlertDialog
 import android.content.ContentValues
-import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager.PERMISSION_GRANTED
 import android.location.LocationManager
@@ -17,14 +16,14 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.*
+import de.zoghaib.schwimmbadguide.PoolDetailViewActivity
 import de.zoghaib.schwimmbadguide.R
 import de.zoghaib.schwimmbadguide.data.OpenEnum
-import de.zoghaib.schwimmbadguide.data.PoolCategoryEnum
 import de.zoghaib.schwimmbadguide.database.DatabaseHandler
 import de.zoghaib.schwimmbadguide.databinding.FragmentMapBinding
 import de.zoghaib.schwimmbadguide.objects.SwimmingPool
-import java.util.*
 import kotlin.collections.ArrayList
+
 
 /**
  * Fragment which shows a Google Maps view with location of the pools
@@ -106,6 +105,21 @@ class MapFragment(
 		mMap.setMapStyle(
 			MapStyleOptions.loadRawResourceStyle(requireContext(), R.raw.map_style)
 		)
+
+
+		// Open the pool details, if the user clicks on the info window
+		mMap.setOnInfoWindowClickListener { marker ->
+			for(i in pools) {
+				if(i.poolInformations.name == marker.title) {
+					val intent = Intent(requireContext(), PoolDetailViewActivity::class.java)
+					intent.putExtra("dbId", i.poolInformations.dbId)
+
+					startActivity(intent)
+
+					break
+				}
+			}
+		}
 
 		addMarkerToMap()
 	}
