@@ -17,6 +17,13 @@
     <string name="closed">Geschlossen</string>
     <string name="now_closed">Derzeit geschlossen</string>
     <string name="no_opening_times">Keine Öffnungszeiten gefunden</string>
+    <string name="monday">Mo</string>
+    <string name="tuesday">Di</string>
+    <string name="wednesday">Mi</string>
+    <string name="thursday">Do</string>
+    <string name="friday">Fr</string>
+    <string name="saturday">Sa</string>
+    <string name="sunday">So</string>
 
     
     <!-- Settings -->
@@ -25,12 +32,14 @@
     <string-array name="poolTypes">
         <item>Hallenbäder</item>
         <item>Freibäder</item>
+        <item>Hallen- und Freibäder</item>
         <item>Spa</item>
         <item>Badeseen</item>
     </string-array>
     <string-array name="poolTypesValues">
         <item>INDOOR</item>
         <item>OUTDOOR</item>
+        <item>OUTANDINDOOR</item>
         <item>SPA</item>
         <item>LAKE</item>
     </string-array>

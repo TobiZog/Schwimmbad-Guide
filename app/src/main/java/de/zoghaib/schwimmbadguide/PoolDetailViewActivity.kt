@@ -1,8 +1,13 @@
 package de.zoghaib.schwimmbadguide
 
+import android.annotation.SuppressLint
+import android.content.Intent
+import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.recyclerview.widget.RecyclerView
@@ -13,9 +18,12 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.android.gms.maps.model.MarkerOptions
 import com.squareup.picasso.Picasso
+import de.zoghaib.schwimmbadguide.data.OpenEnum
+import de.zoghaib.schwimmbadguide.data.PoolCategoryEnum
 import de.zoghaib.schwimmbadguide.databinding.ActivityPoolDetailViewBinding
 import de.zoghaib.schwimmbadguide.objects.SwimmingPool
 import org.jetbrains.anko.displayMetrics
+import java.util.*
 
 /**
  * Activity to show the details of a pool
@@ -44,6 +52,7 @@ class PoolDetailViewActivity : AppCompatActivity(), OnMapReadyCallback {
 	 *
 	 * @param   savedInstanceState      Save state of the view
 	 */
+	@SuppressLint("ResourceAsColor")
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 
@@ -54,6 +63,26 @@ class PoolDetailViewActivity : AppCompatActivity(), OnMapReadyCallback {
 
 		// Creating a swimming pool object
 		swimmingPool = SwimmingPool(this, intent.getIntExtra("dbId", -1))
+
+
+		// Open State image
+		when(swimmingPool.getOpenState()) {
+			OpenEnum.OPEN -> {
+				binding.imgOpenState.setImageResource(R.drawable.ic_circle_green)
+			}
+			OpenEnum.WILLBECLOSING -> {
+				binding.imgOpenState.setImageResource(R.drawable.ic_circle_orange)
+			}
+			OpenEnum.CLOSED -> {
+				binding.imgOpenState.setImageResource(R.drawable.ic_circle_red)
+			}
+			OpenEnum.OUTOFSAISON -> {
+				binding.imgOpenState.setImageResource(R.drawable.ic_circle_black)
+			}
+			OpenEnum.NOOPENTIMES -> {
+				binding.imgOpenState.setImageResource(R.drawable.ic_circle_black)
+			}
+		}
 
 
 		// Filling the textViews
@@ -71,6 +100,67 @@ class PoolDetailViewActivity : AppCompatActivity(), OnMapReadyCallback {
 		binding.txtMail.text = swimmingPool.poolInformations.email
 
 		try{ Picasso.get().load(swimmingPool.poolInformations.imageUrl).into(binding.imgPool) } catch (e: Exception) {}
+
+		// Opening time table
+		if(swimmingPool.poolInformations.categoryEnum == PoolCategoryEnum.LAKE) {
+			binding.llTimetable.visibility = View.GONE
+		} else {
+			binding.txtOpeningMonday.text = swimmingPool.poolInformations.mo1
+			binding.txtOpeningTuesday.text = swimmingPool.poolInformations.di1
+			binding.txtOpeningWednesday.text = swimmingPool.poolInformations.mi1
+			binding.txtOpeningThursday.text = swimmingPool.poolInformations.do1
+			binding.txtOpeningFriday.text = swimmingPool.poolInformations.fr1
+			binding.txtOpeningSaturday.text = swimmingPool.poolInformations.sa1
+			binding.txtOpeningSunday.text = swimmingPool.poolInformations.so1
+
+			when(Calendar.getInstance().get(Calendar.DAY_OF_WEEK)) {
+				Calendar.MONDAY -> { binding.txtOpeningMonday.setTextColor(Color.YELLOW) }
+				Calendar.TUESDAY -> { binding.txtOpeningTuesday.setTextColor(Color.YELLOW) }
+				Calendar.WEDNESDAY -> { binding.txtOpeningWednesday.setTextColor(Color.YELLOW) }
+				Calendar.THURSDAY -> { binding.txtOpeningThursday.setTextColor(Color.YELLOW) }
+				Calendar.FRIDAY -> { binding.txtOpeningFriday.setTextColor(Color.YELLOW) }
+				Calendar.SATURDAY -> { binding.txtOpeningSaturday.setTextColor(Color.YELLOW) }
+				Calendar.SUNDAY -> { binding.txtOpeningSunday.setTextColor(Color.YELLOW) }
+			}
+		}
+
+
+
+		// Phone number listener
+		if(swimmingPool.poolInformations.phoneNumber.length > 1) {
+			binding.txtPhonenumber.setOnClickListener {
+				try {
+					val intent = Intent(Intent.ACTION_DIAL).apply {
+						data = Uri.parse("tel:${swimmingPool.poolInformations.phoneNumber}")
+					}
+
+					startActivity(intent)
+				} catch (e : Exception) {
+					Toast.makeText(this, "Konnte das Telefonprogramm nicht starten", Toast.LENGTH_SHORT).show()
+				}
+			}
+		} else {
+			binding.llPhonenumber.visibility = View.GONE
+		}
+
+
+		// Mail listener
+		if(swimmingPool.poolInformations.email.length > 1) {
+			binding.txtMail.setOnClickListener {
+				try {
+					val intent = Intent(Intent.ACTION_SEND).apply {
+						type = "text/plain"
+						putExtra(Intent.EXTRA_EMAIL, swimmingPool.poolInformations.email)
+					}
+
+					startActivity(intent)
+				} catch (e : Exception) {
+					Toast.makeText(this, "Konnte das Mailprogramm nicht starten", Toast.LENGTH_SHORT).show()
+				}
+			}
+		} else {
+			binding.llEmail.visibility = View.GONE
+		}
 
 
 		// Google Maps View
