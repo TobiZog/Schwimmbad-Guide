@@ -5,11 +5,14 @@ import android.content.ContentValues
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager.PERMISSION_GRANTED
+import android.graphics.Bitmap
+import android.graphics.Canvas
 import android.location.LocationManager
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.core.app.ActivityCompat
+import androidx.core.graphics.drawable.toBitmap
 import androidx.fragment.app.Fragment
 import androidx.preference.PreferenceManager
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -187,10 +190,11 @@ class MapFragment(
 
 			when(pool.getOpenState()) {
 				OpenEnum.OPEN -> markerData.put("marker", R.drawable.ic_map_marker_green)
-				OpenEnum.WILLBECLOSING -> markerData.put("marker", R.drawable.ic_map_marker_yellow)
+				OpenEnum.OPENSOON -> markerData.put("marker", R.drawable.ic_map_marker_yellow)
+				OpenEnum.WILLBECLOSING -> markerData.put("marker", R.drawable.ic_map_marker_orange)
 				OpenEnum.CLOSED -> markerData.put("marker", R.drawable.ic_map_marker_red)
 				OpenEnum.OUTOFSAISON -> markerData.put("marker", R.drawable.ic_map_marker_black)
-				OpenEnum.NOOPENTIMES -> markerData.put("marker", R.drawable.ic_map_marker_blue)
+				OpenEnum.NOOPENTIMES -> markerData.put("marker", R.drawable.ic_map_marker_grey)
 			}
 
 			coordinates.add(markerData)

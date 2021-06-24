@@ -2,6 +2,7 @@ package de.zoghaib.schwimmbadguide.objects
 
 import android.content.Context
 import android.location.Location
+import android.util.Log
 import androidx.core.content.contentValuesOf
 import de.zoghaib.schwimmbadguide.data.OpenEnum
 import de.zoghaib.schwimmbadguide.data.PoolCategoryEnum
@@ -81,7 +82,8 @@ class SwimmingPool(
             so1 = dataset.getAsString("SO1"),
             so2 = dataset.getAsString("SO2"),
             prices = "",
-            distance = 0.0f
+            distance = 0.0f,
+            publictransport = dataset.getAsString("PUBLICTRANSPORT")
             )
     }
 
@@ -139,6 +141,9 @@ class SwimmingPool(
                         }
                         currentTime in (open1 + 1) until close1 -> {
                             return OpenEnum.WILLBECLOSING
+                        }
+                        currentTime in (open1 - 60) until open1 -> {
+                            return OpenEnum.OPENSOON
                         }
                         else -> {
                             try {

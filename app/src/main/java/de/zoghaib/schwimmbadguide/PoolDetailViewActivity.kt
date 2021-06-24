@@ -2,7 +2,9 @@ package de.zoghaib.schwimmbadguide
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.graphics.Color
+import android.location.LocationManager
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -52,7 +54,7 @@ class PoolDetailViewActivity : AppCompatActivity(), OnMapReadyCallback {
 	 *
 	 * @param   savedInstanceState      Save state of the view
 	 */
-	@SuppressLint("ResourceAsColor")
+	@SuppressLint("ResourceAsColor", "MissingPermission")
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 
@@ -68,26 +70,56 @@ class PoolDetailViewActivity : AppCompatActivity(), OnMapReadyCallback {
 		// Open State image
 		when(swimmingPool.getOpenState()) {
 			OpenEnum.OPEN -> {
-				binding.imgOpenState.setImageResource(R.drawable.ic_circle_green)
+				binding.imgOpenToday.setColorFilter(getColor(R.color.open))
 			}
 			OpenEnum.WILLBECLOSING -> {
-				binding.imgOpenState.setImageResource(R.drawable.ic_circle_orange)
+				binding.imgOpenToday.setColorFilter(getColor(R.color.willBeClosing))
+			}
+			OpenEnum.OPENSOON -> {
+				binding.imgOpenToday.setColorFilter(getColor(R.color.openSoon))
 			}
 			OpenEnum.CLOSED -> {
-				binding.imgOpenState.setImageResource(R.drawable.ic_circle_red)
+				binding.imgOpenToday.setColorFilter(getColor(R.color.closed))
 			}
 			OpenEnum.OUTOFSAISON -> {
-				binding.imgOpenState.setImageResource(R.drawable.ic_circle_black)
+				binding.imgOpenToday.setColorFilter(getColor(R.color.outOfSaison))
 			}
 			OpenEnum.NOOPENTIMES -> {
-				binding.imgOpenState.setImageResource(R.drawable.ic_circle_black)
+				binding.imgOpenToday.setColorFilter(getColor(R.color.noTimes))
 			}
 		}
 
 
+		// Toolbar
+		binding.tbPoolDetails.title = swimmingPool.poolInformations.name
+		binding.tbPoolDetails.subtitle =
+			when(swimmingPool.poolInformations.categoryEnum) {
+				PoolCategoryEnum.INDOOR -> "Hallenbad"
+				PoolCategoryEnum.LAKE -> "See"
+				PoolCategoryEnum.SPA -> "Spa"
+				PoolCategoryEnum.OUTANDINDOOR -> "Frei- und Hallenbad"
+				PoolCategoryEnum.OUTDOOR -> "Freibad"
+			}
+
+
 		// Filling the textViews
-		binding.txtTitle.text = swimmingPool.poolInformations.name
-		binding.txtSubtext.text = swimmingPool.poolInformations.subtext
+		// Quick info
+		binding.txtOpenToday.text = getOpenTimes(Calendar.getInstance().get(Calendar.DAY_OF_WEEK))
+
+		val m = getSystemService(LocationManager::class.java)
+		val loc = m.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER)
+		swimmingPool.calculateDistance(loc!!.latitude, loc.longitude)
+		binding.txtDistance.text = "${swimmingPool.poolInformations.distance} km"
+
+		when {
+			swimmingPool.poolInformations.distance < 1 -> binding.imgDistance.setColorFilter(getColor(R.color.nearDistance))
+			swimmingPool.poolInformations.distance < 5 -> binding.imgDistance.setColorFilter(getColor(R.color.midDistance))
+			else -> binding.imgDistance.setColorFilter(getColor(R.color.farDistance))
+		}
+
+		binding.txtPublicTransport.text = swimmingPool.poolInformations.publictransport
+
+
 		binding.txtDescription.text = swimmingPool.poolInformations.description
 
 		var poolsText = swimmingPool.poolInformations.pools
@@ -103,15 +135,16 @@ class PoolDetailViewActivity : AppCompatActivity(), OnMapReadyCallback {
 
 		// Opening time table
 		if(swimmingPool.poolInformations.categoryEnum == PoolCategoryEnum.LAKE) {
-			binding.llTimetable.visibility = View.GONE
+			binding.cvTimetable.visibility = View.GONE
+			binding.txtOpenToday.text = resources.getString(R.string.no_opening_times)
 		} else {
-			binding.txtOpeningMonday.text = swimmingPool.poolInformations.mo1
-			binding.txtOpeningTuesday.text = swimmingPool.poolInformations.di1
-			binding.txtOpeningWednesday.text = swimmingPool.poolInformations.mi1
-			binding.txtOpeningThursday.text = swimmingPool.poolInformations.do1
-			binding.txtOpeningFriday.text = swimmingPool.poolInformations.fr1
-			binding.txtOpeningSaturday.text = swimmingPool.poolInformations.sa1
-			binding.txtOpeningSunday.text = swimmingPool.poolInformations.so1
+			binding.txtOpeningMonday.text = getOpenTimes(Calendar.MONDAY)
+			binding.txtOpeningTuesday.text = getOpenTimes(Calendar.TUESDAY)
+			binding.txtOpeningWednesday.text = getOpenTimes(Calendar.WEDNESDAY)
+			binding.txtOpeningThursday.text = getOpenTimes(Calendar.THURSDAY)
+			binding.txtOpeningFriday.text = getOpenTimes(Calendar.FRIDAY)
+			binding.txtOpeningSaturday.text = getOpenTimes(Calendar.SATURDAY)
+			binding.txtOpeningSunday.text = getOpenTimes(Calendar.SUNDAY)
 
 			when(Calendar.getInstance().get(Calendar.DAY_OF_WEEK)) {
 				Calendar.MONDAY -> { binding.txtOpeningMonday.setTextColor(Color.YELLOW) }
@@ -140,7 +173,7 @@ class PoolDetailViewActivity : AppCompatActivity(), OnMapReadyCallback {
 				}
 			}
 		} else {
-			binding.llPhonenumber.visibility = View.GONE
+			binding.cvPhone.visibility = View.GONE
 		}
 
 
@@ -159,7 +192,7 @@ class PoolDetailViewActivity : AppCompatActivity(), OnMapReadyCallback {
 				}
 			}
 		} else {
-			binding.llEmail.visibility = View.GONE
+			binding.cvMail.visibility = View.GONE
 		}
 
 
@@ -170,26 +203,21 @@ class PoolDetailViewActivity : AppCompatActivity(), OnMapReadyCallback {
 
 
 		// Resize the image in the header with the scrolling
-		val imgPoolOriginalHeight = 300 * displayMetrics.density
-
 		binding.svPoolDetails.viewTreeObserver.addOnScrollChangedListener {
-			val txtTitleLocation = IntArray(2)
-			binding.txtTitle.getLocationOnScreen(txtTitleLocation)
+			val cvShortsLocation = IntArray(2)
+			binding.cvShorts.getLocationOnScreen(cvShortsLocation)
 
 			val tbPoolDetailsLocation = IntArray(2)
 			binding.tbPoolDetails.getLocationOnScreen(tbPoolDetailsLocation)
 
 			// Calcualte the height between notification bar and title
-			val imageHeight = txtTitleLocation[1] - tbPoolDetailsLocation[1]
+			val imageHeight = cvShortsLocation[1] - tbPoolDetailsLocation[1]
 
 			when {
 				// Image is bigger than toolbar
 				imageHeight > binding.tbPoolDetails.height -> {
 					binding.imgPool.layoutParams.height = imageHeight
 					binding.imgPool.visibility = View.VISIBLE
-
-					// Calculate the transparence of the toolbar
-					binding.tbPoolDetails.background.alpha = (255 - (100f / imgPoolOriginalHeight * (imageHeight  - binding.tbPoolDetails.height) / 100 * 255)).toInt()
 				}
 				// Image is disappeared under the toolbar
 				else -> {
@@ -200,16 +228,6 @@ class PoolDetailViewActivity : AppCompatActivity(), OnMapReadyCallback {
 			}
 
 			binding.imgPool.requestLayout()
-
-
-			// Show title and subtitle, if they disappear
-			if(txtTitleLocation[1] < binding.tbPoolDetails.height + tbPoolDetailsLocation[1]) {
-				binding.tbPoolDetails.title = intent.getStringExtra("name")
-				binding.tbPoolDetails.subtitle = intent.getStringExtra("category")
-			} else {
-				binding.tbPoolDetails.title = ""
-				binding.tbPoolDetails.subtitle = ""
-			}
 		}
 	}
 
@@ -244,5 +262,22 @@ class PoolDetailViewActivity : AppCompatActivity(), OnMapReadyCallback {
 
 		// Move camera to pool
 		mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(swimmingPool.poolInformations.latitude, swimmingPool.poolInformations.longitude), 15f))
+	}
+
+
+	/**
+	 * todo
+	 */
+	private fun getOpenTimes(day : Int) : String {
+		return when(day) {
+			Calendar.MONDAY -> swimmingPool.poolInformations.mo1
+			Calendar.TUESDAY -> swimmingPool.poolInformations.mo1
+			Calendar.WEDNESDAY -> swimmingPool.poolInformations.mo1
+			Calendar.THURSDAY -> swimmingPool.poolInformations.mo1
+			Calendar.FRIDAY -> swimmingPool.poolInformations.mo1
+			Calendar.SATURDAY -> swimmingPool.poolInformations.mo1
+			Calendar.SUNDAY -> swimmingPool.poolInformations.mo1
+			else -> ""
+		}
 	}
 }

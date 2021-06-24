@@ -10,4 +10,19 @@
     <color name="colorSecondary">#4db6ac</color>
     <color name="colorSecondaryDark">#00867d</color>
     <color name="colorSecondaryLight">#82e9de</color>
+
+
+    <!-- Opening colors -->
+    <color name="open">#00FF00</color>
+    <color name="willBeClosing">#FFAA00</color>
+    <color name="openSoon">#FFFF00</color>
+    <color name="closed">#FF0000</color>
+    <color name="outOfSaison">#000000</color>
+    <color name="noTimes">#AAAAAA</color>
+
+
+    <!-- Distance colors -->
+    <color name="nearDistance">#00FF00</color>
+    <color name="midDistance">#FFFF00</color>
+    <color name="farDistance">#FF0000</color>
 </resources>
