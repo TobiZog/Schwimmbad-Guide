@@ -122,6 +122,16 @@ class PoolDetailViewActivity : AppCompatActivity(), OnMapReadyCallback {
 
 		binding.txtDescription.text = swimmingPool.poolInformations.description
 
+
+		swimmingPool.poolInformations.other.let {
+			if(it.length > 1) {
+				binding.txtOther.text = it
+			} else {
+				binding.cvOther.visibility = View.GONE
+			}
+		}
+
+
 		var poolsText = swimmingPool.poolInformations.pools
 		poolsText = poolsText.replace(" * ", "\n\n")
 		poolsText = poolsText.replace("* ","")

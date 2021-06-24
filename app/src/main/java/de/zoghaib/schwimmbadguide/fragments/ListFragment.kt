@@ -116,6 +116,24 @@ class ListFragment(
 			recyclerViewEntries.add(pool)
 		}
 
+
+		var run = true
+
+		while(run) {
+			run = false
+
+			for (i in 0 until recyclerViewEntries.size - 1) {
+				if (recyclerViewEntries[i].poolInformations.distance > recyclerViewEntries[i + 1].poolInformations.distance) {
+					run = true
+
+					val buffer = recyclerViewEntries[i].poolInformations
+					recyclerViewEntries[i].poolInformations = recyclerViewEntries[i + 1].poolInformations
+					recyclerViewEntries[i + 1].poolInformations = buffer
+				}
+			}
+		}
+
+
 		binding.rvPools.adapter!!.notifyDataSetChanged()
 	}
 }

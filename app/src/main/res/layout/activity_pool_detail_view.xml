@@ -202,6 +202,56 @@
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cv_other"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="8dp"
+                app:cardCornerRadius="0dp"
+                app:cardElevation="0dp"
+                app:contentPadding="8dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        android:paddingBottom="8dp">
+
+                        <ImageView
+                            android:id="@+id/imageView222"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center_vertical"
+                            app:srcCompat="@drawable/ic_handball"
+                            app:tint="@android:color/darker_gray" />
+
+                        <TextView
+                            android:id="@+id/textView1224"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:paddingLeft="8dp"
+                            android:text="Weitere Ausstattung"
+                            android:textSize="20sp"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/txt_other"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical" />
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
