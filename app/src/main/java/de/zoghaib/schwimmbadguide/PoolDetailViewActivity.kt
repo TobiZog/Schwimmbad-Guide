@@ -1,5 +1,6 @@
 package de.zoghaib.schwimmbadguide
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.res.ColorStateList
@@ -12,6 +13,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.core.content.PermissionChecker.PERMISSION_GRANTED
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -106,10 +108,17 @@ class PoolDetailViewActivity : AppCompatActivity(), OnMapReadyCallback {
 		// Quick info
 		binding.txtOpenToday.text = getOpenTimes(Calendar.getInstance().get(Calendar.DAY_OF_WEEK))
 
-		val m = getSystemService(LocationManager::class.java)
-		val loc = m.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER)
-		swimmingPool.calculateDistance(loc!!.latitude, loc.longitude)
-		binding.txtDistance.text = "${swimmingPool.poolInformations.distance} km"
+		if(ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PERMISSION_GRANTED) {
+			val m = getSystemService(LocationManager::class.java)
+			val loc = m.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER)
+
+			swimmingPool.calculateDistance(loc!!.latitude, loc.longitude)
+			binding.txtDistance.text = "${swimmingPool.poolInformations.distance} km"
+		} else {
+			binding.txtDistance.text = "Entfernung konnte nicht bestimmt werden"
+		}
+
+
 
 		when {
 			swimmingPool.poolInformations.distance < 1 -> binding.imgDistance.setColorFilter(getColor(R.color.nearDistance))
@@ -281,12 +290,12 @@ class PoolDetailViewActivity : AppCompatActivity(), OnMapReadyCallback {
 	private fun getOpenTimes(day : Int) : String {
 		return when(day) {
 			Calendar.MONDAY -> swimmingPool.poolInformations.mo1
-			Calendar.TUESDAY -> swimmingPool.poolInformations.mo1
-			Calendar.WEDNESDAY -> swimmingPool.poolInformations.mo1
-			Calendar.THURSDAY -> swimmingPool.poolInformations.mo1
-			Calendar.FRIDAY -> swimmingPool.poolInformations.mo1
-			Calendar.SATURDAY -> swimmingPool.poolInformations.mo1
-			Calendar.SUNDAY -> swimmingPool.poolInformations.mo1
+			Calendar.TUESDAY -> swimmingPool.poolInformations.di1
+			Calendar.WEDNESDAY -> swimmingPool.poolInformations.mi1
+			Calendar.THURSDAY -> swimmingPool.poolInformations.do1
+			Calendar.FRIDAY -> swimmingPool.poolInformations.fr1
+			Calendar.SATURDAY -> swimmingPool.poolInformations.sa1
+			Calendar.SUNDAY -> swimmingPool.poolInformations.so1
 			else -> ""
 		}
 	}

@@ -4,7 +4,7 @@
     <PreferenceCategory android:title="@string/generally">
 
         <MultiSelectListPreference
-            android:defaultValue="@array/poolTypes"
+            android:defaultValue="@array/poolTypesValues"
             android:entries="@array/poolTypes"
             android:entryValues="@array/poolTypesValues"
             android:icon="@drawable/ic_filter"

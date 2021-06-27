@@ -16,7 +16,7 @@
     <string name="subtext_transition">poolSubtext</string>
     <string name="closed">Geschlossen</string>
     <string name="open_soon">Öffnet bald</string>
-    <string name="now_closed">Derzeit geschlossen</string>
+    <string name="out_of_saison">Außerhalb der Saison</string>
     <string name="no_opening_times">Keine Öffnungszeiten</string>
     <string name="monday">Mo</string>
     <string name="tuesday">Di</string>

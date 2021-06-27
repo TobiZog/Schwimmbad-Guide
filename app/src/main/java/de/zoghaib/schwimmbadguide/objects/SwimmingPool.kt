@@ -9,6 +9,8 @@ import de.zoghaib.schwimmbadguide.data.PoolCategoryEnum
 import de.zoghaib.schwimmbadguide.data.PoolInformations
 import de.zoghaib.schwimmbadguide.database.DatabaseHandler
 import java.sql.Time
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import java.util.*
 
 /**
@@ -83,7 +85,8 @@ class SwimmingPool(
             so2 = dataset.getAsString("SO2"),
             prices = "",
             distance = 0.0f,
-            publictransport = dataset.getAsString("PUBLICTRANSPORT")
+            publictransport = dataset.getAsString("PUBLICTRANSPORT"),
+            saison = dataset.getAsString("SAISON")
             )
     }
 
@@ -134,8 +137,18 @@ class SwimmingPool(
                     val close1 = getOpenTimesToday(1).substringAfter("-").substringBefore(":").toInt() * 60 +
                             getOpenTimesToday(1).substringAfterLast(":").toInt()
 
+
+                    // Get saison
+                    val formatter = DateTimeFormatter.ofPattern("d.MM.yyyy", Locale.GERMAN)
+                    val saisonStart = LocalDate.parse(poolInformations.saison.substringBefore('-'), formatter)
+                    val saisonEnd = LocalDate.parse(poolInformations.saison.substringAfter('-'), formatter)
+
+
                     // Calculate the Opening state
                     when {
+                        LocalDate.now() < saisonStart || LocalDate.now() > saisonEnd -> {
+                            return OpenEnum.OUTOFSAISON
+                        }
                         close1 - 60 > currentTime && currentTime > open1 -> {
                             return OpenEnum.OPEN
                         }
@@ -168,7 +181,11 @@ class SwimmingPool(
                     }
                 }
             } catch (e: Exception) {
-                return OpenEnum.OUTOFSAISON
+                return if(getOpenTimesToday(1).isBlank()) {
+                    OpenEnum.CLOSED
+                } else {
+                    OpenEnum.OUTOFSAISON
+                }
             }
         }
     }

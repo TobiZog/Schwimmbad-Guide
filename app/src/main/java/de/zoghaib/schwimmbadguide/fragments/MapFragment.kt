@@ -5,14 +5,10 @@ import android.content.ContentValues
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager.PERMISSION_GRANTED
-import android.graphics.Bitmap
-import android.graphics.Canvas
 import android.location.LocationManager
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.core.app.ActivityCompat
-import androidx.core.graphics.drawable.toBitmap
 import androidx.fragment.app.Fragment
 import androidx.preference.PreferenceManager
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -94,10 +90,10 @@ class MapFragment(
 		mMap = googleMap
 
 		// Request permissions
-		if(ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PERMISSION_GRANTED) {
-			requestPermissions(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 42)
+		if(ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PERMISSION_GRANTED) {
+			moveCameraToPosition(true)
 		} else {
-			moveCameraToPosition()
+			moveCameraToPosition(false)
 		}
 
 		// Set up map view
@@ -137,7 +133,7 @@ class MapFragment(
 	 */
 	override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String?>, grantResults: IntArray) {
 		if (requestCode == 42 && grantResults.isNotEmpty() && grantResults[0] == PERMISSION_GRANTED) {
-			moveCameraToPosition()
+			moveCameraToPosition(true)
 		}
 	}
 
@@ -146,17 +142,24 @@ class MapFragment(
 
 	/**
 	 * Get the position and move the map camera to this
+	 *
+	 * @param	userPos		True = Zooming on actual position, false = Zooming on Hanover
 	 */
 	@Throws(SecurityException::class)
-	private fun moveCameraToPosition() {
-		val m = requireContext().getSystemService(LocationManager::class.java)
+	private fun moveCameraToPosition(userPos : Boolean) {
+		if(userPos) {
+			val m = requireContext().getSystemService(LocationManager::class.java)
 
-		val loc = m.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER)
-		loc?.run {
-			mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(latitude, longitude), 13f))
+			val loc = m.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER)
+			loc?.run {
+				mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(latitude, longitude), 13f))
+			}
+
+			mMap.isMyLocationEnabled = true
+		} else {
+			mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(52.37447, 9.73854), 13f))
 		}
 
-		mMap.isMyLocationEnabled = true
 	}
 
 
@@ -174,7 +177,7 @@ class MapFragment(
 
 		for(pool in pools) {
 			// Check the filter
-			val filter = sharedPreferences.getStringSet("poolTypes", setOf(""))
+			val filter = sharedPreferences.getStringSet("poolTypes", setOf("INDOOR", "OUTDOOR", "OUTANDINDOOR", "SPA", "LAKE"))
 
 			if(!filter?.contains(pool.poolInformations.categoryEnum.toString())!!) {
 				continue

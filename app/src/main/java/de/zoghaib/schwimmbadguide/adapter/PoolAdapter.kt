@@ -95,7 +95,7 @@ class PoolAdapter(
 			}
 			OpenEnum.OUTOFSAISON -> {
 				holder.binding.imgOpen.setImageResource(R.drawable.ic_circle_black)
-				holder.binding.txtOpenText.text = context.getString(R.string.now_closed)
+				holder.binding.txtOpenText.text = context.getString(R.string.out_of_saison)
 			}
 			OpenEnum.NOOPENTIMES -> {
 				holder.binding.imgOpen.setImageResource(R.drawable.ic_circle_grey)

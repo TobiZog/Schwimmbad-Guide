@@ -1,7 +1,10 @@
 package de.zoghaib.schwimmbadguide
 
+import android.Manifest
+import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.core.app.ActivityCompat
 import de.zoghaib.schwimmbadguide.adapter.TabAdapter
 import de.zoghaib.schwimmbadguide.database.DatabaseHandler
 import de.zoghaib.schwimmbadguide.database.DatabasePrePopulator
@@ -51,6 +54,12 @@ class MainActivity : AppCompatActivity() {
         // Pre populate the database with the CSV datas
         val databasePrePopulator = DatabasePrePopulator(this)
         databasePrePopulator.initDatabase()
+
+
+        // Request permissions
+        if(ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 42)
+        }
 
 
         // Initialize the database handler

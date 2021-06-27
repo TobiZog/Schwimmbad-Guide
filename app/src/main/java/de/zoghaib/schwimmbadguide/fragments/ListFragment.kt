@@ -1,11 +1,13 @@
 package de.zoghaib.schwimmbadguide.fragments
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.content.SharedPreferences
+import android.content.pm.PackageManager
 import android.location.LocationManager
 import android.os.Bundle
-import android.util.Log
 import android.view.View
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -102,33 +104,43 @@ class ListFragment(
 		// Clear the RecyclerView
 		recyclerViewEntries.clear()
 
-		val m = requireContext().getSystemService(LocationManager::class.java)
-		val loc = m.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER)
 
+		// Adding the pools to the RecyclerView
 		for(pool in pools) {
-			val filter = sharedPreferences.getStringSet("poolTypes", setOf(""))
+			val filter = sharedPreferences.getStringSet("poolTypes", setOf("INDOOR", "OUTDOOR", "OUTANDINDOOR", "SPA", "LAKE"))
 
 			if(!filter?.contains(pool.poolInformations.categoryEnum.toString())!!) {
 				continue
 			}
 
-			pool.calculateDistance(loc!!.latitude, loc.longitude)
 			recyclerViewEntries.add(pool)
 		}
 
 
-		var run = true
+		// Calculate the distance, if the user gives the permissions and sort the entries by this
+		if(ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+			val m = requireContext().getSystemService(LocationManager::class.java)
+			val loc = m.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER)
 
-		while(run) {
-			run = false
+			for(i in recyclerViewEntries) {
+				i.calculateDistance(loc!!.latitude, loc.longitude)
+			}
 
-			for (i in 0 until recyclerViewEntries.size - 1) {
-				if (recyclerViewEntries[i].poolInformations.distance > recyclerViewEntries[i + 1].poolInformations.distance) {
-					run = true
 
-					val buffer = recyclerViewEntries[i].poolInformations
-					recyclerViewEntries[i].poolInformations = recyclerViewEntries[i + 1].poolInformations
-					recyclerViewEntries[i + 1].poolInformations = buffer
+			// Sorting the entries via Bubble sort by distance
+			var run = true
+
+			while(run) {
+				run = false
+
+				for (i in 0 until recyclerViewEntries.size - 1) {
+					if (recyclerViewEntries[i].poolInformations.distance > recyclerViewEntries[i + 1].poolInformations.distance) {
+						run = true
+
+						val buffer = recyclerViewEntries[i].poolInformations
+						recyclerViewEntries[i].poolInformations = recyclerViewEntries[i + 1].poolInformations
+						recyclerViewEntries[i + 1].poolInformations = buffer
+					}
 				}
 			}
 		}

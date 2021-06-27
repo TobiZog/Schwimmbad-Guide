@@ -35,5 +35,6 @@ data class PoolInformations (
     val so2 : String,
     val prices : String,
     var distance : Float,
-    var publictransport : String
+    var publictransport : String,
+    var saison : String
 )
