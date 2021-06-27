@@ -1,8 +1,8 @@
 package de.zoghaib.schwimmbadguide.objects
 
+import android.content.ContentValues
 import android.content.Context
 import android.location.Location
-import android.util.Log
 import androidx.core.content.contentValuesOf
 import de.zoghaib.schwimmbadguide.data.OpenEnum
 import de.zoghaib.schwimmbadguide.data.PoolCategoryEnum
@@ -86,8 +86,11 @@ class SwimmingPool(
             prices = "",
             distance = 0.0f,
             publictransport = dataset.getAsString("PUBLICTRANSPORT"),
-            saison = dataset.getAsString("SAISON")
+            saison = dataset.getAsString("SAISON"),
+            favorite = false
             )
+
+        poolInformations.favorite = isFavorite()
     }
 
 
@@ -215,5 +218,36 @@ class SwimmingPool(
         } catch (e: Exception) {
             poolInformations.distance = 0.0f
         }
+    }
+
+
+    /**
+     * Marks this pool as favorite or not
+     *
+     * @param   isHeart     True if it's a favorite
+     */
+    fun setFavorite(isHeart : Boolean) {
+        if(isHeart) {
+            val dataset = ContentValues()
+
+            dataset.put("Id", -1)
+            dataset.put("POOL", poolInformations.dbId)
+
+            dbHandler.writeDatasetFromContentValues("FAVORITES", dataset)
+        } else {
+            dbHandler.deleteDataset("FAVORITES", Pair("POOL", poolInformations.dbId.toString()))
+        }
+
+        poolInformations.favorite = isHeart
+    }
+
+
+    /**
+     * Checks, if this pool is a favorite
+     *
+     * @return  If it's in the FAVORITES table
+     */
+    private fun isFavorite() : Boolean {
+        return dbHandler.searchDatasetForId("FAVORITES", contentValuesOf(Pair("POOL", poolInformations.dbId.toString()))) != -1
     }
 }

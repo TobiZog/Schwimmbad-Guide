@@ -684,10 +684,19 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:menu="@menu/menu_swimmingpooldetail"
         app:subtitle="Freibad"
         app:subtitleTextColor="@color/white"
         app:title="Kleefelder Bad (Annabad)"
         app:titleTextColor="@color/white" />
+
+    <ImageView
+        android:id="@+id/img_heart"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_heart_outline_white" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

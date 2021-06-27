@@ -125,16 +125,21 @@ class PoolAdapter(
 			ActivityCompat.startActivity(context, intent, options.toBundle())
 		}
 
-		// OnClickListener for the heart icon todo
-		/*holder.binding.imgHeart.setOnClickListener {
-			if(data.heart) {
+
+		if(data.poolInformations.favorite) {
+			holder.binding.imgHeart.setImageResource(R.drawable.ic_heart)
+		}
+
+		// OnClickListener for the heart icon
+		holder.binding.imgHeart.setOnClickListener {
+			if(data.poolInformations.favorite) {
 				holder.binding.imgHeart.setImageResource(R.drawable.ic_heart_outline)
-				data.heart = false
+				data.setFavorite(false)
 			} else {
 				holder.binding.imgHeart.setImageResource(R.drawable.ic_heart)
-				data.heart = true
+				data.setFavorite(true)
 			}
-		}*/
+		}
 	}
 
 

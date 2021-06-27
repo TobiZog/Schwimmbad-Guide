@@ -9,11 +9,14 @@ import android.location.LocationManager
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.PermissionChecker.PERMISSION_GRANTED
+import androidx.core.view.get
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -102,6 +105,20 @@ class PoolDetailViewActivity : AppCompatActivity(), OnMapReadyCallback {
 				PoolCategoryEnum.OUTANDINDOOR -> "Frei- und Hallenbad"
 				PoolCategoryEnum.OUTDOOR -> "Freibad"
 			}
+
+		if(swimmingPool.poolInformations.favorite) {
+			binding.imgHeart.setImageResource(R.drawable.ic_heart_white)
+		}
+
+		binding.imgHeart.setOnClickListener {
+			swimmingPool.setFavorite(!swimmingPool.poolInformations.favorite)
+
+			if(swimmingPool.poolInformations.favorite) {
+				binding.imgHeart.setImageResource(R.drawable.ic_heart_white)
+			} else {
+				binding.imgHeart.setImageResource(R.drawable.ic_heart_outline_white)
+			}
+		}
 
 
 		// Filling the textViews

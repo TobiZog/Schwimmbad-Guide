@@ -174,6 +174,52 @@ class DatabaseHandler(context: Context) {
 	}
 
 
+	/* -------------------- Search methods -------------------- */
+
+	/**
+	 * Search in one table for the searchParameter and return the Id of the first item
+	 *
+	 * @param   table               Table where to search
+	 * @param   searchParameter     Criteriums to search for
+	 *
+	 * @return  ID of the first matched result, -1 if there are no results
+	 */
+	fun searchDatasetForId(table : String, searchParameter: ContentValues) : Int {
+		// Try-catch if the table is empty
+		return try {
+			val result = readDatasetToContentValues(table, searchParameter)
+
+			if(result!!.size() > 0) {
+				result.getAsString("Id").toInt()
+			} else {
+				-1
+			}
+		} catch (e : Exception) {
+			-1
+		}
+	}
+
+
+
+	/* -------------------- Delete methods -------------------- */
+
+	/**
+	 * Deleting a dataset by one parameter
+	 *
+	 * @param	table				Table, which includes the dataset to delete
+	 * @param	searchParameter		Parameter to search for
+	 */
+	fun deleteDataset(table : String, searchParameter : Pair<String, String>) {
+		writer = database.writableDatabase
+
+		try {
+		    writer!!.delete(table, "${searchParameter.first} == ${searchParameter.second}", null)
+		} catch (e : Exception) {
+
+		}
+	}
+
+
 	/* -------------------- Local methods -------------------- */
 
 	/**
