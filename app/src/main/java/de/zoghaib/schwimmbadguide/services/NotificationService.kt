@@ -82,7 +82,10 @@ class NotificationService : Service() {
 			while(run) {
 
 				for(i in favoritePools) {
+
+					Log.d("AAA", i.getOpenState().toString())
 					if (i.getOpenState() == OpenEnum.OPENSOON && sharedPreferences.getStringSet("notificationActions", setOf(""))!!.contains("OPENING")) {
+
 						if (firstRun) {
 							createNotification(
 								title = "Ein Bad öffnet bald!",
@@ -95,8 +98,7 @@ class NotificationService : Service() {
 							val currentTime = Time(System.currentTimeMillis()).hours * 60 + Time(System.currentTimeMillis()).minutes
 							val open1 = i.getOpenTimesToday(1).substringBefore(":").toInt() * 60 +
 									i.getOpenTimesToday(1).substringAfter(":").substringBefore("-").toInt()
-
-							if (currentTime in (open1 - 60) .. (open1 - 59)) {
+							if (currentTime == (open1 - 60)) {
 								createNotification(
 									title = "Ein Bad öffnet bald!",
 									text = "${i.poolInformations.name} öffnet um " +
@@ -122,7 +124,7 @@ class NotificationService : Service() {
 							val close1 = i.getOpenTimesToday(1).substringAfter("-").substringBefore(":").toInt() * 60 +
 									i.getOpenTimesToday(1).substringAfterLast(":").toInt()
 
-							if (currentTime in (close1 + 60) .. (close1 + 59)) {
+							if (currentTime == (close1 - 60)) {
 								createNotification(
 									title = "Ein Bad schließt bald!",
 									text = "${i.poolInformations.name} schließt um " +
@@ -158,22 +160,20 @@ class NotificationService : Service() {
 	 * todo
 	 */
 	private fun createNotification(title : String, text : String, id : Int, channelName : String) {
-		val manager = NotificationManagerCompat.from(this)
-		val channel = NotificationChannel("42", "channelName", NotificationManager.IMPORTANCE_DEFAULT)
-
-		val pendingIntent = PendingIntent.getActivity(
-			this,
-			0,
+		val pendingIntent = PendingIntent.getActivity(this, 0,
 			Intent(this, MainActivity::class.java),
 			PendingIntent.FLAG_UPDATE_CURRENT)
 
-		val builder = NotificationCompat.Builder(this, "channel_schwimmbadguide")
+		val builder = NotificationCompat.Builder(this, id.toString())
+			.setContentTitle(title)
+			.setContentText(text)
 			.setSmallIcon(R.drawable.ic_pool)
 			.setPriority(NotificationCompat.PRIORITY_DEFAULT)
 			.setContentIntent(pendingIntent)
 			.setAutoCancel(true)
-			.setContentTitle(title)
-			.setContentText(text)
+
+		val manager = NotificationManagerCompat.from(this)
+		val channel = NotificationChannel(id.toString(), channelName, NotificationManager.IMPORTANCE_DEFAULT)
 
 
 		manager.createNotificationChannel(channel)
