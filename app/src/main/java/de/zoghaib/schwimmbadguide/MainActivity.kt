@@ -89,6 +89,8 @@ class MainActivity : AppCompatActivity() {
         adapter.addFragment(SettingsFragment(), resources.getString(R.string.preferences))
         adapter.notifyDataSetChanged()
 
+        binding.vpMain.offscreenPageLimit = 2
+
         // Setting the icons
         binding.tlMain.getTabAt(0)?.setIcon(R.drawable.ic_map)
         binding.tlMain.getTabAt(1)?.setIcon(R.drawable.ic_view_list)

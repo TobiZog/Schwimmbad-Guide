@@ -19,6 +19,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SchwimmbadGuide">
 
+
+        <!-- Services -->
+        <service android:name=".services.NotificationService"/>
+
+
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="${MAP_API_KEY}"/>

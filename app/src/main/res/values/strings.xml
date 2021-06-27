@@ -46,6 +46,14 @@
     </string-array>
 
     <string name="notifications">Benachrichtigungen</string>
+    <string-array name="notificationActions">
+        <item>Öffnung eines Bades</item>
+        <item>Schließung eines Bades</item>
+    </string-array>
+    <string-array name="notificationActionsValues">
+        <item>OPENING</item>
+        <item>CLOSING</item>
+    </string-array>
 
     <string name="about">Über die App</string>
 </resources>
