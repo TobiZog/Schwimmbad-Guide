@@ -12,7 +12,6 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.preference.PreferenceManager
 import de.zoghaib.schwimmbadguide.MainActivity
-import de.zoghaib.schwimmbadguide.PoolDetailViewActivity
 import de.zoghaib.schwimmbadguide.R
 import de.zoghaib.schwimmbadguide.data.OpenEnum
 import de.zoghaib.schwimmbadguide.database.DatabaseHandler
@@ -83,7 +82,6 @@ class NotificationService : Service() {
 
 				for(i in favoritePools) {
 
-					Log.d("AAA", i.getOpenState().toString())
 					if (i.getOpenState() == OpenEnum.OPENSOON && sharedPreferences.getStringSet("notificationActions", setOf(""))!!.contains("OPENING")) {
 
 						if (firstRun) {
@@ -140,6 +138,7 @@ class NotificationService : Service() {
 
 				firstRun = false
 
+				Log.d("AAA", "Alive!")
 
 				Thread.sleep(5000)
 			}
@@ -153,6 +152,22 @@ class NotificationService : Service() {
 	override fun onDestroy() {
 		super.onDestroy()
 		run = false
+	}
+
+
+	/**
+	 * todo
+	 */
+	override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+		return START_STICKY
+	}
+
+
+	override fun onTaskRemoved(rootIntent: Intent?) {
+		val restartServiceIntent = Intent(applicationContext, this.javaClass)
+		restartServiceIntent.setPackage(packageName)
+		startService(restartServiceIntent)
+		super.onTaskRemoved(rootIntent)
 	}
 
 
@@ -177,6 +192,7 @@ class NotificationService : Service() {
 
 
 		manager.createNotificationChannel(channel)
+		//startForeground(0x1234, builder.build())
 		manager.notify(id, builder.build())
 	}
 

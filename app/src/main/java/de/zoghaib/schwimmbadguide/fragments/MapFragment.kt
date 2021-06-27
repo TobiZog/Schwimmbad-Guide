@@ -51,6 +51,9 @@ class MapFragment(
 	/** Shared preference object */
 	private lateinit var sharedPreferences: SharedPreferences
 
+	/** Blocks actions on first startup */
+	var firstRun = true
+
 
 	/* -------------------- Lifecycle -------------------- */
 
@@ -88,6 +91,8 @@ class MapFragment(
 	 */
 	override fun onMapReady(googleMap: GoogleMap) {
 		mMap = googleMap
+
+		firstRun = false
 
 		// Request permissions
 		if(ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PERMISSION_GRANTED) {
@@ -134,6 +139,17 @@ class MapFragment(
 	override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String?>, grantResults: IntArray) {
 		if (requestCode == 42 && grantResults.isNotEmpty() && grantResults[0] == PERMISSION_GRANTED) {
 			moveCameraToPosition(true)
+		}
+	}
+
+
+	/**
+	 * todo
+	 */
+	override fun setUserVisibleHint(isVisibleToUser: Boolean) {
+		super.setUserVisibleHint(isVisibleToUser)
+		if (isVisibleToUser && !firstRun) {
+			addMarkerToMap()
 		}
 	}
 

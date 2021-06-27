@@ -2,8 +2,8 @@ package de.zoghaib.schwimmbadguide
 
 import android.Manifest
 import android.content.pm.PackageManager
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import de.zoghaib.schwimmbadguide.adapter.TabAdapter
 import de.zoghaib.schwimmbadguide.database.DatabaseHandler
