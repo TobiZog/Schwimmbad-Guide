@@ -624,12 +624,49 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:cardCornerRadius="0dp"
-                app:cardElevation="0dp">
+                app:cardElevation="0dp"
+                app:contentPadding="8dp"
+                android:layout_marginBottom="8dp" >
 
-                <com.google.android.gms.maps.MapView
-                    android:id="@+id/mv_map"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="300dp" />
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        android:paddingBottom="8dp">
+
+                        <ImageView
+                            android:id="@+id/imageVieww"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:tint="@android:color/darker_gray"
+                            app:srcCompat="@drawable/ic_compass" />
+
+                        <TextView
+                            android:id="@+id/textView122"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingLeft="8dp"
+                            android:text="Anfahrt"
+                            android:textSize="20sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/txt_approach"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="8dp" />
+
+                    <com.google.android.gms.maps.MapView
+                        android:id="@+id/mv_map"
+                        android:layout_width="match_parent"
+                        android:layout_height="300dp" />
+                </LinearLayout>
 
             </androidx.cardview.widget.CardView>
 

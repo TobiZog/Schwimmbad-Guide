@@ -229,6 +229,10 @@ class PoolDetailViewActivity : AppCompatActivity(), OnMapReadyCallback {
 		}
 
 
+		// Approach
+		binding.txtApproach.text = swimmingPool.poolInformations.address
+
+
 		// Google Maps View
 		binding.mvMap.onCreate(savedInstanceState)
 		binding.mvMap.onResume()
