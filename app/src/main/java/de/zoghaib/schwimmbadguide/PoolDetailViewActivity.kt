@@ -131,6 +131,14 @@ class PoolDetailViewActivity : AppCompatActivity(), OnMapReadyCallback {
 
 		binding.txtDescription.text = swimmingPool.poolInformations.description
 
+		swimmingPool.poolInformations.sauna.let {
+			if(it.isBlank()) {
+				binding.cvSauna.visibility = View.GONE
+			} else {
+				binding.txtSauna.text = it
+			}
+		}
+
 
 		swimmingPool.poolInformations.other.let {
 			if(it.length > 1) {
@@ -145,6 +153,12 @@ class PoolDetailViewActivity : AppCompatActivity(), OnMapReadyCallback {
 		poolsText = poolsText.replace(" * ", "\n\n")
 		poolsText = poolsText.replace("* ","")
 		binding.txtPools.text = poolsText
+
+
+		var saunaText = swimmingPool.poolInformations.sauna
+		saunaText = saunaText.replace(" * ", "\n\n")
+		saunaText = saunaText.replace("* ","")
+		binding.txtSauna.text = saunaText
 
 		binding.txtFood.text = swimmingPool.poolInformations.restaurant
 		binding.txtPhonenumber.text = swimmingPool.poolInformations.phoneNumber
