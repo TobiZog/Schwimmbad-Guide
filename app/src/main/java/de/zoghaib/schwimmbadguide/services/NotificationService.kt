@@ -88,7 +88,8 @@ class NotificationService : Service() {
 								title = "Ein Bad öffnet bald!",
 								text = "${i.poolInformations.name} öffnet um " +
 										"${i.getOpenTimesToday(Calendar.getInstance().get(Calendar.DAY_OF_WEEK)).substringBefore('-')} Uhr",
-								id = i.poolInformations.dbId
+								id = i.poolInformations.dbId,
+								channelName = "Open-Event"
 							)
 						} else {
 							val currentTime = Time(System.currentTimeMillis()).hours * 60 + Time(System.currentTimeMillis()).minutes
@@ -100,7 +101,8 @@ class NotificationService : Service() {
 									title = "Ein Bad öffnet bald!",
 									text = "${i.poolInformations.name} öffnet um " +
 											"${i.getOpenTimesToday(Calendar.getInstance().get(Calendar.DAY_OF_WEEK)).substringBefore('-')} Uhr",
-									id = i.poolInformations.dbId
+									id = i.poolInformations.dbId,
+									channelName = "Open-Event"
 								)
 							}
 						}
@@ -111,7 +113,8 @@ class NotificationService : Service() {
 								title = "Ein Bad schließt bald!",
 								text = "${i.poolInformations.name} schließt um " +
 										"${i.getOpenTimesToday(Calendar.getInstance().get(Calendar.DAY_OF_WEEK)).substringAfter('-')} Uhr",
-								id = i.poolInformations.dbId
+								id = i.poolInformations.dbId,
+								channelName = "Close-Event"
 							)
 
 						} else {
@@ -119,12 +122,13 @@ class NotificationService : Service() {
 							val close1 = i.getOpenTimesToday(1).substringAfter("-").substringBefore(":").toInt() * 60 +
 									i.getOpenTimesToday(1).substringAfterLast(":").toInt()
 
-							if (currentTime in (close1 - 60) .. (close1 - 59)) {
+							if (currentTime in (close1 + 60) .. (close1 + 59)) {
 								createNotification(
 									title = "Ein Bad schließt bald!",
 									text = "${i.poolInformations.name} schließt um " +
 											"${i.getOpenTimesToday(Calendar.getInstance().get(Calendar.DAY_OF_WEEK)).substringAfter('-')} Uhr",
-									id = i.poolInformations.dbId
+									id = i.poolInformations.dbId,
+									channelName = "Close-Event"
 								)
 							}
 						}
@@ -153,9 +157,9 @@ class NotificationService : Service() {
 	/**
 	 * todo
 	 */
-	private fun createNotification(title : String, text : String, id : Int) {
+	private fun createNotification(title : String, text : String, id : Int, channelName : String) {
 		val manager = NotificationManagerCompat.from(this)
-		val channel = NotificationChannel("42", "Channel-Name", NotificationManager.IMPORTANCE_DEFAULT)
+		val channel = NotificationChannel("42", "channelName", NotificationManager.IMPORTANCE_DEFAULT)
 
 		val pendingIntent = PendingIntent.getActivity(
 			this,

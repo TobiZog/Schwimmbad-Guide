@@ -12,6 +12,12 @@
             android:key="poolTypes"
             android:summary="Nur Bäder bestimmter Kategorien anzeigen"
             android:title="@string/poolTypes" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:icon="@drawable/ic_heart"
+            android:key="only_favorites"
+            android:summary="Auf der Karte und in der Liste werden nur zuvor festgelegte Favoriten angezeigt"
+            android:title="Nur Favoriten anzeigen" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/notifications">
 

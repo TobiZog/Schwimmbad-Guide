@@ -178,8 +178,9 @@ class MapFragment(
 		for(pool in pools) {
 			// Check the filter
 			val filter = sharedPreferences.getStringSet("poolTypes", setOf("INDOOR", "OUTDOOR", "OUTANDINDOOR", "SPA", "LAKE"))
+			val onlyFavorites = sharedPreferences.getBoolean("only_favorites", false)
 
-			if(!filter?.contains(pool.poolInformations.categoryEnum.toString())!!) {
+			if(!filter?.contains(pool.poolInformations.categoryEnum.toString())!! || onlyFavorites && !pool.poolInformations.favorite) {
 				continue
 			}
 

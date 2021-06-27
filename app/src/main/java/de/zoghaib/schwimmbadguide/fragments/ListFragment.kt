@@ -108,8 +108,9 @@ class ListFragment(
 		// Adding the pools to the RecyclerView
 		for(pool in pools) {
 			val filter = sharedPreferences.getStringSet("poolTypes", setOf("INDOOR", "OUTDOOR", "OUTANDINDOOR", "SPA", "LAKE"))
+			val onlyFavorites = sharedPreferences.getBoolean("only_favorites", false)
 
-			if(!filter?.contains(pool.poolInformations.categoryEnum.toString())!!) {
+			if(!filter?.contains(pool.poolInformations.categoryEnum.toString())!! || onlyFavorites && !pool.poolInformations.favorite) {
 				continue
 			}
 
@@ -119,12 +120,16 @@ class ListFragment(
 
 		// Calculate the distance, if the user gives the permissions and sort the entries by this
 		if(ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-			val m = requireContext().getSystemService(LocationManager::class.java)
-			val loc = m.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER)
+			try {
+				val m = requireContext().getSystemService(LocationManager::class.java)
 
-			for(i in recyclerViewEntries) {
-				i.calculateDistance(loc!!.latitude, loc.longitude)
-			}
+				val loc = m.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER)
+
+				for(i in recyclerViewEntries) {
+					i.calculateDistance(loc!!.latitude, loc.longitude)
+				}
+			} catch (e : Exception) {}
+
 
 
 			// Sorting the entries via Bubble sort by distance

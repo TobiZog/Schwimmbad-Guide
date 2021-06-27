@@ -5,6 +5,7 @@ import android.app.Activity
 import android.app.ActivityOptions
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.util.Pair as UtilPair
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -128,6 +129,8 @@ class PoolAdapter(
 
 		if(data.poolInformations.favorite) {
 			holder.binding.imgHeart.setImageResource(R.drawable.ic_heart)
+		} else {
+			holder.binding.imgHeart.setImageResource(R.drawable.ic_heart_outline)
 		}
 
 		// OnClickListener for the heart icon
