@@ -158,22 +158,6 @@ class NotificationService : Service() {
 	/**
 	 * todo
 	 */
-	override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-		return START_STICKY
-	}
-
-
-	override fun onTaskRemoved(rootIntent: Intent?) {
-		val restartServiceIntent = Intent(applicationContext, this.javaClass)
-		restartServiceIntent.setPackage(packageName)
-		startService(restartServiceIntent)
-		super.onTaskRemoved(rootIntent)
-	}
-
-
-	/**
-	 * todo
-	 */
 	private fun createNotification(title : String, text : String, id : Int, channelName : String) {
 		val pendingIntent = PendingIntent.getActivity(this, 0,
 			Intent(this, MainActivity::class.java),
@@ -191,9 +175,8 @@ class NotificationService : Service() {
 		val channel = NotificationChannel(id.toString(), channelName, NotificationManager.IMPORTANCE_DEFAULT)
 
 
-		manager.createNotificationChannel(channel)
-		//startForeground(0x1234, builder.build())
-		manager.notify(id, builder.build())
+		//manager.createNotificationChannel(channel)
+		startForeground(0x1234, builder.build())
+		//manager.notify(id, builder.build())
 	}
-
 }

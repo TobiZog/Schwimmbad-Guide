@@ -2,7 +2,6 @@ package de.zoghaib.schwimmbadguide.fragments
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.preference.MultiSelectListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
@@ -36,7 +35,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
 		addPreferencesFromResource(R.xml.preferences)
 
 
-		intent = Intent(requireContext(), NotificationService::class.java)
+		/*intent = Intent(requireContext(), NotificationService::class.java)
 
 
 		// Start service, if the switch is on (on startup)
@@ -56,7 +55,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
 			Preference.OnPreferenceChangeListener { _, _ ->
 				controlNotificationService()
 				true
-			}
+			}*/
 	}
 
 
@@ -67,7 +66,8 @@ class SettingsFragment : PreferenceFragmentCompat() {
 		requireActivity().stopService(intent)
 
 		if(findPreference<SwitchPreference>("notificationsEnabled")!!.isChecked){
-			requireActivity().startService(intent)
+			requireActivity().startForegroundService(intent)
+			//startForegroundService(requireContext(), NotificationService::class.java)
 		} else {
 			requireActivity().stopService(intent)
 		}

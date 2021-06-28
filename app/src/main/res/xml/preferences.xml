@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="?android:attr/colorBackground">
     <PreferenceCategory android:title="@string/generally">
 
@@ -18,25 +19,6 @@
             android:key="only_favorites"
             android:summary="Auf der Karte und in der Liste werden nur zuvor festgelegte Favoriten angezeigt"
             android:title="Nur Favoriten anzeigen" />
-    </PreferenceCategory>
-    <PreferenceCategory android:title="@string/notifications">
-
-        <SwitchPreference
-            android:defaultValue="false"
-            android:icon="@drawable/ic_bell"
-            android:key="notificationsEnabled"
-            android:summary="Ausgewählte Benachrichtigungen von favorisierten Bädern erhalten"
-            android:title="Benachrichtigungen erhalten" />
-        <MultiSelectListPreference
-            android:id="@+id/preference"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:entries="@array/notificationActions"
-            android:entryValues="@array/notificationActionsValues"
-            android:icon="@drawable/ic_bell_ring"
-            android:key="notificationActions"
-            android:summary="Auslöser für Benachrichtigungen festlegen"
-            android:title="Ereignisse" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/about">
 
