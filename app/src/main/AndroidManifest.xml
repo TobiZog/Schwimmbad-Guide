@@ -18,11 +18,8 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.SchwimmbadGuide">
-
-
-        <!-- Services -->
-        <service android:name=".services.NotificationService"/>
+        android:theme="@style/Theme.SchwimmbadGuide"
+        tools:ignore="AllowBackup">
 
 
         <meta-data

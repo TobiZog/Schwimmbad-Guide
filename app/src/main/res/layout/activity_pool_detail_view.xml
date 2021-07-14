@@ -14,7 +14,8 @@
         android:transitionName="@string/img_transition"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ContentDescription" />
 
     <ScrollView
         android:id="@+id/sv_poolDetails"
@@ -52,7 +53,8 @@
 
                     <TableLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:layout_height="match_parent"
+                        tools:ignore="UselessParent">
 
                         <TableRow
                             android:layout_width="match_parent"
@@ -63,22 +65,25 @@
                                 android:layout_width="0dp"
                                 android:layout_height="36dp"
                                 android:layout_weight="1"
-                                app:srcCompat="@drawable/ic_clock_outline" />
+                                app:srcCompat="@drawable/ic_clock_outline"
+                                tools:ignore="ContentDescription" />
 
                             <ImageView
                                 android:id="@+id/img_distance"
                                 android:layout_width="0dp"
                                 android:layout_height="36dp"
                                 android:layout_weight="1"
-                                app:srcCompat="@drawable/ic_map_marker" />
+                                app:srcCompat="@drawable/ic_map_marker"
+                                tools:ignore="ContentDescription" />
 
                             <ImageView
                                 android:id="@+id/imageView8"
                                 android:layout_width="0dp"
                                 android:layout_height="36dp"
                                 android:layout_weight="1"
-                                android:tint="#4CAF50"
-                                app:srcCompat="@drawable/ic_bus" />
+                                app:tint="#4CAF50"
+                                app:srcCompat="@drawable/ic_bus"
+                                tools:ignore="ContentDescription" />
                         </TableRow>
 
                         <TableRow
@@ -130,23 +135,26 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:orientation="horizontal"
-                        android:paddingBottom="8dp">
+                        android:paddingBottom="8dp"
+                        tools:ignore="UseCompoundDrawables">
 
                         <ImageView
                             android:id="@+id/imageView"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:tint="@android:color/darker_gray"
-                            app:srcCompat="@drawable/ic_information_outline" />
+                            app:tint="@android:color/darker_gray"
+                            app:srcCompat="@drawable/ic_information_outline"
+                            tools:ignore="ContentDescription" />
 
                         <TextView
                             android:id="@+id/textView12"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:paddingLeft="8dp"
-                            android:text="Beschreibung"
+                            android:paddingStart="8dp"
+                            android:text="@string/description"
                             android:textSize="20sp"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"
+                            tools:ignore="RtlSymmetry" />
                     </LinearLayout>
 
                     <TextView
@@ -173,23 +181,26 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:orientation="horizontal"
-                        android:paddingBottom="8dp">
+                        android:paddingBottom="8dp"
+                        tools:ignore="UseCompoundDrawables">
 
                         <ImageView
                             android:id="@+id/imageView9"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:tint="@android:color/darker_gray"
-                            app:srcCompat="@drawable/ic_pool" />
+                            app:tint="@android:color/darker_gray"
+                            app:srcCompat="@drawable/ic_pool"
+                            tools:ignore="ContentDescription" />
 
                         <TextView
                             android:id="@+id/textView13"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:paddingLeft="8dp"
-                            android:text="Badeinfrastruktur"
+                            android:paddingStart="8dp"
+                            android:text="@string/infrastructure"
                             android:textSize="20sp"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"
+                            tools:ignore="RtlSymmetry" />
 
                     </LinearLayout>
 
@@ -221,23 +232,26 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:orientation="horizontal"
-                        android:paddingBottom="8dp">
+                        android:paddingBottom="8dp"
+                        tools:ignore="UseCompoundDrawables">
 
                         <ImageView
                             android:id="@+id/imageView91"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:tint="@android:color/darker_gray"
-                            app:srcCompat="@drawable/ic_thermometer" />
+                            app:tint="@android:color/darker_gray"
+                            app:srcCompat="@drawable/ic_thermometer"
+                            tools:ignore="ContentDescription" />
 
                         <TextView
                             android:id="@+id/textView113"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:paddingLeft="8dp"
-                            android:text="Sauna"
+                            android:paddingStart="8dp"
+                            android:text="@string/sauna"
                             android:textSize="20sp"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"
+                            tools:ignore="RtlSymmetry" />
 
                     </LinearLayout>
 
@@ -269,7 +283,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:orientation="horizontal"
-                        android:paddingBottom="8dp">
+                        android:paddingBottom="8dp"
+                        tools:ignore="UseCompoundDrawables">
 
                         <ImageView
                             android:id="@+id/imageView222"
@@ -277,17 +292,18 @@
                             android:layout_height="match_parent"
                             android:layout_gravity="center_vertical"
                             app:srcCompat="@drawable/ic_handball"
-                            app:tint="@android:color/darker_gray" />
+                            app:tint="@android:color/darker_gray"
+                            tools:ignore="ContentDescription" />
 
                         <TextView
                             android:id="@+id/textView1224"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:paddingLeft="8dp"
-                            android:text="Weitere Ausstattung"
+                            android:paddingStart="8dp"
+                            android:text="@string/more_equipment"
                             android:textSize="20sp"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"
+                            tools:ignore="RtlSymmetry" />
 
                     </LinearLayout>
 
@@ -317,7 +333,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:orientation="horizontal"
-                        android:paddingBottom="8dp">
+                        android:paddingBottom="8dp"
+                        tools:ignore="UseCompoundDrawables">
 
                         <ImageView
                             android:id="@+id/imageView23"
@@ -325,17 +342,18 @@
                             android:layout_height="match_parent"
                             android:layout_gravity="center_vertical"
                             app:srcCompat="@drawable/ic_food_fork_drink"
-                            app:tint="@android:color/darker_gray" />
+                            app:tint="@android:color/darker_gray"
+                            tools:ignore="ContentDescription" />
 
                         <TextView
                             android:id="@+id/textView134"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:paddingLeft="8dp"
-                            android:text="Speißen und Getränke"
+                            android:paddingStart="8dp"
+                            android:text="@string/food"
                             android:textSize="20sp"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"
+                            tools:ignore="RtlSymmetry" />
 
                     </LinearLayout>
 
@@ -366,7 +384,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:orientation="horizontal"
-                        android:paddingBottom="8dp">
+                        android:paddingBottom="8dp"
+                        tools:ignore="UseCompoundDrawables">
 
                         <ImageView
                             android:id="@+id/imageView22"
@@ -374,17 +393,18 @@
                             android:layout_height="match_parent"
                             android:layout_gravity="center_vertical"
                             app:srcCompat="@drawable/ic_gmail"
-                            app:tint="@android:color/darker_gray" />
+                            app:tint="@android:color/darker_gray"
+                            tools:ignore="ContentDescription" />
 
                         <TextView
                             android:id="@+id/textView124"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:paddingLeft="8dp"
-                            android:text="Mail"
+                            android:paddingStart="8dp"
+                            android:text="@string/mail"
                             android:textSize="20sp"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"
+                            tools:ignore="RtlSymmetry" />
 
                     </LinearLayout>
 
@@ -415,7 +435,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:orientation="horizontal"
-                        android:paddingBottom="8dp">
+                        android:paddingBottom="8dp"
+                        tools:ignore="UseCompoundDrawables">
 
                         <ImageView
                             android:id="@+id/imageView52"
@@ -423,17 +444,18 @@
                             android:layout_height="match_parent"
                             android:layout_gravity="center_vertical"
                             app:srcCompat="@drawable/ic_phone"
-                            app:tint="@android:color/darker_gray" />
+                            app:tint="@android:color/darker_gray"
+                            tools:ignore="ContentDescription" />
 
                         <TextView
                             android:id="@+id/textView14"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:paddingLeft="8dp"
-                            android:text="Telefon"
+                            android:paddingStart="8dp"
+                            android:text="@string/phone"
                             android:textSize="20sp"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"
+                            tools:ignore="RtlSymmetry" />
 
                     </LinearLayout>
 
@@ -464,7 +486,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:orientation="horizontal"
-                        android:paddingBottom="8dp">
+                        android:paddingBottom="8dp"
+                        tools:ignore="UseCompoundDrawables">
 
                         <ImageView
                             android:id="@+id/imageView2"
@@ -472,17 +495,18 @@
                             android:layout_height="match_parent"
                             android:layout_gravity="center_vertical"
                             app:srcCompat="@drawable/ic_clock_outline"
-                            app:tint="@android:color/darker_gray" />
+                            app:tint="@android:color/darker_gray"
+                            tools:ignore="ContentDescription" />
 
                         <TextView
                             android:id="@+id/textView114"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:paddingLeft="8dp"
-                            android:text="Öffnungszeiten"
+                            android:paddingStart="8dp"
+                            android:text="@string/opening_times"
                             android:textSize="20sp"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"
+                            tools:ignore="RtlSymmetry" />
 
                     </LinearLayout>
 
@@ -582,7 +606,8 @@
 
                         <TableRow
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent">
+                            android:layout_height="match_parent"
+                            tools:ignore="TooManyViews">
 
                             <TextView
                                 android:id="@+id/textView23"
@@ -637,23 +662,26 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:orientation="horizontal"
-                        android:paddingBottom="8dp">
+                        android:paddingBottom="8dp"
+                        tools:ignore="UseCompoundDrawables">
 
                         <ImageView
                             android:id="@+id/imageVieww"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:tint="@android:color/darker_gray"
-                            app:srcCompat="@drawable/ic_compass" />
+                            app:tint="@android:color/darker_gray"
+                            app:srcCompat="@drawable/ic_compass"
+                            tools:ignore="ContentDescription" />
 
                         <TextView
                             android:id="@+id/textView122"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:paddingLeft="8dp"
-                            android:text="Anfahrt"
+                            android:paddingStart="8dp"
+                            android:text="@string/address"
                             android:textSize="20sp"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"
+                            tools:ignore="RtlSymmetry" />
                     </LinearLayout>
 
                     <TextView
@@ -697,6 +725,7 @@
         android:layout_marginEnd="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_heart_outline_white" />
+        app:srcCompat="@drawable/ic_heart_outline_white"
+        tools:ignore="ContentDescription" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

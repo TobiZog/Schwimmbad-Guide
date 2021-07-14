@@ -26,7 +26,7 @@ import de.zoghaib.schwimmbadguide.objects.SwimmingPool
 class ListFragment(
 
 	/** List of pools, overgiven from MainActivity */
-	val pools : ArrayList<SwimmingPool>
+	private val pools : ArrayList<SwimmingPool>
 
 	) : Fragment(R.layout.fragment_list) {
 
@@ -82,7 +82,9 @@ class ListFragment(
 
 
 	/**
-	 * todo
+	 * Lifecycle method, if the user wish between the fragments
+	 *
+	 * @param	isVisibleToUser		Is this fragment now displayed?
 	 */
 	override fun setUserVisibleHint(isVisibleToUser: Boolean) {
 		super.setUserVisibleHint(isVisibleToUser)

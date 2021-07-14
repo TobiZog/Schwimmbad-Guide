@@ -3,21 +3,15 @@ package de.zoghaib.schwimmbadguide
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.content.res.ColorStateList
 import android.graphics.Color
 import android.location.LocationManager
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
-import android.view.Menu
-import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.PermissionChecker.PERMISSION_GRANTED
-import androidx.core.view.get
-import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -29,7 +23,6 @@ import de.zoghaib.schwimmbadguide.data.OpenEnum
 import de.zoghaib.schwimmbadguide.data.PoolCategoryEnum
 import de.zoghaib.schwimmbadguide.databinding.ActivityPoolDetailViewBinding
 import de.zoghaib.schwimmbadguide.objects.SwimmingPool
-import org.jetbrains.anko.displayMetrics
 import java.util.*
 
 /**
@@ -59,7 +52,7 @@ class PoolDetailViewActivity : AppCompatActivity(), OnMapReadyCallback {
 	 *
 	 * @param   savedInstanceState      Save state of the view
 	 */
-	@SuppressLint("ResourceAsColor", "MissingPermission")
+	@SuppressLint("ResourceAsColor", "MissingPermission", "SetTextI18n")
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 
@@ -130,9 +123,9 @@ class PoolDetailViewActivity : AppCompatActivity(), OnMapReadyCallback {
 			val loc = m.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER)
 
 			swimmingPool.calculateDistance(loc!!.latitude, loc.longitude)
-			binding.txtDistance.text = "${swimmingPool.poolInformations.distance} km"
+			binding.txtDistance.text = swimmingPool.poolInformations.distance.toString() + resources.getString(R.string.km)
 		} else {
-			binding.txtDistance.text = "Entfernung konnte nicht bestimmt werden"
+			binding.txtDistance.text = resources.getString(R.string.cantGetDistance)
 		}
 
 
@@ -287,7 +280,7 @@ class PoolDetailViewActivity : AppCompatActivity(), OnMapReadyCallback {
 
 
 	/**
-	 * todo
+	 * Lifecycle method when the user press the back button
 	 */
 	override fun onBackPressed() {
 		ActivityCompat.finishAfterTransition(this)
@@ -320,7 +313,11 @@ class PoolDetailViewActivity : AppCompatActivity(), OnMapReadyCallback {
 
 
 	/**
-	 * todo
+	 * Get method for the opening times
+	 *
+	 * @param	day		Calender day as integer
+	 *
+	 * @return	String with the pool opening times in format like 06:00-18:00
 	 */
 	private fun getOpenTimes(day : Int) : String {
 		return when(day) {

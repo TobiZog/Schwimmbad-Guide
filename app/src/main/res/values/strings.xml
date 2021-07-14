@@ -8,9 +8,6 @@
     
     
     <!-- PoolDetailView -->
-    <string name="pools">Becken</string>
-    <string name="restaurant">Verpflegung</string>
-    <string name="contact">Kontakt</string>
 	<string name="img_transition">poolImage</string>
     <string name="name_transition">poolName</string>
     <string name="subtext_transition">poolSubtext</string>
@@ -45,15 +42,16 @@
         <item>LAKE</item>
     </string-array>
 
-    <string name="notifications">Benachrichtigungen</string>
-    <string-array name="notificationActions">
-        <item>Öffnung eines Bades</item>
-        <item>Schließung eines Bades</item>
-    </string-array>
-    <string-array name="notificationActionsValues">
-        <item>OPENING</item>
-        <item>CLOSING</item>
-    </string-array>
-
+    <string name="km"> km</string>
+    <string name="cantGetDistance">Entfernung konnte nicht bestimmt werden</string>
     <string name="about">Über die App</string>
+    <string name="more_equipment">Weitere Ausstattung</string>
+    <string name="food">Speißen und Getränke</string>
+    <string name="phone">Telefon</string>
+    <string name="opening_times">Öffnungszeiten</string>
+    <string name="address">Anfahrt</string>
+    <string name="description">Beschreibung</string>
+    <string name="infrastructure">Badeinfrastruktur</string>
+    <string name="sauna">Sauna</string>
+    <string name="mail">Mail</string>
 </resources>

@@ -2,7 +2,6 @@ package de.zoghaib.schwimmbadguide.database
 
 import android.content.ContentValues
 import android.content.Context
-import android.util.Log
 import androidx.core.content.contentValuesOf
 import java.io.BufferedReader
 import java.io.InputStreamReader

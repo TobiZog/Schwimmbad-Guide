@@ -39,17 +39,6 @@ class TabAdapter(fm: FragmentManager, behavior: Int) : FragmentPagerAdapter(fm, 
 
 
 	/**
-	 * Removing a fragment from the adapter
-	 *
-	 * @param   position    Position in the tablayout
-	 */
-	fun removeFragment(position: Int) {
-		mFragmentList.removeAt(position)
-		mFragmentTitleList.removeAt(position)
-	}
-
-
-	/**
 	 * Getter for an item
 	 *
 	 * @param   position    Id of the wanted fragment

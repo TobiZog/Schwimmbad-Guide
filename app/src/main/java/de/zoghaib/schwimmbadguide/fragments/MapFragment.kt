@@ -33,7 +33,7 @@ import kotlin.collections.ArrayList
 class MapFragment(
 
 	/** List of pools, overgiven from MainActivity */
-	val pools : ArrayList<SwimmingPool>
+	private val pools : ArrayList<SwimmingPool>
 
 ) : Fragment(R.layout.fragment_map), OnMapReadyCallback {
 
@@ -52,7 +52,7 @@ class MapFragment(
 	private lateinit var sharedPreferences: SharedPreferences
 
 	/** Blocks actions on first startup */
-	var firstRun = true
+	private var firstRun = true
 
 
 	/* -------------------- Lifecycle -------------------- */
@@ -144,7 +144,9 @@ class MapFragment(
 
 
 	/**
-	 * todo
+	 * Lifecycle method, if the user wish between the fragments
+	 *
+	 * @param	isVisibleToUser		Is this fragment now displayed?
 	 */
 	override fun setUserVisibleHint(isVisibleToUser: Boolean) {
 		super.setUserVisibleHint(isVisibleToUser)

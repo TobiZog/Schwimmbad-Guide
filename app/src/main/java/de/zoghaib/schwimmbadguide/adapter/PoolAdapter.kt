@@ -5,7 +5,6 @@ import android.app.Activity
 import android.app.ActivityOptions
 import android.content.Context
 import android.content.Intent
-import android.util.Log
 import android.util.Pair as UtilPair
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -27,10 +26,10 @@ import java.util.*
  */
 @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 class PoolAdapter(
-	/** todo */
+	/** List with all Swimming pool objects */
 	private val dataSet: ArrayList<SwimmingPool>,
 
-	/** todo */
+	/** Context from where the adapter is called */
 	private val context : Context
 ) : RecyclerView.Adapter<PoolAdapter.MyViewHolder>() {
 
@@ -63,7 +62,7 @@ class PoolAdapter(
 	 *                      the item at the given position in the data set
 	 * @param   position    The position of the item within the adapter's data set
 	 */
-	@SuppressLint("SimpleDateFormat")
+	@SuppressLint("SimpleDateFormat", "SetTextI18n")
 	override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
 		// Pick the right dataSet
 		val data = dataSet[position]
@@ -120,8 +119,6 @@ class PoolAdapter(
 				UtilPair.create(holder.binding.imgPool, holder.binding.imgPool.transitionName),
 				UtilPair.create(holder.binding.txtTitle, holder.binding.txtTitle.transitionName),
 				UtilPair.create(holder.binding.txtSubtext, holder.binding.txtSubtext.transitionName))
-
-			// todo: Implement transitions!
 
 			ActivityCompat.startActivity(context, intent, options.toBundle())
 		}
